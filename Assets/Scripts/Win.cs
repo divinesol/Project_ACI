@@ -1,0 +1,39 @@
+﻿using UnityEngine;
+using System.Collections;
+
+public class Win : MonoBehaviour {
+
+	// Use this for initialization
+	void Start () {
+	
+	}
+	
+	// Update is called once per frame
+	void Update () {
+	
+	}
+    public void Replay()
+    {
+        StocknPopularityManager.popValue = 0;
+        StocknPopularityManager.stockValue = 0;
+        StocknPopularityManager.mainRatingValue = 0;
+        Tutorial.restaurantTutDone = false;
+        Tutorial.supplierTutDone = false;
+        Tutorial.storageTutDone = false;
+        gameObject.SetActive(false);
+        Time.timeScale = 1;
+        LoadingScreenManager.LoadScene("Virt_Restuarant");
+    }
+    public void Exit()
+    {
+        StocknPopularityManager.popValue = 0;
+        StocknPopularityManager.stockValue = 0;
+        StocknPopularityManager.mainRatingValue = 0;
+        Tutorial.restaurantTutDone = false;
+        Tutorial.supplierTutDone = false;
+        Tutorial.storageTutDone = false;
+        gameObject.SetActive(false);
+        Time.timeScale = 1;
+        LoadingScreenManager.LoadScene("MainMenu");
+    }
+}
