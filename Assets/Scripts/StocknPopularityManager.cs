@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using TMPro;
 
 public class StocknPopularityManager : MonoBehaviour {
 
@@ -8,11 +9,10 @@ public class StocknPopularityManager : MonoBehaviour {
     public static float popValue;
     public static float mainRatingValue;
 
-    public Text stockText;
+    public TextMeshProUGUI stockText;
 
     public Image popularityBar;
     public Image mainRatingBar;
-    public Image popIcon;
 
     // Use this for initialization
     void Start () {
