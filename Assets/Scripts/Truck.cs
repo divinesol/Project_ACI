@@ -13,32 +13,33 @@ public class Truck : MonoBehaviour
     public GameObject foodObject;
     //EditPathScript toReject;
     private bool readyToRespawn;
+
+    private Food temp;
+
     // Use this for initialization
-    void Start ()
+    void Start()
     {
         truckManager = GameObject.FindGameObjectWithTag("TruckManager").GetComponent<TruckManager>();
         orderListManager = GameObject.FindGameObjectWithTag("OrderListManager").GetComponent<OrderListManager>();
         //toReject = GameObject.FindGameObjectWithTag("Reject").GetComponent<EditPathScript>();
     }
-	
-	// Update is called once per frame
-	void Update ()
+
+    // Update is called once per frame
+    void Update()
     {
         //if theres something in the truck
         if (TruckManager.foodList[index] != null && TruckManager.foodList[index].foodName != null)
         {
             food = TruckManager.foodList[index];
             foodObject.SetActive(true);
+            //foodObject.GetComponent<MeshFilter>().sharedMesh = truckManager.foodList[index].foodPrefab.GetComponent<MeshFilter>().sharedMesh;
+            //foodObject.GetComponent<MeshRenderer>().sharedMaterial = truckManager.foodList[index].foodPrefab.GetComponent<MeshRenderer>().sharedMaterial;
 
+            //if(foodObject.gameObject.GetComponent<MoveOnPath>().CurrentWayPointID >= 2)
             if (foodObject.gameObject.GetComponent<MoveOnPath>().waypointDone)
             {
                 if (foodObject.gameObject.GetComponent<MoveOnPath>().PathToFollow == GameObject.FindGameObjectWithTag("Reject").GetComponent<EditPathScript>())
                     readyToRespawn = true;
-
-                if(readyToRespawn)
-                {
-                    RespawnTruckV2();
-                }
 
                 TruckManager.foodList[index] = new Food();
                 foodObject.gameObject.GetComponentInParent<Truck>().food = new Food();
@@ -47,7 +48,23 @@ public class Truck : MonoBehaviour
                 foodObject.gameObject.GetComponent<Transform>().localRotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
                 foodObject.gameObject.GetComponent<MoveOnPath>().waypointDone = false;
                 foodObject.SetActive(false);
-                
+
+                if (readyToRespawn)
+                {
+                    //truckManager.AddFoodToTruck(orderListManager.transform.GetChild(index).GetComponent<Order>().food);
+                    for(int i = 0; i < orderListManager.transform.childCount; i++)
+                    {
+                        for(int j = 0; j < truckManager.transform.childCount; j++)
+                        {
+                            if(orderListManager.transform.GetChild(i).GetComponentInChildren<Order>().food != truckManager.transform.GetChild(j).GetComponent<Truck>().food)
+                            {
+                                temp = orderListManager.transform.GetChild(i).GetComponentInChildren<Order>().food;
+                            }
+                        }
+                    }
+                    truckManager.AddFoodToTruck(temp);
+                    readyToRespawn = false;
+                }
             }
         }
         //if theres nothing in the truck
@@ -55,19 +72,5 @@ public class Truck : MonoBehaviour
         {
             foodObject.SetActive(false);
         }
-    }
-    
-    void RespawnTruckV2()
-    {
-        truckManager.ChangeTruckFood(orderListManager.transform.GetChild(0).GetComponent<Order>().food, index);
-        //string ChangeTo = orderListManager.transform.GetChild(orderListManager.transform.childCount - index - 1).GetComponent<Order>().food.foodName;
-        //string Original = truckManager.transform.GetChild(index).GetComponent<Truck>().food.foodName;
-
-
-        //Debug.Log("From " + Original + " to " + ChangeTo + " (Order Reference is " + ChangeTo + ")");   
-
-        //if (ChangeTo != truckManager.transform.GetChild(index).GetComponent<Truck>().food.foodName)
-        //    Debug.Log("DID NOT CHANGE TO GOAL YOU FK! THE TRUCK IS " + truckManager.transform.GetChild(index).GetComponent<Truck>().food.foodName);
-        readyToRespawn = false;
     }
 }

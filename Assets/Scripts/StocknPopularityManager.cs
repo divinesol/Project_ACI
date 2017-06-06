@@ -50,8 +50,7 @@ public class StocknPopularityManager : MonoBehaviour {
         //    stockBar.sprite = Resources.Load<Sprite>("HUD_Popularity and stock/stock_3");
         //if (stockValue > 0.8 && stockValue <= 1)                               
         //    stockBar.sprite = Resources.Load<Sprite>("HUD_Popularity and stock/stock_4");
-
-
+        
         //if (popValue >= 0 && popValue <= 0.2)
         //    popularityBar.sprite = Resources.Load<Sprite>("HUD_Popularity and stock/Popularity_0");
         //if (popValue > 0.2 && popValue <= 0.4)                                                 
