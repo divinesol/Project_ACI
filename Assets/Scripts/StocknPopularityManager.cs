@@ -9,6 +9,9 @@ public class StocknPopularityManager : MonoBehaviour {
     public static float popValue;
     public static float mainRatingValue;
 
+    //once happiness bar is maxed, add 1 star, then reset happiness bar
+    public static float starRating;
+
     public TextMeshProUGUI stockText;
 
     public Image popularityBar;
@@ -17,6 +20,7 @@ public class StocknPopularityManager : MonoBehaviour {
     // Use this for initialization
     void Start () {
 
+        starRating = 0.0f;
         stockText.text = (stockValue * 100).ToString() + "%";
         popularityBar.fillAmount = 0.0f;
         mainRatingBar.fillAmount = 0.0f;
@@ -28,15 +32,19 @@ public class StocknPopularityManager : MonoBehaviour {
         //Debug.Log(mainRatingValue);
 
         if (stockValue >= 1) stockValue = 1;
-        if (popValue >= 1) popValue = 1;
-        if (mainRatingValue >= 1) mainRatingValue = 1;
+        if (popValue >= 1)
+        {
+            starRating += 0.2f;
+            popValue = 0;
+        }
+        if (starRating >= 1) starRating = 1;
 
         if (stockValue <= 0) stockValue = 0;
         if (popValue <= 0) popValue = 0;
-        if (mainRatingValue <= 0) mainRatingValue = 0;
+        if (starRating <= 0) starRating = 0;
 
         popularityBar.fillAmount = popValue;
-        mainRatingBar.fillAmount = mainRatingValue;
+        mainRatingBar.fillAmount = starRating;
 
         stockText.text = (stockValue * 100).ToString() + "%";
 
@@ -97,12 +105,13 @@ public class StocknPopularityManager : MonoBehaviour {
         }
         if (Input.GetKeyUp(KeyCode.N))
         {
-            ReduceRatingsPoints(0.1f);
+            ReduceRatingsPoints(0.2f);
         }
 
         if (Input.GetKeyUp(KeyCode.M))
         {
-            AddRatingsPoints(0.1f);
+            AddRatingsPoints(0.2f);
+            Debug.Log(starRating);
         }
 
         #endregion
@@ -121,7 +130,7 @@ public class StocknPopularityManager : MonoBehaviour {
     }
 
     public void AddPopularityPoints(float amt)
-    {
+    { 
         popValue += amt;
     }
 
@@ -131,11 +140,11 @@ public class StocknPopularityManager : MonoBehaviour {
     }
     public void AddRatingsPoints(float amt)
     {
-        mainRatingValue += amt;
+        starRating += amt;
     }
 
     public void ReduceRatingsPoints(float amt)
     {
-        mainRatingValue -= amt;
+        starRating -= amt;
     }
 }

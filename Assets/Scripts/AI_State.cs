@@ -26,7 +26,7 @@ public class AI_State : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-        if (StocknPopularityManager.popValue >= 1)
+        if (StocknPopularityManager.starRating >= 1)
         {
             WIN.SetActive(true);
         }
@@ -40,7 +40,7 @@ public class AI_State : MonoBehaviour {
     public void ChanceToGetPopPoints()
     {
         RNGChance = Random.Range(1, 3);
-        if (StocknPopularityManager.mainRatingValue <= 0.4f)
+        if (StocknPopularityManager.starRating <= 0.4f)
         {
             if (RNGChance == 1)
             {
@@ -48,7 +48,7 @@ public class AI_State : MonoBehaviour {
             }
             RNGChance = 0;
         }
-        else if (StocknPopularityManager.mainRatingValue >= 0.4f)
+        else if (StocknPopularityManager.starRating > 0.4f)
         {
             AddPopPoints();
         }
@@ -123,6 +123,7 @@ public class AI_State : MonoBehaviour {
 
     public bool PathComplete()
     {
+        Debug.Log("PATH COMPLETE");
         //Walk.SetBool("CustomerWalk", false);
         if (!AINavMesh.pathPending)
         {

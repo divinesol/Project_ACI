@@ -16,7 +16,7 @@ public class Win : MonoBehaviour {
     {
         StocknPopularityManager.popValue = 0;
         StocknPopularityManager.stockValue = 0;
-        StocknPopularityManager.mainRatingValue = 0;
+        StocknPopularityManager.starRating = 0;
         Tutorial.restaurantTutDone = false;
         Tutorial.supplierTutDone = false;
         Tutorial.storageTutDone = false;
@@ -28,7 +28,7 @@ public class Win : MonoBehaviour {
     {
         StocknPopularityManager.popValue = 0;
         StocknPopularityManager.stockValue = 0;
-        StocknPopularityManager.mainRatingValue = 0;
+        StocknPopularityManager.starRating = 0;
         Tutorial.restaurantTutDone = false;
         Tutorial.supplierTutDone = false;
         Tutorial.storageTutDone = false;
