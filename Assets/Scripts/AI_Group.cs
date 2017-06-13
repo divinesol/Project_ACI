@@ -18,8 +18,16 @@ public class AI_Group : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
-	}
+        foreach (Transform child in transform)
+        {
+            if (Vector3.Distance(child.transform.position, GameObject.Find("AI_PATH_ENDS").transform.position) <= 1.0f)
+            {
+                Debug.Log("DESTROYING CUSTOMERS");
+                Destroy(child.gameObject);
+            }
+        }
+
+    }
 
     public bool IsEveryoneSeated()
     {
@@ -48,7 +56,9 @@ public class AI_Group : MonoBehaviour {
 
     public void CustomerLeft()
     {
-        
+        //float closeEnough = 0.005f;
+
+        Debug.Log("CUSTOMERS LEFT");
         foreach (Transform child in transform)
         {
             child.GetComponent<AI_State>().Walk.SetBool("Sit", false);
@@ -57,7 +67,16 @@ public class AI_Group : MonoBehaviour {
             {
                 child.GetComponent<AI_State>().Walk.SetBool("Leave", true);
             }
-            child.GetComponent<AI_State>().AINavMesh.SetDestination(GameObject.Find("AI_PATH_ENDS").transform.position); 
+            child.GetComponent<AI_State>().AINavMesh.SetDestination(GameObject.Find("AI_PATH_ENDS").transform.position);
+            //Debug.Log(GameObject.Find("AI_PATH_ENDS").transform.position);
+            //Debug.Log(child.GetComponent<AI_State>().AINavMesh.destination.z);
+            //if (child.GetComponent<AI_State>().Ai_Path_Ends.transform.position == child.GetComponent<Transform>().position && child.GetComponent<AI_State>().AINavMesh.remainingDistance < 5)
+            //if(Mathf.Abs(child.GetComponent<NavMeshAgent>().transform.position.x - -3.1f) <= closeEnough && Mathf.Abs(child.GetComponent<AI_State>().AINavMesh.transform.position.z - -4.0f) <= closeEnough)
+            if(Vector3.Distance(child.transform.position, GameObject.Find("AI_PATH_ENDS").transform.position) <= 6.0f)
+            {
+                //Debug.Log("DESTROYING CUSTOMERS");
+                //Destroy(child.gameObject);
+            }
         }
 
         RestaurantSpawner.Instance.AI_Count--;

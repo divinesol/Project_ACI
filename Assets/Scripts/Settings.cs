@@ -8,7 +8,7 @@ public class Settings : MonoBehaviour {
     public GameObject Panel, BGMSlider, SFXSlider, ResumeButton, B2Menu;
     public Slider BGMSliderVal, SFXSliderVal;
 
-    public GameObject CurrentLevelPanel;
+    GameObject CurrentLevelPanel;
 
 	// Use this for initialization
 	void Start () {
@@ -24,6 +24,13 @@ public class Settings : MonoBehaviour {
         ResumeButton.gameObject.SetActive(true);
         B2Menu.gameObject.SetActive(true);
     }
+
+    public void Pause()
+    {
+        Time.timeScale = 0;
+        Panel.SetActive(true);
+    }
+
     public void Resume()
     {
         Time.timeScale = 1;

@@ -58,7 +58,8 @@ public class OrderListManager : MonoBehaviour
             GameObject orderClone = (GameObject)Instantiate(newOrderPrefab);
             messageList.Add(orderClone);
             orderClone.transform.SetParent(orderParentPanel);
-            orderClone.transform.SetSiblingIndex(orderParentPanel.childCount - 2);
+            orderClone.transform.SetSiblingIndex(orderParentPanel.childCount + 2);
+
             orderClone.GetComponentInChildren<Order>().food = database.food[Random.Range(8, 13)];
             orderClone.GetComponentInChildren<Text>().text = orderClone.GetComponentInChildren<Order>().food.foodName;
 
@@ -73,7 +74,7 @@ public class OrderListManager : MonoBehaviour
                 truckManager.AddTruck(Random.Range(0, 25));
             }
 
-            orderLimit++;
+
         }
     }
 
@@ -95,7 +96,7 @@ public class OrderListManager : MonoBehaviour
             GameObject orderClone = (GameObject)Instantiate(newOrderPrefab);
             messageList.Add(orderClone);
             orderClone.transform.SetParent(orderParentPanel);
-            orderClone.transform.SetSiblingIndex(orderParentPanel.childCount - 2);
+            orderClone.transform.SetSiblingIndex(orderParentPanel.childCount + 2);
 
 
 

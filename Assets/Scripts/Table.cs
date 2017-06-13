@@ -140,7 +140,7 @@ public class Table : MonoBehaviour {
     public void ChanceToGetPopPoints()
     {
         RNGChance = /*Random.Range(1, 3)*/2;
-        if (StocknPopularityManager.mainRatingValue <= 0.4f)
+        if (StocknPopularityManager.starRating <= 2)
         {
             if (RNGChance == 1)
             {
@@ -148,7 +148,7 @@ public class Table : MonoBehaviour {
             }
             RNGChance = 0;
         }
-        else if (StocknPopularityManager.mainRatingValue >= 0.4f)
+        else if (StocknPopularityManager.starRating >= 3)
         {
             AddPopPoints();
         }
