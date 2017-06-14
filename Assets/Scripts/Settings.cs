@@ -8,12 +8,22 @@ public class Settings : MonoBehaviour {
     public GameObject Panel, BGMSlider, SFXSlider, ResumeButton, B2Menu;
     public Slider BGMSliderVal, SFXSliderVal;
 
+    private bool Fastforwarded;
+
     GameObject CurrentLevelPanel;
 
 	// Use this for initialization
 	void Start () {
-        
+        Fastforwarded = false;
 	}
+
+    void FixedUpdate()
+    {
+        if (Fastforwarded)
+            Time.timeScale = 3;
+        else
+            Time.timeScale = 1;
+    }
 
     public void SettingsButt()
     {
@@ -48,6 +58,11 @@ public class Settings : MonoBehaviour {
         SFXSlider.gameObject.SetActive(false);
         ResumeButton.gameObject.SetActive(false);
         B2Menu.gameObject.SetActive(false);
+    }
+
+    public void Fastforward()
+    {
+        Fastforwarded = !Fastforwarded;
     }
 
     public float GetBGMValue()
