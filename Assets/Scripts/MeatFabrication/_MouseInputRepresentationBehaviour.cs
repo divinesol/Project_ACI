@@ -1,15 +1,38 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 
-public class _MouseInputRepresentationBehaviour : MonoBehaviour {
+[RequireComponent(typeof(LineRenderer))]
+public class _MouseInputRepresentationBehaviour : MonoBehaviour
+{
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+    LineRenderer lineRenderer;
+
+    void Start()
+    {
+        lineRenderer = GetComponent<LineRenderer>();
+        lineRenderer.sortingLayerName = "Foreground";
+    }
+
+    Vector2 mouseStart;
+    void Update()
+    {
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            mouseStart = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        }
+
+        if (Input.GetMouseButton(0))
+        {
+            lineRenderer.enabled = true;
+            Vector2 mouseEnd = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            lineRenderer.SetPosition(0, mouseStart);
+            lineRenderer.SetPosition(1, mouseEnd);
+        }
+        else
+        {
+            lineRenderer.enabled = false;
+        }
+    }
+
 }
