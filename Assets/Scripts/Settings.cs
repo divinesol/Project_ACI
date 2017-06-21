@@ -133,6 +133,25 @@ public class Settings : MonoBehaviour {
             LoadingScreenManager.LoadScene("MainMenu");
         }
     }
+
+    public void TestScene()
+    {
+        Time.timeScale = 1;
+        LoadingScreenManager.LoadScene("TestScene");
+    }
+
+    public void MeatFab()
+    {
+        Time.timeScale = 1;
+        LoadingScreenManager.LoadScene("Virt_MeatFabrication");
+    }
+
+    public void storageTest()
+    {
+        Time.timeScale = 1;
+        LoadingScreenManager.LoadScene("StorageTest");
+    }
+
     public void SetAugmentedMode()
     {
         if (SceneManager.GetActiveScene().name == "AR_Main")
