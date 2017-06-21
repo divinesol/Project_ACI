@@ -1,0 +1,146 @@
+fileFormatVersion: 2
+guid: 73d58b0e04eec2e4dba53e28871ceb10
+timeCreated: 1497950598
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: Fodder
+    100002: Freezer_Door1
+    100004: //RootNode
+    100006: Meat_Shop_Billboard1
+    100008: Meat_Shop_Blackboard
+    100010: Meat_Shop_Counter
+    100012: Meat_Shop_Counter_Gate
+    100014: Meat_Shop_Freezer_Door
+    100016: Meat_Shop_Roof1
+    100018: Meat_Shop_Shelves
+    100020: Meat_Shop_Small_Board
+    100022: Meat_Shop_Tray
+    100024: Meat_Shop_Tray_Short25
+    100026: Meat_Shop_Wall
+    100028: Meat_Shop_Window
+    100030: Meat_Shop_WScale1
+    400000: Fodder
+    400002: Freezer_Door1
+    400004: //RootNode
+    400006: Meat_Shop_Billboard1
+    400008: Meat_Shop_Blackboard
+    400010: Meat_Shop_Counter
+    400012: Meat_Shop_Counter_Gate
+    400014: Meat_Shop_Freezer_Door
+    400016: Meat_Shop_Roof1
+    400018: Meat_Shop_Shelves
+    400020: Meat_Shop_Small_Board
+    400022: Meat_Shop_Tray
+    400024: Meat_Shop_Tray_Short25
+    400026: Meat_Shop_Wall
+    400028: Meat_Shop_Window
+    400030: Meat_Shop_WScale1
+    2300000: Fodder
+    2300002: Freezer_Door1
+    2300004: Meat_Shop_Billboard1
+    2300006: Meat_Shop_Blackboard
+    2300008: Meat_Shop_Counter
+    2300010: Meat_Shop_Counter_Gate
+    2300012: Meat_Shop_Roof1
+    2300014: Meat_Shop_Shelves
+    2300016: Meat_Shop_Small_Board
+    2300018: Meat_Shop_Tray
+    2300020: Meat_Shop_Tray_Short25
+    2300022: Meat_Shop_Wall
+    2300024: Meat_Shop_Window
+    2300026: Meat_Shop_WScale1
+    3300000: Fodder
+    3300002: Freezer_Door1
+    3300004: Meat_Shop_Billboard1
+    3300006: Meat_Shop_Blackboard
+    3300008: Meat_Shop_Counter
+    3300010: Meat_Shop_Counter_Gate
+    3300012: Meat_Shop_Roof1
+    3300014: Meat_Shop_Shelves
+    3300016: Meat_Shop_Small_Board
+    3300018: Meat_Shop_Tray
+    3300020: Meat_Shop_Tray_Short25
+    3300022: Meat_Shop_Wall
+    3300024: Meat_Shop_Window
+    3300026: Meat_Shop_WScale1
+    4300000: Freezer_Door1
+    4300002: Meat_Shop_Counter
+    4300004: Meat_Shop_Counter_Gate
+    4300006: Meat_Shop_Shelves
+    4300008: Meat_Shop_Blackboard
+    4300010: Meat_Shop_Small_Board
+    4300012: Meat_Shop_Tray
+    4300014: Meat_Shop_Tray_Short25
+    4300016: Meat_Shop_Window
+    4300018: Fodder
+    4300020: Meat_Shop_Billboard1
+    4300022: Meat_Shop_Roof1
+    4300024: Meat_Shop_Wall
+    4300026: Meat_Shop_WScale1
+    9500000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleRotations: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
