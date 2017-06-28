@@ -7,14 +7,16 @@ public class Settings : MonoBehaviour {
 
     public GameObject Panel, BGMSlider, SFXSlider, ResumeButton, B2Menu;
     public Slider BGMSliderVal, SFXSliderVal;
-
     private bool Fastforwarded;
+
+    public Animator showOrHideTopRightUI;
 
     GameObject CurrentLevelPanel;
 
 	// Use this for initialization
 	void Start () {
         Fastforwarded = false;
+        showOrHideTopRightUI.SetBool("show", true);
 	}
 
     void FixedUpdate()
@@ -165,6 +167,11 @@ public class Settings : MonoBehaviour {
             LoadingScreenManager.LoadScene("AR_Main");
         }
     }
-
-
+    public void topRightUIMovement()
+    {
+        if (showOrHideTopRightUI.GetBool("show") == false)
+            showOrHideTopRightUI.SetBool("show", true);
+        else
+            showOrHideTopRightUI.SetBool("show", false);
+    }
 }
