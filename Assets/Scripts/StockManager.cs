@@ -24,6 +24,15 @@ public class StockManager : MonoBehaviour
     [SerializeField]public GameObject SelectionModel_C;
     [SerializeField]public GameObject SelectionModel_D;
 
+    [SerializeField]
+    public GameObject MeatSelectionModel_A;
+    [SerializeField]
+    public GameObject MeatSelectionModel_B;
+    [SerializeField]
+    public GameObject MeatSelectionModel_C;
+    [SerializeField]
+    public GameObject MeatSelectionModel_D;
+
     public GameObject particlegood;
     public GameObject particlebad;
 
@@ -69,14 +78,14 @@ public class StockManager : MonoBehaviour
     public void SetStockRatings()
     {
         //Food Quality is determined by min and max quality of Selected Supplier
-        float minR = SupplierSceneManager.SupplierInstance.CurrentSupplier.minRating;
-        float maxR = SupplierSceneManager.SupplierInstance.CurrentSupplier.maxRating;
+        //float minR = SupplierSceneManager.SupplierInstance.CurrentSupplier.minRating;
+        //float maxR = SupplierSceneManager.SupplierInstance.CurrentSupplier.maxRating;
 
-        for (int i = 0; i < StarRatingList.Length; ++i)
-        {
-            float temp = Mathf.Round(Random.Range(minR, maxR));
-            StarRatingList[i] = temp;
-        }
+        //for (int i = 0; i < StarRatingList.Length; ++i)
+        //{
+        //    float temp = Mathf.Round(Random.Range(minR, maxR));
+        //    StarRatingList[i] = temp;
+        //}
     }
 
     public void SetRatingFill()
