@@ -32,7 +32,7 @@ public class CameraMovement : MonoBehaviour {
 
     SHOP_TYPE typeOfShop;
 
-    public GameObject LeftArrow, RightArrow, OverviewButton;
+    public GameObject LeftArrow, RightArrow, OverviewButton, MenuUIButtons;
 
     //----------------------------------------------------------------------------
     //Fade Transition
@@ -73,6 +73,7 @@ public class CameraMovement : MonoBehaviour {
         OverviewButton.SetActive(false);
         LeftArrow.SetActive(false);
         RightArrow.SetActive(false);
+        MenuUIButtons.SetActive(true);
     }
 
     void OnGUI()
@@ -105,6 +106,8 @@ public class CameraMovement : MonoBehaviour {
     public void EnterShop(string shopName)
     {
         Debug.Log("ENTERED");
+
+        MenuUIButtons.SetActive(false);
 
         //Fade Call ///////
         alpha = 1;       //
@@ -223,5 +226,6 @@ public class CameraMovement : MonoBehaviour {
         OverviewButton.SetActive(false);
         LeftArrow.SetActive(false);
         RightArrow.SetActive(false);
+        MenuUIButtons.SetActive(true);
     }
 }

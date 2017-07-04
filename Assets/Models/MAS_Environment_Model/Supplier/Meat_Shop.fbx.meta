@@ -73,6 +73,7 @@ ModelImporter:
     100130: pCube33
     100132: polySurface1
     100134: pPlane13
+    100136: Meat_Sho
     400000: Freezer_Door3
     400002: //RootNode
     400004: Meat_Shop_Blackboard13
@@ -141,6 +142,7 @@ ModelImporter:
     400130: pCube33
     400132: polySurface1
     400134: pPlane13
+    400136: Meat_Sho
     2300000: Freezer_Door3
     2300002: Meat_Shop_Blackboard13
     2300004: Meat_Shop_Blackboard14
@@ -205,6 +207,7 @@ ModelImporter:
     2300122: Meat_Shop_Window_Wall_S4
     2300124: pCube32
     2300126: pCube33
+    2300128: Meat_Sho
     3300000: Freezer_Door3
     3300002: Meat_Shop_Blackboard13
     3300004: Meat_Shop_Blackboard14
@@ -269,6 +272,7 @@ ModelImporter:
     3300122: Meat_Shop_Window_Wall_S4
     3300124: pCube32
     3300126: pCube33
+    3300128: Meat_Sho
     4300000: Freezer_Door3
     4300002: Meat_Shop_Outer_Wall
     4300004: Meat_Shop_Inner_Wall
@@ -333,6 +337,7 @@ ModelImporter:
     4300122: Meat_Shop_Doorframe2
     4300124: pCube32
     4300126: pCube33
+    4300128: Meat_Sho
     9500000: //RootNode
   materials:
     importMaterials: 1

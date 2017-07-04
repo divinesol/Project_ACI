@@ -23,6 +23,7 @@ ModelImporter:
     100030: polySurface12
     100032: polySurface5
     100034: polySurface9
+    100036: polySurface13
     400000: //RootNode
     400002: Cheese_Shop_Counter
     400004: Cheese_Shop_Front_Wall2
@@ -41,6 +42,7 @@ ModelImporter:
     400030: polySurface12
     400032: polySurface5
     400034: polySurface9
+    400036: polySurface13
     2300000: Cheese_Shop_Counter
     2300002: Cheese_Shop_Front_Wall2
     2300004: Cheese_Shop_Pillar2
@@ -55,6 +57,7 @@ ModelImporter:
     2300022: Meat_Shop_Roof2
     2300024: polySurface12
     2300026: polySurface9
+    2300028: polySurface13
     3300000: Cheese_Shop_Counter
     3300002: Cheese_Shop_Front_Wall2
     3300004: Cheese_Shop_Pillar2
@@ -69,6 +72,7 @@ ModelImporter:
     3300022: Meat_Shop_Roof2
     3300024: polySurface12
     3300026: polySurface9
+    3300028: polySurface13
     4300000: polySurface9
     4300002: Cheese_Shop_Front_Wall2
     4300004: polySurface12
@@ -83,6 +87,7 @@ ModelImporter:
     4300022: Cheese_Shop_Pillar2
     4300024: Cheese_Shop_Pillar3
     4300026: Cheese_Shop_Pillar4
+    4300028: polySurface13
     9500000: //RootNode
   materials:
     importMaterials: 1
