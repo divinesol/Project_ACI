@@ -25,27 +25,27 @@ public class TouchManager : MonoBehaviour
     [Header("Canvas Objects")]
     //Canvas as GameObjects to enable easy active off/on in codes
     public GameObject UI_MainCanvas;
-    public GameObject UI_SupplierCanvas;
+    public GameObject UI_SupplierCanvas;          //supplier ui
     public GameObject UI_SelectionCanvas;
     public GameObject UI_SettingsCanvas;
-    public GameObject UI_NotificationBar;       //Panel for OrderList
+    //public GameObject UI_NotificationBar;       //Panel for OrderList
     public GameObject UI_FullStockNotif;
     public GameObject ObjectListParent;         //Parent to Create instance of each "order" under as child
     public GameObject ObjectListBackPanel;
     public GameObject UI_SelectConfirmation;    //Seperated Confirmation UI with Purchase UI so Borders of 
     public GameObject UI_PurchaseUI;                //Selection Scene not needed to remove
-    public GameObject tutorialObject;           //Tutorial Panel stuffs
+    //public GameObject tutorialObject;           //Tutorial Panel stuffs
     //Popup when food bought in Main scene
     public GameObject popupnotifObject;
 
 
-    [Header("Image Buttons")]
-    //MenuBar Navigation
-    public GameObject btnGO_Restaurant;
-    public GameObject btnGO_Warehouse;
-    public GameObject btnGO_Supplier;
-    public GameObject btnGO_AR;
-    public GameObject returnbtnForSupplier;
+    //[Header("Image Buttons")]
+    ////MenuBar Navigation
+    //public GameObject btnGO_Restaurant;
+    //public GameObject btnGO_Warehouse;
+    //public GameObject btnGO_Supplier;
+    //public GameObject btnGO_AR;
+    //public GameObject returnbtnForSupplier;
 
 
     [Header("Canvas 3D Objects")]
@@ -65,11 +65,11 @@ public class TouchManager : MonoBehaviour
     public GameObject ARConfirmation;           
     public GameObject ARPurchased;              
     //Storage Indicator when Food stock exist
-    public GameObject CircleStorage;
+    //public GameObject CircleStorage;
 
     public GameObject Grime;
 
-    public GameObject[] notificationList;
+    //public GameObject[] notificationList;
 
     [Header("Spawn Locations")]
     //Spawn location for trucks for different Suppliers
@@ -127,15 +127,15 @@ public class TouchManager : MonoBehaviour
 
         //Storage Indicator 
         //Check if Stock pending Storage Exist. (AR has no Storage button)
-        if (SceneManager.GetActiveScene().name != "AR_Main")
-        {
-            if (OrderListManager.orderInstance.transform.childCount >= 1)
-            {
-                CircleStorage.SetActive(true);
-            }
-            else
-                CircleStorage.SetActive(false);
-        }
+        //if (SceneManager.GetActiveScene().name != "AR_Main")
+        //{
+        //    if (OrderListManager.orderInstance.transform.childCount >= 1)
+        //    {
+        //        CircleStorage.SetActive(true);
+        //    }
+        //    else
+        //        CircleStorage.SetActive(false);
+        //}
 
 
         //Check on touch
@@ -163,7 +163,7 @@ public class TouchManager : MonoBehaviour
                 && !cameraCheck.GetComponent<DragCamera>().IsDragging
                 && !UI_FullStockNotif.activeSelf
                 && !ObjectListBackPanel.activeSelf
-                && tutorialObject.activeSelf == false)
+                /*&& tutorialObject.activeSelf == false*/)
             {
                 //Check Raycast hit with Gameobject's tag
                 switch (hit.collider.gameObject.tag)
@@ -187,26 +187,28 @@ public class TouchManager : MonoBehaviour
                                 CloseMainUI();
 
                                 //CurrentSupplier is a temp to hold "last clicked" Supplier's data
-                                SupplierSceneManager.SupplierInstance.CurrentSupplier = hit.collider.GetComponent<SupplierInfo>();
+                                //SupplierSceneManager.SupplierInstance.CurrentSupplier = hit.collider.GetComponent<SupplierInfo>();
                                 SupplierSceneManager.SupplierInstance.ChangeUI();
 
                                 //After Checking tag, Check gameobject name to check for supplier type to generate the models
-                                if (hit.collider.gameObject.name == "Factory 1") //Dairy/Cheese food supplier
+                                if (hit.collider.gameObject.name == "CheeseShop") //Dairy/Cheese food supplier
                                 {
                                     CheckWhichSupplierToSendTruck = 4;
                                     decidefoodnumber = 3;
+                                    
                                 }
-                                if (hit.collider.gameObject.name == "Canned_Food_Factory")
+                                if (hit.collider.gameObject.name == "CannedShop")
                                 {
                                     CheckWhichSupplierToSendTruck = 3;
                                     decidefoodnumber = 1;
                                 }
-                                if (hit.collider.gameObject.name == "Vegetable_Factory")
+                                if (hit.collider.gameObject.name == "VeggieShop")
                                 {
                                     CheckWhichSupplierToSendTruck = 2;
                                     decidefoodnumber = 0;
+                                    Debug.Log("CHECKKKKKKKKKKKKKKKKKKKKKKK");
                                 }
-                                if (hit.collider.gameObject.name == "Meat_Factory")
+                                if (hit.collider.gameObject.name == "MeatShop")
                                 {
                                     CheckWhichSupplierToSendTruck = 1;
                                     decidefoodnumber = 2;
