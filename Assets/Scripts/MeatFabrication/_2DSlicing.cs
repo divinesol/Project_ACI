@@ -30,9 +30,12 @@ public class _2DSlicing : MonoBehaviour
         RaycastHit2D[] hits = Physics2D.LinecastAll(lineStart, lineEnd, layerMask);
         foreach (RaycastHit2D hit in hits)
         {
+            //if slicing hits any sprite
             if (HitCounts(hit))
             {
+                //cut gameobject
                 gameObjectsToCut.Add(hit.transform.gameObject);
+                Debug.Log("HIT MAYBE");
             }
         }
 
@@ -43,7 +46,8 @@ public class _2DSlicing : MonoBehaviour
                 lineStart = lineStart,
                 lineEnd = lineEnd,
                 gameObject = go,
-                gameObjectCreationMode = _SpriteCutterInput.GameObjectCreationMode.CUT_OFF_COPY,
+                //gameObjectCreationMode = _SpriteCutterInput.GameObjectCreationMode.CUT_OFF_COPY,
+                gameObjectCreationMode = _SpriteCutterInput.GameObjectCreationMode.CUT_OFF_NEW,
             });
         }
     }

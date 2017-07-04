@@ -31,6 +31,7 @@ namespace UnitySpriteCutter
 
         public static _SpriteCutterGameObject CreateNew(GameObject origin, bool secondSide)
         {
+            Debug.Log("CREATED NEW");
             _SpriteCutterGameObject result = new _SpriteCutterGameObject();
             result.gameObject = new GameObject(origin.name + (!secondSide ? "_firstSide" : "_secondSide"));
             result.CopyGameObjectParametersFrom(origin);
@@ -40,6 +41,7 @@ namespace UnitySpriteCutter
 
         public static _SpriteCutterGameObject CreateAsInstantiatedCopyOf(GameObject origin, bool secondSide)
         {
+            Debug.Log("CREATED COPY");
             _SpriteCutterGameObject result = new _SpriteCutterGameObject();
             result.gameObject = GameObject.Instantiate(origin);
             result.gameObject.name = origin.name + (!secondSide ? "_firstSide" : "_secondSide");
