@@ -158,7 +158,7 @@ public class TouchManager : MonoBehaviour
 
 
             if ((Physics.Raycast(mousePosN, mousePosF - mousePosN, out hit)) 
-                && !UI_SupplierCanvas.activeSelf
+                //&& !UI_SupplierCanvas.activeSelf
                 && !UI_SettingsCanvas.activeSelf
                 && !cameraCheck.GetComponent<DragCamera>().IsDragging
                 && !UI_FullStockNotif.activeSelf
@@ -187,17 +187,36 @@ public class TouchManager : MonoBehaviour
                                 CloseMainUI();
 
                                 //CurrentSupplier is a temp to hold "last clicked" Supplier's data
-                                //SupplierSceneManager.SupplierInstance.CurrentSupplier = hit.collider.GetComponent<SupplierInfo>();
+                                SupplierSceneManager.SupplierInstance.CurrentSupplier = hit.collider.GetComponent<SupplierInfo>();
                                 SupplierSceneManager.SupplierInstance.ChangeUI();
 
                                 //After Checking tag, Check gameobject name to check for supplier type to generate the models
-                                if (hit.collider.gameObject.name == "CheeseShop") //Dairy/Cheese food supplier
+                                //if (hit.collider.gameObject.name == "Factory 1") //Dairy/Cheese food supplier
+                                //{
+                                //    CheckWhichSupplierToSendTruck = 4;
+                                //    decidefoodnumber = 3;
+                                //}
+                                //if (hit.collider.gameObject.name == "Canned_Food_Factory")
+                                //{
+                                //    CheckWhichSupplierToSendTruck = 3;
+                                //    decidefoodnumber = 1;
+                                //}
+                                //if (hit.collider.gameObject.name == "Vegetable_Factory")
+                                //{
+                                //    CheckWhichSupplierToSendTruck = 2;
+                                //    decidefoodnumber = 0;
+                                //}
+                                //if (hit.collider.gameObject.name == "Meat_Factory")
+                                //{
+                                //    CheckWhichSupplierToSendTruck = 1;
+                                //    decidefoodnumber = 2;
+                                //}
+                                if (hit.collider.gameObject.name == "Factory 1") //Dairy/Cheese food supplier
                                 {
                                     CheckWhichSupplierToSendTruck = 4;
                                     decidefoodnumber = 3;
-                                    
                                 }
-                                if (hit.collider.gameObject.name == "CannedShop")
+                                if (hit.collider.gameObject.name == "Canned_Food_Factory")
                                 {
                                     CheckWhichSupplierToSendTruck = 3;
                                     decidefoodnumber = 1;
@@ -206,15 +225,12 @@ public class TouchManager : MonoBehaviour
                                 {
                                     CheckWhichSupplierToSendTruck = 2;
                                     decidefoodnumber = 0;
-                                    Debug.Log("CHECKKKKKKKKKKKKKKKKKKKKKKK");
                                 }
-                                if (hit.collider.gameObject.name == "MeatShop")
+                                if (hit.collider.gameObject.name == "Meat_Factory")
                                 {
                                     CheckWhichSupplierToSendTruck = 1;
                                     decidefoodnumber = 2;
                                 }
-
-
                                 //Setting temp model to model of clicked supplier
                                 UI_SupplierModel.transform.GetChild(0).gameObject.GetComponent<MeshFilter>().mesh = hit.collider.gameObject.GetComponent<MeshFilter>().mesh;
                                 UI_SupplierModel.transform.GetChild(0).gameObject.GetComponent<MeshRenderer>().material = hit.collider.gameObject.GetComponent<MeshRenderer>().material;
