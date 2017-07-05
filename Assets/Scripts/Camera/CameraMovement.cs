@@ -4,6 +4,9 @@ using UnityEngine.UI;
 
 public class CameraMovement : MonoBehaviour {
 
+    public Camera innerCamera;
+    public GameObject tempOverview;
+
     //----------------------------------------------------------------------------
     //Main Camera / First Camera in each shop
     public Camera MainCam, VegMainCam, MeatMainCam, CheeseMainCam, CannedMainCam, DefaultCamera;
@@ -74,6 +77,8 @@ public class CameraMovement : MonoBehaviour {
         LeftArrow.SetActive(false);
         RightArrow.SetActive(false);
         MenuUIButtons.SetActive(true);
+
+        tempOverview.SetActive(false);
     }
 
     void OnGUI()
@@ -227,5 +232,27 @@ public class CameraMovement : MonoBehaviour {
         LeftArrow.SetActive(false);
         RightArrow.SetActive(false);
         MenuUIButtons.SetActive(true);
+    }
+    
+    public void toStorageRoom()
+    {
+        //Fade Call ///////
+        alpha = 1;       //
+        BeginFade(-1);   //
+        ///////////////////
+
+        StartCoroutine(MoveToPosition(innerCamera.transform));
+        tempOverview.SetActive(true);
+    }
+
+    public void toStorageOverview()
+    {
+        //Fade Call ///////
+        alpha = 1;       //
+        BeginFade(-1);   //
+        ///////////////////
+
+        StartCoroutine(MoveToPosition(DefaultCamera.transform));
+        tempOverview.SetActive(false);
     }
 }
