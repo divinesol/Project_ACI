@@ -63,7 +63,7 @@ public class CameraMovement : MonoBehaviour {
     }
 
     //Camera Transition (INSTANT MOVE)
-    IEnumerator MoveToPosition(Transform newPosition)
+    public IEnumerator MoveToPosition(Transform newPosition)
     {
         MainCam.transform.position = newPosition.position;
         MainCam.transform.rotation = newPosition.rotation;
@@ -76,9 +76,9 @@ public class CameraMovement : MonoBehaviour {
         OverviewButton.SetActive(false);
         LeftArrow.SetActive(false);
         RightArrow.SetActive(false);
-        MenuUIButtons.SetActive(true);
+        //MenuUIButtons.SetActive(true);
 
-        tempOverview.SetActive(false);
+        //tempOverview.SetActive(false);
     }
 
     void OnGUI()
@@ -112,7 +112,7 @@ public class CameraMovement : MonoBehaviour {
     {
         Debug.Log("ENTERED");
 
-        MenuUIButtons.SetActive(false);
+        //MenuUIButtons.SetActive(false);
 
         //Fade Call ///////
         alpha = 1;       //
@@ -242,7 +242,7 @@ public class CameraMovement : MonoBehaviour {
         ///////////////////
 
         StartCoroutine(MoveToPosition(innerCamera.transform));
-        tempOverview.SetActive(true);
+        //tempOverview.SetActive(true);
     }
 
     public void toStorageOverview()
@@ -253,6 +253,6 @@ public class CameraMovement : MonoBehaviour {
         ///////////////////
 
         StartCoroutine(MoveToPosition(DefaultCamera.transform));
-        tempOverview.SetActive(false);
+        //tempOverview.SetActive(false);
     }
 }
