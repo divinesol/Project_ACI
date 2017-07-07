@@ -46,8 +46,8 @@ public class _2DSlicing : MonoBehaviour
                 lineStart = lineStart,
                 lineEnd = lineEnd,
                 gameObject = go,
-                //gameObjectCreationMode = _SpriteCutterInput.GameObjectCreationMode.CUT_OFF_COPY,
-                gameObjectCreationMode = _SpriteCutterInput.GameObjectCreationMode.CUT_OFF_NEW,
+                gameObjectCreationMode = _SpriteCutterInput.GameObjectCreationMode.CUT_OFF_COPY,
+                //gameObjectCreationMode = _SpriteCutterInput.GameObjectCreationMode.CUT_OFF_NEW,
             });
         }
     }

@@ -4,6 +4,9 @@ using UnityEngine.UI;
 
 public class CameraMovement : MonoBehaviour {
 
+    public Camera innerCamera;
+    public GameObject tempOverview;
+
     //----------------------------------------------------------------------------
     //Main Camera / First Camera in each shop
     public Camera MainCam, VegMainCam, MeatMainCam, CheeseMainCam, CannedMainCam, DefaultCamera;
@@ -32,7 +35,7 @@ public class CameraMovement : MonoBehaviour {
 
     SHOP_TYPE typeOfShop;
 
-    public GameObject LeftArrow, RightArrow, OverviewButton;
+    public GameObject LeftArrow, RightArrow, OverviewButton, MenuUIButtons;
 
     //----------------------------------------------------------------------------
     //Fade Transition
@@ -60,7 +63,7 @@ public class CameraMovement : MonoBehaviour {
     }
 
     //Camera Transition (INSTANT MOVE)
-    IEnumerator MoveToPosition(Transform newPosition)
+    public IEnumerator MoveToPosition(Transform newPosition)
     {
         MainCam.transform.position = newPosition.position;
         MainCam.transform.rotation = newPosition.rotation;
@@ -73,6 +76,9 @@ public class CameraMovement : MonoBehaviour {
         OverviewButton.SetActive(false);
         LeftArrow.SetActive(false);
         RightArrow.SetActive(false);
+        //MenuUIButtons.SetActive(true);
+
+        //tempOverview.SetActive(false);
     }
 
     void OnGUI()
@@ -105,6 +111,8 @@ public class CameraMovement : MonoBehaviour {
     public void EnterShop(string shopName)
     {
         Debug.Log("ENTERED");
+
+        //MenuUIButtons.SetActive(false);
 
         //Fade Call ///////
         alpha = 1;       //
@@ -223,5 +231,28 @@ public class CameraMovement : MonoBehaviour {
         OverviewButton.SetActive(false);
         LeftArrow.SetActive(false);
         RightArrow.SetActive(false);
+        MenuUIButtons.SetActive(true);
+    }
+    
+    public void toStorageRoom()
+    {
+        //Fade Call ///////
+        alpha = 1;       //
+        BeginFade(-1);   //
+        ///////////////////
+
+        StartCoroutine(MoveToPosition(innerCamera.transform));
+        //tempOverview.SetActive(true);
+    }
+
+    public void toStorageOverview()
+    {
+        //Fade Call ///////
+        alpha = 1;       //
+        BeginFade(-1);   //
+        ///////////////////
+
+        StartCoroutine(MoveToPosition(DefaultCamera.transform));
+        //tempOverview.SetActive(false);
     }
 }
