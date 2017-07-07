@@ -221,12 +221,14 @@ public class TouchManager : MonoBehaviour
                                     Debug.Log("CHEESESHOP RAYCASTED");
                                     CheckWhichSupplierToSendTruck = 4;
                                     decidefoodnumber = 3;
+                                    cameraManager.GetComponent<CameraMovement>().EnterShop("CheeseShop");
                                 }
                                 if (hit.collider.gameObject.name == "Canned_Shop")
                                 {
                                     Debug.Log("CANNEDSHOP RAYCASTED");
                                     CheckWhichSupplierToSendTruck = 3;
                                     decidefoodnumber = 1;
+                                    cameraManager.GetComponent<CameraMovement>().EnterShop("CannedShop");
                                 }
                                 if (hit.collider.gameObject.name == "Veggie_Shop")
                                 {
@@ -240,6 +242,7 @@ public class TouchManager : MonoBehaviour
                                     Debug.Log("MEATSHOP RAYCASTED");
                                     CheckWhichSupplierToSendTruck = 1;
                                     decidefoodnumber = 2;
+                                    cameraManager.GetComponent<CameraMovement>().EnterShop("MeatShop");
                                 }
                                 //Setting temp model to model of clicked supplier
                                 //UI_SupplierModel.transform.GetChild(0).gameObject.GetComponent<MeshFilter>().mesh = hit.collider.gameObject.GetComponent<MeshFilter>().mesh;
