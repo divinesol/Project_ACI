@@ -12,7 +12,7 @@ public class CameraMovement : MonoBehaviour {
     public Camera MainCam, VegMainCam, MeatMainCam, CheeseMainCam, CannedMainCam, DefaultCamera;
 
     //Veg Sub Camera in each shop [UNUSED]
-    //public Camera VegLeftCam, VegRightCam;
+    public Camera VegLeftCam/*, VegRightCam*/;
 
     //Meat Sub Camera in each shop
     public Camera MeatLeftCam, MeatRightCam;
@@ -76,7 +76,7 @@ public class CameraMovement : MonoBehaviour {
         OverviewButton.SetActive(false);
         LeftArrow.SetActive(false);
         RightArrow.SetActive(false);
-        //MenuUIButtons.SetActive(true);
+        MenuUIButtons.SetActive(true);
 
         //tempOverview.SetActive(false);
     }
@@ -105,6 +105,11 @@ public class CameraMovement : MonoBehaviour {
         Debug.Log("BEGAN FADE");
         fadeDir = direction;
         return (fadeSpeed);
+    }
+
+    public SHOP_TYPE GetShopType()
+    {
+        return typeOfShop;
     }
 
     //From Main Default Camera, enter the different shops based on name entered in inspector
@@ -154,6 +159,7 @@ public class CameraMovement : MonoBehaviour {
         OverviewButton.SetActive(true);
         LeftArrow.SetActive(true);
         RightArrow.SetActive(true);
+        MenuUIButtons.SetActive(false);
     }
 
     //In Shop, On click on left arrow, transition left
@@ -162,7 +168,10 @@ public class CameraMovement : MonoBehaviour {
         switch (typeOfShop)
         {
             case SHOP_TYPE.S_VEGGIE:
-                //StartCoroutine(LerpToPosition(5.0f, VegLeftCam.transform));
+                if(MainCam.transform.position == VegMainCam.transform.position)
+                {
+                    StartCoroutine(LerpToPosition(5.0f, VegLeftCam.transform));
+                }
                 break;
             case SHOP_TYPE.S_MEAT:
                 if (MainCam.transform.position == MeatRightCam.transform.position)
@@ -194,7 +203,10 @@ public class CameraMovement : MonoBehaviour {
         switch (typeOfShop)
         {
             case SHOP_TYPE.S_VEGGIE:
-                //StartCoroutine(LerpToPosition(5.0f, VegRightCam.transform));
+                if(MainCam.transform.position == VegLeftCam.transform.position)
+                {
+                    StartCoroutine(LerpToPosition(5.0f, VegMainCam.transform));
+                }
                 break;
             case SHOP_TYPE.S_MEAT:
                 if (MainCam.transform.position == MeatLeftCam.transform.position)

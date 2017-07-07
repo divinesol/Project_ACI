@@ -19,25 +19,27 @@ public class StockManager : MonoBehaviour
 
     [SerializeField]public Image Ratings;
 
+    //4 models displayed during selection phase
     [SerializeField]public GameObject SelectionModel_A;
     [SerializeField]public GameObject SelectionModel_B;
     [SerializeField]public GameObject SelectionModel_C;
     [SerializeField]public GameObject SelectionModel_D;
 
-    [SerializeField]
-    public GameObject MeatSelectionModel_A;
-    [SerializeField]
-    public GameObject MeatSelectionModel_B;
-    [SerializeField]
-    public GameObject MeatSelectionModel_C;
-    [SerializeField]
-    public GameObject MeatSelectionModel_D;
+    //[SerializeField]
+    //public GameObject TomatoSelectionModel_A;
+    //[SerializeField]
+    //public GameObject TomatoSelectionModel_B;
+    //[SerializeField]
+    //public GameObject TomatoSelectionModel_C;
+    //[SerializeField]
+    //public GameObject TomatoSelectionModel_D;
 
     public GameObject particlegood;
     public GameObject particlebad;
 
     public Text FoodTitle;
     public GameObject SelectionModel;
+    public GameObject SelectionModelM;
 
 
     void Awake()
@@ -56,6 +58,7 @@ public class StockManager : MonoBehaviour
         {
             //Generate Stock/Food data for all Models During Selection Scene
             SelectionModel.transform.GetChild(i).GetComponent<StockInfo>().index = i;
+            SelectionModelM.transform.GetChild(i).GetComponent<StockInfo>().index = i;
         }
     }
 
@@ -99,6 +102,8 @@ public class StockManager : MonoBehaviour
 
     public void RandomizeFoodType(int choosenfoodorder)
     {
+
+
         //Randomize through FoodDatabase
         tempFoodRand = Random.Range(0, database.food.Count);
         int newRangeCheck;
@@ -110,6 +115,7 @@ public class StockManager : MonoBehaviour
         //choosenfoodorder : See TouchManager.cs Find: decidefoodnumber
         switch (choosenfoodorder)
         {
+            //tomato
             case 0:
                 {
                     //Keep randomizing until reach Veg Food
@@ -118,15 +124,19 @@ public class StockManager : MonoBehaviour
                         tempFoodRand = Random.Range(0, database.food.Count);
                         newRangeCheck = tempFoodRand / 5;
                     }
+                    //tempFoodRand = 0;
+                    //newRangeCheck = tempFoodRand;
                 }
                 break;
+            //canned food
             case 1:
                 {
                     //Fixed Canned Food
                     tempFoodRand = 5;
-                    newRangeCheck = choosenfoodorder;
+                    newRangeCheck = tempFoodRand / 5;
                 }
                 break;
+            //steak
             case 2:
                 {
                     //Keep randomizing until reached Meat type Food
@@ -135,9 +145,11 @@ public class StockManager : MonoBehaviour
                         tempFoodRand = Random.Range(0, database.food.Count);
                         newRangeCheck = tempFoodRand / 5;
                     }
-
+                    //tempFoodRand = 10;
+                    //newRangeCheck = tempFoodRand / 5;
                 }
                 break;
+            //cheese
             case 3:
                 {
                     //Fixed Dairy Food (Cheese)
@@ -145,6 +157,20 @@ public class StockManager : MonoBehaviour
                     newRangeCheck = tempFoodRand / 5;
                 }
                 break;
+            ////mushroom
+            //case 4:
+            //    {
+            //        tempFoodRand = 15;
+            //        newRangeCheck = tempFoodRand / 5;
+            //    }
+            //    break;
+            ////chicken
+            //case 5:
+            //    {
+            //        tempFoodRand = 20;
+            //        newRangeCheck = tempFoodRand / 5;
+            //    }
+            //    break;
             default:
                 {//Inital Gameplay (UNUSED)
                     //Change TouchManager's "decidefoodnumber" = 99 to access Random
@@ -266,7 +292,6 @@ public class StockManager : MonoBehaviour
             //reset till the rarity is between min - max
             while (SelectionModel.transform.GetChild(i).GetComponent<StockInfo>().food.foodRarity < SupplierSceneManager.SupplierInstance.CurrentSupplier.minRating ||
                     SelectionModel.transform.GetChild(i).GetComponent<StockInfo>().food.foodRarity > SupplierSceneManager.SupplierInstance.CurrentSupplier.maxRating);
-
         }
 
     }
