@@ -17,30 +17,26 @@ public class StockManager : MonoBehaviour
 
    
 
-    [SerializeField]public Image Ratings;
+    public Image Ratings;
 
     //4 models displayed during selection phase
-    [SerializeField]public GameObject SelectionModel_A;
-    [SerializeField]public GameObject SelectionModel_B;
-    [SerializeField]public GameObject SelectionModel_C;
-    [SerializeField]public GameObject SelectionModel_D;
+    public GameObject SelectionModel_A;
+    public GameObject SelectionModel_B;
+    public GameObject SelectionModel_C;
+    public GameObject SelectionModel_D;
 
-    //[SerializeField]
-    //public GameObject TomatoSelectionModel_A;
-    //[SerializeField]
-    //public GameObject TomatoSelectionModel_B;
-    //[SerializeField]
-    //public GameObject TomatoSelectionModel_C;
-    //[SerializeField]
-    //public GameObject TomatoSelectionModel_D;
+    //
+    public GameObject VeggieSelectionParent;
+    public GameObject MeatSelectionParent;
+    public GameObject CheeseSelectionParent;
+    public GameObject CannedSelectionParent;
 
     public GameObject particlegood;
     public GameObject particlebad;
-
     public Text FoodTitle;
-    public GameObject SelectionModel;
-    public GameObject SelectionModelM;
 
+    public GameObject SelectionModel;
+    public GameObject FinalSelectionModel;
 
     void Awake()
     {
@@ -53,12 +49,12 @@ public class StockManager : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-
+        
         for (int i = 0; i < 4; i++)
         {
             //Generate Stock/Food data for all Models During Selection Scene
             SelectionModel.transform.GetChild(i).GetComponent<StockInfo>().index = i;
-            SelectionModelM.transform.GetChild(i).GetComponent<StockInfo>().index = i;
+            SelectionModel.transform.GetChild(i).GetComponent<Transform>().transform.position = VeggieSelectionParent.transform.GetChild(i).transform.position;
         }
     }
 
