@@ -2,21 +2,23 @@
 using UnityEngine.UI;
 using System.Collections;
 using UnityEngine.SceneManagement;
+using DG.Tweening;
 
 public class Settings : MonoBehaviour {
 
     public GameObject Panel, BGMSlider, SFXSlider, ResumeButton, B2Menu;
     public Slider BGMSliderVal, SFXSliderVal;
     private bool Fastforwarded;
+    public GameObject UI_Buttons;
 
-    public Animator showOrHideTopRightUI;
-
+    bool UI_IsShown;
     GameObject CurrentLevelPanel;
 
 	// Use this for initialization
 	void Start () {
         Fastforwarded = false;
-        showOrHideTopRightUI.SetBool("show", true);
+        DOTween.Init(false, false, LogBehaviour.Default);
+        UI_IsShown = false;
 	}
 
     void FixedUpdate()
@@ -167,11 +169,17 @@ public class Settings : MonoBehaviour {
             LoadingScreenManager.LoadScene("AR_Main");
         }
     }
-    public void topRightUIMovement()
+    public void moveUI()
     {
-        if (showOrHideTopRightUI.GetBool("show") == false)
-            showOrHideTopRightUI.SetBool("show", true);
+        if (!UI_IsShown)
+        {
+            UI_Buttons.transform.DOMoveY(280, 0.4f);
+            UI_IsShown = true;
+        }
         else
-            showOrHideTopRightUI.SetBool("show", false);
+        {
+            UI_Buttons.transform.DOMoveY(850, 0.4f);
+            UI_IsShown = false;
+        }
     }
 }

@@ -26,6 +26,7 @@ public class OrderListManager : MonoBehaviour
     public TouchManager touchManager;
 
     public GameObject orderlistParent;
+    public GameObject blackBackground;
 
     void Awake()
     {
@@ -55,24 +56,25 @@ public class OrderListManager : MonoBehaviour
         if (Input.GetKeyUp("space"))
         {
 
-            GameObject orderClone = (GameObject)Instantiate(newOrderPrefab);
-            messageList.Add(orderClone);
-            orderClone.transform.SetParent(orderParentPanel);
-            orderClone.transform.SetSiblingIndex(orderParentPanel.childCount + 2);
+            //GameObject orderClone = (GameObject)Instantiate(newOrderPrefab);
+            //messageList.Add(orderClone);
+            //orderClone.transform.SetParent(orderParentPanel);
+            //orderClone.transform.SetSiblingIndex(orderParentPanel.childCount + 2);
+            //orderClone.transform.position = new Vector2(470, 460 - (orderParentPanel.childCount * 45));
 
-            orderClone.GetComponentInChildren<Order>().food = database.food[Random.Range(8, 13)];
-            orderClone.GetComponentInChildren<Text>().text = orderClone.GetComponentInChildren<Order>().food.foodName;
+            //orderClone.GetComponentInChildren<Order>().food = database.food[Random.Range(8, 13)];
+            //orderClone.GetComponentInChildren<Text>().text = orderClone.GetComponentInChildren<Order>().food.foodName;
 
-            if (Random.Range(0, 11) < 5)
-            {
-                Debug.Log("sent correct items");
-                truckManager.AddTruck(orderClone.GetComponentInChildren<Text>().text);
-            }
-            else
-            {
-                Debug.Log("sent wrong items");
-                truckManager.AddTruck(Random.Range(0, 25));
-            }
+            //if (Random.Range(0, 11) < 5)
+            //{
+            //    Debug.Log("sent correct items");
+            //    truckManager.AddTruck(orderClone.GetComponentInChildren<Text>().text);
+            //}
+            //else
+            //{
+            //    Debug.Log("sent wrong items");
+            //    truckManager.AddTruck(Random.Range(0, 25));
+            //}
 
 
         }
@@ -92,21 +94,16 @@ public class OrderListManager : MonoBehaviour
         if (gameObject.transform.childCount <= 5)
         {
 
-
             GameObject orderClone = (GameObject)Instantiate(newOrderPrefab);
             messageList.Add(orderClone);
             orderClone.transform.SetParent(orderParentPanel);
             orderClone.transform.SetSiblingIndex(orderParentPanel.childCount + 2);
-
-
-
-            //orderClone.GetComponentInChildren<Text>().text = database.food[StockManager.StockInstance.tempFoodRand].foodName.ToString();// "SET MEAT ID";
+            orderClone.transform.position = new Vector2(470, 460 - (orderParentPanel.childCount * 45));
 
             orderClone.GetComponentInChildren<Text>().text = touchManager.GetComponent<TouchManager>().selectedFood.GetComponent<StockInfo>().food.foodName;
             orderClone.GetComponentInChildren<Order>().food = touchManager.GetComponent<TouchManager>().selectedFood.GetComponent<StockInfo>().food;
-            //orderClone.GetComponent<MessageFunction>().ShowMessage(message);
-            //orderClone.GetComponent<Transform>().localPosition = new Vector3(0, y, 0);
-            if(Random.Range(0,11) < 9)
+
+            if (Random.Range(0, 11) < 9)
             {
                 Debug.Log("sent correct items");
                 truckManager.AddTruck(orderClone.GetComponentInChildren<Text>().text);
@@ -114,12 +111,9 @@ public class OrderListManager : MonoBehaviour
             else
             {
                 Debug.Log("sent wrong items");
-                truckManager.AddTruck(Random.Range(0,25));
+                truckManager.AddTruck(Random.Range(0, 25));
             }
-            //orderLimit++;
         }
-
-
     }
 
     void OnDestroy()
@@ -167,10 +161,14 @@ public class OrderListManager : MonoBehaviour
 
     public void OpenOrderlist()
     {
-        orderlistParent.transform.localPosition = new Vector3(0, 0, 0);
+        //orderlistParent.transform.localPosition = new Vector3(0, 0, 0);
+        orderlistParent.SetActive(true);
+        blackBackground.SetActive(true);
     }
     public void CloseOrderlist()
     {
-        orderlistParent.transform.localPosition = new Vector3(-2000, 0, 0);
+        //orderlistParent.transform.localPosition = new Vector3(-2000, 0, 0);
+        orderlistParent.SetActive(false);
+        blackBackground.SetActive(false);
     }
 }
