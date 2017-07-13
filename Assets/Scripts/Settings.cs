@@ -109,7 +109,7 @@ public class Settings : MonoBehaviour {
         else
         {
             Time.timeScale = 1;
-            LoadingScreenManager.LoadScene("Virt_Storage");
+            LoadingScreenManager.LoadScene("StorageTest");
         }
     }
 
