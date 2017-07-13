@@ -70,6 +70,57 @@ public class CameraMovement : MonoBehaviour {
         yield return 0;
     }
 
+    IEnumerator MoveSelectionModels(string ShopType)
+    {
+        Debug.Log("MOVED");
+        switch(ShopType)
+        {
+            case "Veggie":
+                for (int i = 0; i < 4; i++)
+                {
+                    StockManager.StockInstance.SelectionModel.transform.GetChild(i).transform.position = StockManager.StockInstance.VeggieSelectionParent.transform.GetChild(i).transform.position;
+                    StockManager.StockInstance.SelectionModel.transform.GetChild(i).transform.rotation = StockManager.StockInstance.VeggieSelectionParent.transform.GetChild(i).transform.rotation;
+
+                    StockManager.StockInstance.FinalSelectionModel.transform.position = StockManager.StockInstance.VeggieSelectionParent.transform.GetChild(4).transform.position;
+                    StockManager.StockInstance.FinalSelectionModel.transform.rotation = StockManager.StockInstance.VeggieSelectionParent.transform.GetChild(4).transform.rotation;
+                }
+                break;
+            case "Meat":
+                for (int i = 0; i < 4; i++)
+                {
+                    StockManager.StockInstance.SelectionModel.transform.GetChild(i).transform.position = StockManager.StockInstance.MeatSelectionParent.transform.GetChild(i).transform.position;
+                    StockManager.StockInstance.SelectionModel.transform.GetChild(i).transform.rotation = StockManager.StockInstance.MeatSelectionParent.transform.GetChild(i).transform.rotation;
+
+                    StockManager.StockInstance.FinalSelectionModel.transform.position = StockManager.StockInstance.MeatSelectionParent.transform.GetChild(4).transform.position;
+                    StockManager.StockInstance.FinalSelectionModel.transform.rotation = StockManager.StockInstance.MeatSelectionParent.transform.GetChild(4).transform.rotation;
+                }
+                break;
+            case "Cheese":
+                for (int i = 0; i < 4; i++)
+                {
+                    StockManager.StockInstance.SelectionModel.transform.GetChild(i).transform.position = StockManager.StockInstance.CheeseSelectionParent.transform.GetChild(i).transform.position;
+                    StockManager.StockInstance.SelectionModel.transform.GetChild(i).transform.rotation = StockManager.StockInstance.CheeseSelectionParent.transform.GetChild(i).transform.rotation;
+
+                    StockManager.StockInstance.FinalSelectionModel.transform.position = StockManager.StockInstance.CheeseSelectionParent.transform.GetChild(4).transform.position;
+                    StockManager.StockInstance.FinalSelectionModel.transform.rotation = StockManager.StockInstance.CheeseSelectionParent.transform.GetChild(4).transform.rotation;
+                }
+                break;
+            case "Canned":
+                for (int i = 0; i < 4; i++)
+                {
+                    StockManager.StockInstance.SelectionModel.transform.GetChild(i).transform.position = StockManager.StockInstance.CannedSelectionParent.transform.GetChild(i).transform.position;
+                    StockManager.StockInstance.SelectionModel.transform.GetChild(i).transform.rotation = StockManager.StockInstance.CannedSelectionParent.transform.GetChild(i).transform.rotation;
+
+                    StockManager.StockInstance.FinalSelectionModel.transform.position = StockManager.StockInstance.CannedSelectionParent.transform.GetChild(4).transform.position;
+                    StockManager.StockInstance.FinalSelectionModel.transform.rotation = StockManager.StockInstance.CannedSelectionParent.transform.GetChild(4).transform.rotation;
+                }
+                break;
+        }
+
+        
+        yield return 0;
+    }
+
     // Use this for initialization
     void Start () {
         typeOfShop = SHOP_TYPE.S_MAIN;
@@ -129,27 +180,30 @@ public class CameraMovement : MonoBehaviour {
             case "VeggieShop":
                 StartCoroutine(MoveToPosition(VegMainCam.transform));
                 typeOfShop = SHOP_TYPE.S_VEGGIE;
-                LeftArrow.GetComponent<Button>().interactable = false;
-                RightArrow.GetComponent<Button>().interactable = false;
-                
+                //LeftArrow.GetComponent<Button>().interactable = false;
+                //RightArrow.GetComponent<Button>().interactable = false;
+                StartCoroutine(MoveSelectionModels("Veggie"));
                 break;
             case "MeatShop":
                 StartCoroutine(MoveToPosition(MeatMainCam.transform));
                 typeOfShop = SHOP_TYPE.S_MEAT;
-                LeftArrow.GetComponent<Button>().interactable = true;
-                RightArrow.GetComponent<Button>().interactable = true;
+                //LeftArrow.GetComponent<Button>().interactable = false;
+                //RightArrow.GetComponent<Button>().interactable = false;
+                StartCoroutine(MoveSelectionModels("Meat"));
                 break;
             case "CheeseShop":
                 StartCoroutine(MoveToPosition(CheeseMainCam.transform));
                 typeOfShop = SHOP_TYPE.S_CHEESE;
-                LeftArrow.GetComponent<Button>().interactable = false;
-                RightArrow.GetComponent<Button>().interactable = false;
+                //LeftArrow.GetComponent<Button>().interactable = false;
+                //RightArrow.GetComponent<Button>().interactable = false;
+                StartCoroutine(MoveSelectionModels("Cheese"));
                 break;
             case "CannedShop":
                 StartCoroutine(MoveToPosition(CannedMainCam.transform));
                 typeOfShop = SHOP_TYPE.S_CANNED;
-                LeftArrow.GetComponent<Button>().interactable = false;
-                RightArrow.GetComponent<Button>().interactable = false;
+                //LeftArrow.GetComponent<Button>().interactable = false;
+                //RightArrow.GetComponent<Button>().interactable = false;
+                StartCoroutine(MoveSelectionModels("Canned"));
                 break;
             default:
                 typeOfShop = SHOP_TYPE.S_MAIN;
@@ -157,8 +211,8 @@ public class CameraMovement : MonoBehaviour {
         }
 
         OverviewButton.SetActive(true);
-        LeftArrow.SetActive(true);
-        RightArrow.SetActive(true);
+        //LeftArrow.SetActive(true);
+        //RightArrow.SetActive(true);
         MenuUIButtons.SetActive(false);
     }
 

@@ -17,22 +17,32 @@ public class _MouseInputRepresentationBehaviour : MonoBehaviour
     void Update()
     {
 
-        if (Input.GetMouseButtonDown(0))
+        RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
+
+        if (hit != false && hit.collider != null)
         {
-            mouseStart = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            if (hit.collider.tag == "MeatFabrication")
+            {
+                if (Input.GetMouseButtonDown(0))
+                {
+                    mouseStart = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                }
+
+                if (Input.GetMouseButton(0))
+                {
+                    lineRenderer.enabled = true;
+                    Vector2 mouseEnd = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                    lineRenderer.SetPosition(0, mouseStart);
+                    lineRenderer.SetPosition(1, mouseEnd);
+                }
+                else
+                {
+                    lineRenderer.enabled = false;
+                }
+            } 
         }
 
-        if (Input.GetMouseButton(0))
-        {
-            lineRenderer.enabled = true;
-            Vector2 mouseEnd = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            lineRenderer.SetPosition(0, mouseStart);
-            lineRenderer.SetPosition(1, mouseEnd);
-        }
-        else
-        {
-            lineRenderer.enabled = false;
-        }
+        
     }
 
 }
