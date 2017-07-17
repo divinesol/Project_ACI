@@ -8,8 +8,8 @@ public class TruckManager : MonoBehaviour
     public List<GameObject> truckList = new List<GameObject>();
     public static List<Food> foodList = new List<Food>();
     public GameObject truckPrefab;
-    float x = 0;
-    float y = 0.2f;
+    float x = -2.5f;
+    float y = 0.25f;
 
     public FoodDatabase database;
 
@@ -32,7 +32,7 @@ public class TruckManager : MonoBehaviour
             //set the prefab as child of the truckmanager
             truck.transform.SetParent(this.gameObject.transform);
             truck.name = "Truck " + i;
-            truck.GetComponent<Transform>().localPosition = new Vector3(x, y, 0);
+            truck.GetComponent<Transform>().localPosition = new Vector3(x, y, 1.2f);
 
             x += 1;
             truckAmount++;
