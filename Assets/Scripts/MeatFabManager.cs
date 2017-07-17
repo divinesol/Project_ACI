@@ -11,12 +11,6 @@ public class MeatFabManager : MonoBehaviour {
 
     public GameObject sliceableObject;
 
-    /*Collider sizes
-            x  | y  
-               |
-    Beef = 4.5,| 3
-               |
-    */
     public enum MEAT_CUT_TYPE
     {
         CHICKEN_MAIN,
@@ -40,12 +34,12 @@ public class MeatFabManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-
-        if (Input.GetMouseButton(0))
+        RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
+ 
+        //if(hit.collider != null)
         {
-
+            Debug.Log ("Target Position: " + hit.point);
         }
-        
     }
 
     public void CheckIfCutIsCorrect()
@@ -53,26 +47,23 @@ public class MeatFabManager : MonoBehaviour {
         switch (meatCutTypes)
         {
             case MEAT_CUT_TYPE.BEEF_TEST:
-                
                 sliceableObject.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("MeatFabrication/MEAT");
                 break;
 
             case MEAT_CUT_TYPE.CHICKEN_MAIN:
-              
                 sliceableObject.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("MeatFabrication/CHICKEN");
                 break;
 
             case MEAT_CUT_TYPE.CHICKEN_THIGH:
                 break;
         }
-
+        //To reset collider whenever sprite is changed
         Destroy(sliceableObject.GetComponent<PolygonCollider2D>());
         sliceableObject.AddComponent<PolygonCollider2D>();
     }
 
     public void test()
     {
-
         switch(meatCutTypes)
         {
             case MEAT_CUT_TYPE.BEEF_TEST:
@@ -82,9 +73,6 @@ public class MeatFabManager : MonoBehaviour {
                 meatCutTypes = MEAT_CUT_TYPE.BEEF_TEST;
                 break;
         }
-
-        
-
         CheckIfCutIsCorrect();
     }
 }
