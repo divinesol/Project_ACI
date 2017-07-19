@@ -7,12 +7,11 @@ public class MeatFabManager : MonoBehaviour {
     public static MeatFabManager Instance;
 
     MEAT_CUT_TYPE meatCutTypes;
-
     public GameObject sliceableObject;
-
     public GameObject popup;
-
     public bool startSuccess, endSuccess;
+    public float startBaseValue_X, startBaseValue_Y, endBaseValue_X, endBaseValue_Y, range;
+    public int numOfCuts;
 
     public enum MEAT_CUT_TYPE
     {
@@ -21,8 +20,6 @@ public class MeatFabManager : MonoBehaviour {
         BEEF_TEST
 
     };
-
-    Vector3 test1 = new Vector3(0,0,0);
 
     public List<MeatFabricationData> FabList = new List<MeatFabricationData>();
 
@@ -37,6 +34,12 @@ public class MeatFabManager : MonoBehaviour {
     // Use this for initialization
     void Start () {
 
+        startBaseValue_X = -3.2f;
+        startBaseValue_Y = 4.2f;
+        endBaseValue_X = 2.3f;
+        endBaseValue_Y = 0.2f;
+        range = 0.5f;
+
         startSuccess = false;
         endSuccess = false;
 
@@ -49,29 +52,59 @@ public class MeatFabManager : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
-
-        if(Input.GetMouseButtonDown(0))
+        Debug.Log("Target Position: " + hit.point);
+        if (Input.GetMouseButtonDown(0))
         {
-            if (hit.collider != null)
+            if(numOfCuts > 0)
             {
-                Debug.Log("Target Position: " + hit.point);
-                //Debug.Log(Vector2.Distance(hit.point, new Vector2(3.6f, 4.3f)));
-                //x = -3.2 base
-                if (hit.point.x < -2.7f && hit.point.x > -3.7f)
+                if (hit.collider != null)
                 {
-                    //y = 4.2 base
-                    if (hit.point.y < 4.7f && hit.point.y > 3.7f)
+                    //x = -3.2 base
+                    if (hit.point.x < startBaseValue_X + range && hit.point.x > startBaseValue_X - range)
                     {
-                        startSuccess = true;
-                        popup.SetActive(true);
+                        //y = 4.2 base
+                        if (hit.point.y < startBaseValue_Y + range && hit.point.y > startBaseValue_Y - range)
+                        {
+                            Debug.Log("Start Success!");
+                            startSuccess = true;
+                            //popup.SetActive(true);
+                        }
                     }
-                    //Debug.Log("HIT LAH");
-                }
-                else
-                {
-                    popup.SetActive(false);
+                    else
+                    {
+                        //popup.SetActive(false);
+                    }
                 }
             }
+            
+        }
+
+        if (Input.GetMouseButtonUp(0))
+        {
+            if(numOfCuts > 0)
+            {
+                if (hit.collider != null)
+                {
+                    Debug.Log("Target Position: " + hit.point);
+                    //x = -3.2 base
+                    if (hit.point.x < endBaseValue_X + range && hit.point.x > endBaseValue_X - range)
+                    {
+                        //y = 4.2 base
+                        if (hit.point.y < endBaseValue_Y + range && hit.point.y > endBaseValue_Y - range)
+                        {
+                            Debug.Log("End Success!");
+                            endSuccess = true;
+                            popup.SetActive(true);
+                            numOfCuts--;
+                        }
+                    }
+                    else
+                    {
+                        popup.SetActive(false);
+                    }
+                }
+            }
+            
         }
     }
 
