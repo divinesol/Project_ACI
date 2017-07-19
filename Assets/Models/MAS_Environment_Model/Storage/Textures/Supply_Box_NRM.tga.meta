@@ -1,11 +1,6 @@
 fileFormatVersion: 2
-<<<<<<< HEAD
 guid: 21c5999a754318d43a02b5321043b587
-timeCreated: 1500261628
-=======
-guid: 7b6aa0c15626f324685e2046a5714e5c
-timeCreated: 1500344714
->>>>>>> 216a6dffcfdaa25ca49dc6a6bfb45d5666a5efca
+timeCreated: 1500448000
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName: {}
@@ -13,11 +8,7 @@ TextureImporter:
   mipmaps:
     mipMapMode: 0
     enableMipMap: 1
-<<<<<<< HEAD
     linearTexture: 1
-=======
-    linearTexture: 0
->>>>>>> 216a6dffcfdaa25ca49dc6a6bfb45d5666a5efca
     correctGamma: 0
     fadeOut: 0
     borderMipMap: 0
@@ -25,11 +16,7 @@ TextureImporter:
     mipMapFadeDistanceEnd: 3
   bumpmap:
     convertToNormalMap: 0
-<<<<<<< HEAD
     externalNormalMap: 1
-=======
-    externalNormalMap: 0
->>>>>>> 216a6dffcfdaa25ca49dc6a6bfb45d5666a5efca
     heightScale: 0.25
     normalMapFilter: 0
   isReadable: 0
@@ -59,11 +46,7 @@ TextureImporter:
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spritePixelsToUnits: 100
   alphaIsTransparency: 0
-<<<<<<< HEAD
   textureType: 1
-=======
-  textureType: -1
->>>>>>> 216a6dffcfdaa25ca49dc6a6bfb45d5666a5efca
   buildTargetSettings: []
   spriteSheet:
     sprites: []
