@@ -65,7 +65,7 @@ public class OrderListManager : MonoBehaviour
             orderClone.GetComponentInChildren<Order>().food = database.food[Random.Range(8, 13)];
             orderClone.GetComponentInChildren<Text>().text = orderClone.GetComponentInChildren<Order>().food.foodName;
 
-            if (Random.Range(0, 11) < 5)
+            if (Random.Range(0, 11) < 10)
             {
                 Debug.Log("sent correct items");
                 truckManager.AddTruck(orderClone.GetComponentInChildren<Text>().text);
@@ -101,7 +101,7 @@ public class OrderListManager : MonoBehaviour
             orderClone.GetComponentInChildren<Order>().food = touchManager.GetComponent<TouchManager>().selectedFood.GetComponent<StockInfo>().food;
             orderClone.GetComponentInChildren<Text>().text = orderClone.GetComponentInChildren<Order>().food.foodName;/*touchManager.GetComponent<TouchManager>().selectedFood.GetComponent<StockInfo>().food.foodName;*/
 
-            if (Random.Range(0, 11) < 9)
+            if (Random.Range(0, 11) < 5)
             {
                 Debug.Log("sent correct items");
                 truckManager.AddTruck(orderClone.GetComponentInChildren<Text>().text);
