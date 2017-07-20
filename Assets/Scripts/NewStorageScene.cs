@@ -20,6 +20,8 @@ public class NewStorageScene : MonoBehaviour {
     public Text acceptedWrongOrderFeedback;
     public Button placementTop;
     public Button placementBottom;
+    public Text StoragePlacementFeedback;
+    public Button ExitStorage;
 
     [SerializeField]
     private GameObject orderList;
@@ -97,7 +99,7 @@ public class NewStorageScene : MonoBehaviour {
                             break;
                     }
                 }
-                else if (selectStorage.activeSelf)
+                else if (selectStorage.activeSelf || acceptedWrongOrderFeedback.gameObject.activeSelf)
                 {
                     if (hit.collider.gameObject.name == ("dryDoor"))
                     {
@@ -150,7 +152,10 @@ public class NewStorageScene : MonoBehaviour {
 
     public void rejectOrder()
     {
-
+        selectedBox.GetComponent<Truck>().readyToRespawn = true;
+        selectedBox = null;
+        blackBackground.SetActive(false);
+        deliveryDetails.SetActive(false);
     }
 
     public void closeOrder()
@@ -222,7 +227,10 @@ public class NewStorageScene : MonoBehaviour {
         }
         else
         {
-            selectStorage.GetComponent<Text>().text = "Not there. Try Again";
+            if (selectStorage.activeSelf)
+                selectStorage.GetComponent<Text>().text = "Not there. Try Again";
+            else if (acceptedWrongOrderFeedback.IsActive())
+                acceptedWrongOrderFeedback.GetComponent<Text>().text = "Not there. Try Again";
         }
     }
 
@@ -231,6 +239,19 @@ public class NewStorageScene : MonoBehaviour {
         if (selectedBox.GetComponent<Truck>().food.foodPlacement.ToString().Equals("TOP"))
         {
             Debug.Log("TOP OK");
+            placementTop.gameObject.SetActive(false);
+            placementBottom.gameObject.SetActive(false);
+            selectStorage.SetActive(false);
+            selectStorage.GetComponent<Text>().text = "Where should it be stored?";
+            acceptedWrongOrderFeedback.gameObject.SetActive(false);
+            TruckManager.foodList[selectedBox.GetComponent<Truck>().index] = new Food();
+            selectedBox.GetComponent<Truck>().foodObject.gameObject.GetComponentInParent<Truck>().food = new Food();
+            selectedBox.GetComponent<Truck>().foodObject.SetActive(false);
+            selectedBox = null;
+
+            ExitStorage.gameObject.SetActive(true);
+            StoragePlacementFeedback.gameObject.SetActive(false);
+
             //Debug.Log("GOOD!!");
             //TouchManager.gameObject.GetComponent<JHTouchManager>().reducePoints = false;
             //TouchManager.gameObject.GetComponent<JHTouchManager>().OpenUserFeedback();
@@ -243,6 +264,8 @@ public class NewStorageScene : MonoBehaviour {
         else
         {
             Debug.Log("TOP BAD");
+            StoragePlacementFeedback.gameObject.SetActive(true);
+
             //Debug.Log("BAD!!");
             //TouchManager.gameObject.GetComponent<JHTouchManager>().reducePoints = true;
             //TouchManager.gameObject.GetComponent<JHTouchManager>().OpenUserFeedback();
@@ -254,6 +277,17 @@ public class NewStorageScene : MonoBehaviour {
         if (selectedBox.GetComponent<Truck>().food.foodPlacement.ToString().Equals("BOTTOM"))
         {
             Debug.Log("BOTTOM OK");
+            placementTop.gameObject.SetActive(false);
+            placementBottom.gameObject.SetActive(false);
+            selectStorage.SetActive(false);
+            selectStorage.GetComponent<Text>().text = "Where should it be stored?";
+            acceptedWrongOrderFeedback.gameObject.SetActive(false);
+            TruckManager.foodList[selectedBox.GetComponent<Truck>().index] = new Food();
+            selectedBox.GetComponent<Truck>().foodObject.gameObject.GetComponentInParent<Truck>().food = new Food();
+            selectedBox.GetComponent<Truck>().foodObject.SetActive(false);
+            selectedBox = null;
+            ExitStorage.gameObject.SetActive(true);
+            StoragePlacementFeedback.gameObject.SetActive(false);
             //Debug.Log("GOOD!!");
             //TouchManager.gameObject.GetComponent<JHTouchManager>().reducePoints = false;
             //TouchManager.gameObject.GetComponent<JHTouchManager>().OpenUserFeedback();
@@ -266,10 +300,18 @@ public class NewStorageScene : MonoBehaviour {
         else
         {
             Debug.Log("BOTTOM BAD");
+            StoragePlacementFeedback.gameObject.SetActive(true);
             //Debug.Log("BAD!!");
             //TouchManager.gameObject.GetComponent<JHTouchManager>().reducePoints = true;
             //TouchManager.gameObject.GetComponent<JHTouchManager>().OpenUserFeedback();
             //TouchManager.gameObject.GetComponent<JHTouchManager>().UserFeedback.GetComponentInChildren<Text>().text = "Wrong placement!";
         }
+    }
+
+    public void ExitStorageFunc()
+    {
+        mainCam.transform.position = new Vector3(-0.5f, 3.05f, -6.22f);
+        mainCam.transform.rotation = Quaternion.Euler(10, 0, 0);
+        ExitStorage.gameObject.SetActive(false);
     }
 }
