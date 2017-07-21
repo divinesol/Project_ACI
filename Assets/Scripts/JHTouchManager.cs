@@ -88,7 +88,7 @@ public class JHTouchManager : MonoBehaviour
             //Debug.Log("clicked");
 
             RaycastHit hit;
-
+           
 
             // if raycast hit something and the UI is not enable and is not dragging the screen
             if ((Physics.Raycast(mousePosN, mousePosF - mousePosN, out hit)) &&
