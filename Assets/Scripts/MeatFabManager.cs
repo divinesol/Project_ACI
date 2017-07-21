@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
+using TMPro;
 
 public class MeatFabManager : MonoBehaviour {
 
@@ -12,6 +14,7 @@ public class MeatFabManager : MonoBehaviour {
     public bool startSuccess, endSuccess;
     public float startBaseValue_X, startBaseValue_Y, endBaseValue_X, endBaseValue_Y, range;
     public int numOfCuts;
+    public TMP_Dropdown MeatSelectionUI;
 
     public enum MEAT_CUT_TYPE
     {
@@ -21,8 +24,8 @@ public class MeatFabManager : MonoBehaviour {
 
     };
 
-    public List<MeatFabricationData> FabList = new List<MeatFabricationData>();
-
+    public FabricationDatabase database;
+    public int selection = 0;
     void Awake()
     {
         if (Instance == null)
@@ -32,7 +35,14 @@ public class MeatFabManager : MonoBehaviour {
     }
 
     // Use this for initialization
-    void Start () {
+    void Start ()
+    {
+        MeatSelectionUI.onValueChanged.AddListener(delegate
+        {
+            ValueChange(MeatSelectionUI);
+        });
+
+        numOfCuts = 1;
 
         startBaseValue_X = -3.2f;
         startBaseValue_Y = 4.2f;
@@ -43,19 +53,21 @@ public class MeatFabManager : MonoBehaviour {
         startSuccess = false;
         endSuccess = false;
 
-        FabList.Add(new MeatFabricationData("Beef", new Vector2(0, 0), new Vector2(0, 0), 1));
-        FabList.Add(new MeatFabricationData("Chicken", new Vector2(0, 0), new Vector2(0, 0), 2));
-
         meatCutTypes = MEAT_CUT_TYPE.BEEF_TEST;
     }
 	
 	// Update is called once per frame
 	void Update () {
+
+        UpdateDropdown();
+
+        Debug.Log(database.FabList[selection].FabName);
+
         RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
         Debug.Log("Target Position: " + hit.point);
         if (Input.GetMouseButtonDown(0))
         {
-            if(numOfCuts > 0)
+            //if(numOfCuts > 0)
             {
                 if (hit.collider != null)
                 {
@@ -108,27 +120,35 @@ public class MeatFabManager : MonoBehaviour {
         }
     }
 
+    private void ValueChange(TMP_Dropdown g_dropdown)
+    {
+    }
+
+    public void UpdateDropdown()
+    {
+        switch(MeatSelectionUI.value)
+        {
+            case 1:
+                selection = 0;
+                break;
+            case 2:
+                selection = 1;
+                break;
+        }
+        CheckIfCutIsCorrect();
+    }
+
     public void CheckIfCutIsCorrect()
     {
-        switch (meatCutTypes)
+        switch (database.FabList[selection].FabName)
         {
-            case MEAT_CUT_TYPE.BEEF_TEST:
+            case "Beef":
                 sliceableObject.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("MeatFabrication/MEAT");
                 break;
 
-            case MEAT_CUT_TYPE.CHICKEN_MAIN:
+            case "Chicken":
                 sliceableObject.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("MeatFabrication/CHICKEN");
                 break;
-
-            case MEAT_CUT_TYPE.CHICKEN_THIGH:
-                break;
-                //case "Beef":
-                //    MeatFabricationData._Instance.ChangeSprite(MeatFabricationData._Instance.currentFab.fabName);
-                //    break;
-
-                //case "Chicken":
-                //    MeatFabricationData._Instance.ChangeSprite(MeatFabricationData._Instance.currentFab.fabName);
-                //    break;
         }
         //To reset collider whenever sprite is changed
         Destroy(sliceableObject.GetComponent<PolygonCollider2D>());
@@ -137,20 +157,14 @@ public class MeatFabManager : MonoBehaviour {
 
     public void test()
     {
-        switch(meatCutTypes)
+        switch(database.FabList[selection].FabName)
         {
-            case MEAT_CUT_TYPE.BEEF_TEST:
-                meatCutTypes = MEAT_CUT_TYPE.CHICKEN_MAIN;
+            case "Beef":
+                selection = 1;
                 break;
-            case MEAT_CUT_TYPE.CHICKEN_MAIN:
-                meatCutTypes = MEAT_CUT_TYPE.BEEF_TEST;
+            case "Chicken":
+                selection = 0;
                 break;
-                //case "Beef":
-                //    MeatFabricationData._Instance.currentFab = MeatFabricationData._Instance.fabList[1];
-                //    break;
-                //case "Chicken":
-                //    MeatFabricationData._Instance.currentFab = MeatFabricationData._Instance.fabList[0];
-                //    break;
         }
         CheckIfCutIsCorrect();
     }
