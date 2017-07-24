@@ -10,23 +10,24 @@ public class _2DSlicing : MonoBehaviour
     Vector2 mouseStart;
     void Update()
     {
-
-        if (Input.GetMouseButtonDown(0))
+        if(MeatFabManager.Instance.numOfCuts > 0)
         {
-            mouseStart = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        }
-
-        Vector2 mouseEnd = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-
-        if (Input.GetMouseButtonUp(0))
-        {
-            if(MeatFabManager.Instance.endSuccess == true && MeatFabManager.Instance.startSuccess == true)
+            if (Input.GetMouseButtonDown(0))
             {
-                LinecastCut(mouseStart, mouseEnd, layerMask.value);
-                MeatFabManager.Instance.startSuccess = false;
-                MeatFabManager.Instance.endSuccess = false;
+                mouseStart = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             }
-                
+
+            Vector2 mouseEnd = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+            if (Input.GetMouseButtonUp(0))
+            {
+                if (MeatFabManager.Instance.endSuccess == true && MeatFabManager.Instance.startSuccess == true)
+                {
+                    LinecastCut(mouseStart, mouseEnd, layerMask.value);
+                    MeatFabManager.Instance.startSuccess = false;
+                    MeatFabManager.Instance.endSuccess = false;
+                }
+            }
         }
     }
 

@@ -23,22 +23,26 @@ public class _MouseInputRepresentationBehaviour : MonoBehaviour
         {
             if (hit.collider.tag == "MeatFabrication")
             {
-                if (Input.GetMouseButtonDown(0))
+                if(MeatFabManager.Instance.numOfCuts > 0)
                 {
-                    mouseStart = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                }
+                    if (Input.GetMouseButtonDown(0))
+                    {
+                        mouseStart = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                    }
 
-                if (Input.GetMouseButton(0))
-                {
-                    lineRenderer.enabled = true;
-                    Vector2 mouseEnd = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                    lineRenderer.SetPosition(0, mouseStart);
-                    lineRenderer.SetPosition(1, mouseEnd);
+                    if (Input.GetMouseButton(0))
+                    {
+                        lineRenderer.enabled = true;
+                        Vector2 mouseEnd = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                        lineRenderer.SetPosition(0, mouseStart);
+                        lineRenderer.SetPosition(1, mouseEnd);
+                    }
+                    else
+                    {
+                        lineRenderer.enabled = false;
+                    }
                 }
-                else
-                {
-                    lineRenderer.enabled = false;
-                }
+               
             } 
         }
 
