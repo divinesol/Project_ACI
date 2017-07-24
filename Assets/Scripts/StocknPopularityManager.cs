@@ -10,7 +10,7 @@ public class StocknPopularityManager : MonoBehaviour {
 
     //once happiness bar is maxed, add 1 star, then reset happiness bar
     public static float starRating;
-    public Image stockOrb;
+    public Image stockBar;
     public Image popularityBar;
     public Image mainRatingBar;
 
@@ -18,7 +18,7 @@ public class StocknPopularityManager : MonoBehaviour {
     void Start () {
 
         starRating = 0.0f;
-        stockOrb.fillAmount = 0.0f;
+        stockBar.fillAmount = 0.0f;
         popularityBar.fillAmount = 0.0f;
         mainRatingBar.fillAmount = 0.0f;
     }
@@ -41,7 +41,7 @@ public class StocknPopularityManager : MonoBehaviour {
 
         popularityBar.fillAmount = popValue;
         mainRatingBar.fillAmount = starRating;
-        stockOrb.fillAmount = stockValue;
+        stockBar.fillAmount = stockValue;
 
         #region DebugInputs
 

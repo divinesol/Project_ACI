@@ -4,6 +4,8 @@ using UnityEngine.UI;
 
 public class NewStorageScene : MonoBehaviour {
 
+    float pointsToBeAddedToStock;
+
     [Header("Camera")]
     public Camera mainCam;
 
@@ -23,11 +25,13 @@ public class NewStorageScene : MonoBehaviour {
     public Text StoragePlacementFeedback;
     public Button ExitStorage;
 
+    [Header("Managers")]
     [SerializeField]
     private GameObject orderList;
     [SerializeField]
     private GameObject truckManager;
-
+    [SerializeField]
+    private GameObject stockAndPopularityManager;
 
     // Use this for initialization
     void Start() {
@@ -59,44 +63,32 @@ public class NewStorageScene : MonoBehaviour {
             {
                 if (!selectStorage.activeSelf && selectedBox == null && !deliveryDetails.activeSelf)
                 {
-                    switch (hit.collider.gameObject.tag)
+                    if (hit.collider.gameObject.tag == "Truck")
                     {
-                        //case ("freezeDoor"):
-                        //    {
-                        //        mainCam.transform.position = new Vector3(-15.2f, 2, -4.2f);
-                        //        mainCam.transform.rotation = Quaternion.Euler(15, 0, 0);
-                        //        inStorageRoom = true;
-                        //    }
-                        //    break;
-                    
-                        case ("Truck"):
-                            {
-                                if (hit.collider.gameObject.GetComponent<Truck>().food.foodPrefab != null &&
+                        if (hit.collider.gameObject.GetComponent<Truck>().food.foodPrefab != null &&
                                    hit.collider.gameObject.GetComponent<Truck>() != null)
-                                {
-                                    selectedBox = hit.collider.gameObject;
-                                    blackBackground.SetActive(true);
-                                    deliveryDetails.SetActive(true);
-                                    foodName.text = selectedBox.gameObject.GetComponent<Truck>().food.foodName.ToString();
-                                    switch (selectedBox.gameObject.GetComponent<Truck>().food.foodType)
-                                    {
-                                        // Store in Dry
-                                        case ((Food.FoodType)0):
-                                            foodStorageType.text = "Dry";
-                                            break;
-                                        // Store in Cold
-                                        case ((Food.FoodType)1):
-                                            foodStorageType.text = "Cold";
-                                            break;
-                                        // Store in Freeze
-                                        case ((Food.FoodType)2):
-                                            foodStorageType.text = "Freeze";
-                                            break;
-                                    }
-
-                                }
+                        {
+                            selectedBox = hit.collider.gameObject;
+                            foodName.text = selectedBox.gameObject.GetComponent<Truck>().food.foodName.ToString();
+                            switch (selectedBox.gameObject.GetComponent<Truck>().food.foodType)
+                            {
+                                // Store in Dry
+                                case (0):
+                                    foodStorageType.text = "Dry";
+                                    break;
+                                // Store in Cold
+                                case ((Food.FoodType)1):
+                                    foodStorageType.text = "Cold";
+                                    break;
+                                // Store in Freeze
+                                case ((Food.FoodType)2):
+                                    foodStorageType.text = "Freeze";
+                                    break;
                             }
-                            break;
+                            blackBackground.SetActive(true);
+                            deliveryDetails.SetActive(true);
+
+                        }
                     }
                 }
                 else if (selectStorage.activeSelf || acceptedWrongOrderFeedback.gameObject.activeSelf)
@@ -133,17 +125,12 @@ public class NewStorageScene : MonoBehaviour {
         //if correct items
         if (checkForCorrectItems())
         {
-            //TouchManager.gameObject.GetComponent<JHTouchManager>().pointsGiveToStockBar = 0.2f;
+            pointsToBeAddedToStock = 0.2f;
             selectStorage.SetActive(true);
         }
         else
         {
-            // TouchManager.gameObject.GetComponent<JHTouchManager>().pointsGiveToStockBar = 0.1f;
-
-            //enable the wrong food pop up
-            // wrongFoodPopup.SetActive(true);
-            //play that animation
-            // TouchManager.gameObject.GetComponent<JHTouchManager>().wrongFoodAnim.SetTrigger("Show");
+            pointsToBeAddedToStock = 0.1f;
             acceptedWrongOrderFeedback.gameObject.SetActive(true);
         }
         blackBackground.SetActive(false);
@@ -238,7 +225,6 @@ public class NewStorageScene : MonoBehaviour {
     {
         if (selectedBox.GetComponent<Truck>().food.foodPlacement.ToString().Equals("TOP"))
         {
-            Debug.Log("TOP OK");
             placementTop.gameObject.SetActive(false);
             placementBottom.gameObject.SetActive(false);
             selectStorage.SetActive(false);
@@ -252,31 +238,18 @@ public class NewStorageScene : MonoBehaviour {
             ExitStorage.gameObject.SetActive(true);
             StoragePlacementFeedback.gameObject.SetActive(false);
 
-            //Debug.Log("GOOD!!");
-            //TouchManager.gameObject.GetComponent<JHTouchManager>().reducePoints = false;
-            //TouchManager.gameObject.GetComponent<JHTouchManager>().OpenUserFeedback();
-            //TouchManager.gameObject.GetComponent<JHTouchManager>().UserFeedback.GetComponentInChildren<Text>().text = "Correct!";
-            //TouchManager.gameObject.GetComponent<JHTouchManager>().placementDone = true;
-
-            ////add to stock points
-            //StocknPopularityManager.stockValue += TouchManager.gameObject.GetComponent<JHTouchManager>().pointsGiveToStockBar;
+            //add to stock points
+            StocknPopularityManager.stockValue += pointsToBeAddedToStock;
         }
         else
         {
-            Debug.Log("TOP BAD");
             StoragePlacementFeedback.gameObject.SetActive(true);
-
-            //Debug.Log("BAD!!");
-            //TouchManager.gameObject.GetComponent<JHTouchManager>().reducePoints = true;
-            //TouchManager.gameObject.GetComponent<JHTouchManager>().OpenUserFeedback();
-            //TouchManager.gameObject.GetComponent<JHTouchManager>().UserFeedback.GetComponentInChildren<Text>().text = "Wrong placement!";
         }
     }
     public void PlacementBot()
     {
         if (selectedBox.GetComponent<Truck>().food.foodPlacement.ToString().Equals("BOTTOM"))
         {
-            Debug.Log("BOTTOM OK");
             placementTop.gameObject.SetActive(false);
             placementBottom.gameObject.SetActive(false);
             selectStorage.SetActive(false);
@@ -288,23 +261,13 @@ public class NewStorageScene : MonoBehaviour {
             selectedBox = null;
             ExitStorage.gameObject.SetActive(true);
             StoragePlacementFeedback.gameObject.SetActive(false);
-            //Debug.Log("GOOD!!");
-            //TouchManager.gameObject.GetComponent<JHTouchManager>().reducePoints = false;
-            //TouchManager.gameObject.GetComponent<JHTouchManager>().OpenUserFeedback();
-            //TouchManager.gameObject.GetComponent<JHTouchManager>().UserFeedback.GetComponentInChildren<Text>().text = "Correct!";
-            //TouchManager.gameObject.GetComponent<JHTouchManager>().placementDone = true;
 
-            ////add to stock points
-            //StocknPopularityManager.stockValue += TouchManager.gameObject.GetComponent<JHTouchManager>().pointsGiveToStockBar;
+            //add to stock points
+            StocknPopularityManager.stockValue += pointsToBeAddedToStock;
         }
         else
-        {
-            Debug.Log("BOTTOM BAD");
+        { 
             StoragePlacementFeedback.gameObject.SetActive(true);
-            //Debug.Log("BAD!!");
-            //TouchManager.gameObject.GetComponent<JHTouchManager>().reducePoints = true;
-            //TouchManager.gameObject.GetComponent<JHTouchManager>().OpenUserFeedback();
-            //TouchManager.gameObject.GetComponent<JHTouchManager>().UserFeedback.GetComponentInChildren<Text>().text = "Wrong placement!";
         }
     }
 

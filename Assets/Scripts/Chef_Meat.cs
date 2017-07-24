@@ -20,7 +20,6 @@ public class Chef_Meat : MonoBehaviour
     {
         if (CheckGetStocks)
         {
-
             if (PathComplete())
             { 
                 Debug.Log("Going to prepare food");
