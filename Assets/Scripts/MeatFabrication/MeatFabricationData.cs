@@ -1,19 +1,24 @@
 ﻿using UnityEngine;
 using System.Collections;
-using System.Collections.Generic;
 
-public class MeatFabricationData : MonoBehaviour{
+public class MeatFabricationData {
 
-    string FabName;
-    Vector2 startCutPoint, endCutPoint;
-    int FabNumOfCuts;
+    public string FabName;
+    public float startCutPointX, endCutPointX, startCutPointY, endCutPointY;
+    public int FabNumOfCuts;
 
-    public MeatFabricationData(string name, Vector2 startPos, Vector2 endPos, int numOfCuts)
+    public MeatFabricationData(string name, float startPosX, float endPosX, float startPosY, float endPosY, int numOfCuts)
     {
         FabName = name;
-        startCutPoint = startPos;
-        endCutPoint = endPos;
+        startCutPointX = startPosX;
+        endCutPointX = endPosX;
+        startCutPointY = startPosY;
+        endCutPointY = endPosY;
         FabNumOfCuts = numOfCuts;
     }
 
+    public MeatFabricationData()
+    {
+
+    }
 }
