@@ -172,7 +172,7 @@ public class Settings : MonoBehaviour {
             LoadingScreenManager.LoadScene("AR_Main");
         }
     }
-    public void moveUI()
+    public void moveUI(float show)
     {
         if (!UI_IsShown)
         {

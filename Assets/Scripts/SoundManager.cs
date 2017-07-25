@@ -29,7 +29,7 @@ public class SoundManager : Singleton<SoundManager> {
 	
 	// Update is called once per frame
 	void Update () {
-        SetBGMVolume(Set.GetBGMValue());
+     //   SetBGMVolume(Set.GetBGMValue());
         //SoundSet.VolumeBGM = Set.GetBGMValue();
         //SetBGMVol(SoundSet.VolumeBGM);
         //gameObject.GetComponent<AudioSource>().volume = Set.GetBGMValue();
