@@ -45,6 +45,7 @@ namespace UnitySpriteCutter
             _SpriteCutterGameObject result = new _SpriteCutterGameObject();
             result.gameObject = GameObject.Instantiate(origin);
             result.gameObject.name = origin.name + (!secondSide ? "_firstSide" : "_secondSide");
+            result.gameObject.transform.SetParent(MeatFabManager.Instance.ParentOfSlicedObjects);
             return result;
         }
 

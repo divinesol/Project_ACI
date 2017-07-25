@@ -23,7 +23,7 @@ public class _MouseInputRepresentationBehaviour : MonoBehaviour
         {
             if (hit.collider.tag == "MeatFabrication")
             {
-                if(MeatFabManager.Instance.numOfCuts > 0)
+                if(MeatFabManager.Instance.database.FabList[MeatFabManager.Instance.selection].FabNumOfCuts > 0)
                 {
                     if (Input.GetMouseButtonDown(0))
                     {
@@ -39,6 +39,7 @@ public class _MouseInputRepresentationBehaviour : MonoBehaviour
                     }
                     else
                     {
+                        Debug.Log("DESTROYED LINERENDERER");
                         lineRenderer.enabled = false;
                     }
                 }
