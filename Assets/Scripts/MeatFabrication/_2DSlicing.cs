@@ -10,7 +10,6 @@ public class _2DSlicing : MonoBehaviour
     Vector2 mouseStart;
     void Update()
     {
-        //if(MeatFabManager.Instance.database.FabList[MeatFabManager.Instance.selection].FabNumOfCuts > 0)
         {
             if (Input.GetMouseButtonDown(0))
             {
