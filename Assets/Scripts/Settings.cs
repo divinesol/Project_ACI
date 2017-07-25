@@ -10,24 +10,27 @@ public class Settings : MonoBehaviour {
     public Slider BGMSliderVal, SFXSliderVal;
     private bool Fastforwarded;
     public GameObject UI_Buttons;
+    public GameObject Options;
+    public GameObject blackBackground;
 
     bool UI_IsShown;
     GameObject CurrentLevelPanel;
-
+    float gameSpeed;
 	// Use this for initialization
 	void Start () {
         Fastforwarded = false;
         DOTween.Init(false, false, LogBehaviour.Default);
         UI_IsShown = false;
+        gameSpeed = 1;
 	}
 
-    void FixedUpdate()
-    {
-        if (Fastforwarded)
-            Time.timeScale = 3;
-        else
-            Time.timeScale = 1;
-    }
+    //void FixedUpdate()
+    //{
+    //    if (Fastforwarded)
+    //        Time.timeScale = 3;
+    //    else
+    //        Time.timeScale = gameSpeed;
+    //}
 
     public void SettingsButt()
     {
@@ -47,7 +50,7 @@ public class Settings : MonoBehaviour {
 
     public void Resume()
     {
-        Time.timeScale = 1;
+        Time.timeScale = gameSpeed;
         Panel.gameObject.SetActive(false);
         BGMSlider.gameObject.SetActive(false);
         SFXSlider.gameObject.SetActive(false);
@@ -56,7 +59,7 @@ public class Settings : MonoBehaviour {
     }
     public void Back2Menu()
     {
-        Time.timeScale = 1;
+        Time.timeScale = gameSpeed;
         Panel.gameObject.SetActive(false);
         BGMSlider.gameObject.SetActive(false);
         SFXSlider.gameObject.SetActive(false);
@@ -95,7 +98,7 @@ public class Settings : MonoBehaviour {
         }
         else
         {
-            Time.timeScale = 1;
+            Time.timeScale = gameSpeed;
             LoadingScreenManager.LoadScene("Virt_Suppliers");
         }
     }
@@ -108,7 +111,7 @@ public class Settings : MonoBehaviour {
         }
         else
         {
-            Time.timeScale = 1;
+            Time.timeScale = gameSpeed;
             LoadingScreenManager.LoadScene("StorageTest");
         }
     }
@@ -121,7 +124,7 @@ public class Settings : MonoBehaviour {
         }
         else
         {
-            Time.timeScale = 1;
+            Time.timeScale = gameSpeed;
             LoadingScreenManager.LoadScene("Virt_Restuarant");
         }
     }
@@ -133,26 +136,26 @@ public class Settings : MonoBehaviour {
         }
         else
         {
-            Time.timeScale = 1;
+            Time.timeScale = gameSpeed;
             LoadingScreenManager.LoadScene("MainMenu");
         }
     }
 
     public void TestScene()
     {
-        Time.timeScale = 1;
+        Time.timeScale = gameSpeed;
         LoadingScreenManager.LoadScene("TestScene");
     }
 
     public void MeatFab()
     {
-        Time.timeScale = 1;
+        Time.timeScale = gameSpeed;
         LoadingScreenManager.LoadScene("Virt_MeatFabrication");
     }
 
     public void storageTest()
     {
-        Time.timeScale = 1;
+        Time.timeScale = gameSpeed;
         LoadingScreenManager.LoadScene("StorageTest");
     }
 
@@ -160,12 +163,12 @@ public class Settings : MonoBehaviour {
     {
         if (SceneManager.GetActiveScene().name == "AR_Main")
         {
-            Time.timeScale = 1;
+            Time.timeScale = gameSpeed;
             SceneManager.LoadScene("Virt_Restaurant");
         }
         else
         {
-            Time.timeScale = 1;
+            Time.timeScale = gameSpeed;
             LoadingScreenManager.LoadScene("AR_Main");
         }
     }
@@ -181,5 +184,23 @@ public class Settings : MonoBehaviour {
             UI_Buttons.transform.DOMoveY(850, 0.4f);
             UI_IsShown = false;
         }
+    }
+
+    public void showOptions()
+    {
+        Options.SetActive(true);
+        blackBackground.SetActive(true);
+        Time.timeScale = 0;
+    }
+
+    public void closeOptions()
+    {
+        Options.SetActive(false);
+        blackBackground.SetActive(false);
+        Time.timeScale = gameSpeed;
+    }
+    public void changeGameSpeed(float newGameSpeed)
+    {
+        gameSpeed = newGameSpeed;
     }
 }

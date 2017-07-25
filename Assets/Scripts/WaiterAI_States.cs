@@ -94,6 +94,7 @@ public class WaiterAI_States : MonoBehaviour
             //True if not going anywhere(No current process)
             if (PathComplete())
             {
+                
                 //True if we are ready to serve
                 if (ReadyToServe())
                     AddToProcess_Immediate(ServePriorityList[0]);  
