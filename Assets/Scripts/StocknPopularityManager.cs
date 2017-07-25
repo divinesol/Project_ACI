@@ -17,8 +17,13 @@ public class StocknPopularityManager : MonoBehaviour {
     // Use this for initialization
     void Start () {
 
+<<<<<<< HEAD
         //starRating = 0.0f;
         stockBar.fillAmount = 0.0f;
+=======
+        starRating = 0.0f;
+        //stockBar.fillAmount = 0.0f;
+>>>>>>> 003831efca26ac6a8d15538c941192a5dea5da66
         popularityBar.fillAmount = 0.0f;
         mainRatingBar.fillAmount = 0.0f;
     }
@@ -41,7 +46,7 @@ public class StocknPopularityManager : MonoBehaviour {
 
         popularityBar.fillAmount = popValue;
         mainRatingBar.fillAmount = starRating;
-        stockBar.fillAmount = stockValue;
+        //stockBar.fillAmount = stockValue;
 
         #region DebugInputs
 

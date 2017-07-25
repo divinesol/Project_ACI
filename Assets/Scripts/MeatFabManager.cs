@@ -8,7 +8,7 @@ public class MeatFabManager : MonoBehaviour {
 
     public static MeatFabManager Instance;
 
-    MEAT_CUT_TYPE meatCutTypes;
+    TYPE_OF_MEAT meatType;
     public GameObject sliceableObject;
     public GameObject popup;
     public bool startSuccess, endSuccess, cutFail;
@@ -21,14 +21,14 @@ public class MeatFabManager : MonoBehaviour {
     public GameObject correctResultTab, wrongResultTab;
     public TextMeshProUGUI correctResultText, wrongResultText;
 
-    public List<Vector2> ChickenParts;
+    
 
-    public enum MEAT_CUT_TYPE
+    public enum TYPE_OF_MEAT
     {
-        CHICKEN_MAIN,
-        CHICKEN_THIGH,
-        BEEF_TEST
-
+        DEFAULT,
+        CHICKEN,
+        FISH,
+        CRAB
     };
 
     public FabricationDatabase database;
@@ -56,17 +56,22 @@ public class MeatFabManager : MonoBehaviour {
         endSuccess = false;
         cutFail = false;
 
-        meatCutTypes = MEAT_CUT_TYPE.BEEF_TEST;
+        meatType = TYPE_OF_MEAT.DEFAULT;
 
-        ChickenParts.Add(new Vector2(0,0));
+        //ChickenParts.Add(new Vector2(0,0));
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    
+
+    // Update is called once per frame
+    void Update () {
 
         //UpdateSelection();
-
-        Debug.Log(database.FabList[selection].FabNumOfCuts);
+        if (selection != MeatSelectionUI.value)
+        {
+            selection = MeatSelectionUI.value;
+            CheckIfCutIsCorrect();
+        }   
 
         RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
         //Debug.Log("Target Position: " + hit.point);
@@ -76,11 +81,6 @@ public class MeatFabManager : MonoBehaviour {
             {
                 if (hit.collider != null)
                 {
-                    if(database.FabList[selection].FabName == "Chicken")
-                    {
-
-                    }
-
                     //x = -3.2 base
                     if (hit.point.x < startBaseValue_X + range && hit.point.x > startBaseValue_X - range)
                     {
@@ -147,49 +147,115 @@ public class MeatFabManager : MonoBehaviour {
 
     private void ValueChange(TMP_Dropdown g_dropdown)
     {
+        
     }
 
-    public void UpdateSelection()
+    public void SetTypeOfMeat(string type)
     {
-        switch(MeatSelectionUI.value)
+        MeatSelectionUI.options.Clear();
+        MeatSelectionUI.value = 0;
+
+        switch (type)
         {
-            case 1:
-                selection = 0;
+            case "chicken":
+                meatType = TYPE_OF_MEAT.CHICKEN;
+                ParentOfSlicedObjects.GetComponentInChildren<SpriteRenderer>().sprite = Resources.Load<Sprite>("MeatFabrication/Chicken/1_Full Chicken");
+
+                MeatSelectionUI.options.Add(new TMP_Dropdown.OptionData("Chicken Head"));
+
+                MeatSelectionUI.options.Add(new TMP_Dropdown.OptionData("Chicken Left Foot"));
+                MeatSelectionUI.options.Add(new TMP_Dropdown.OptionData("Chicken Right Foot"));
+
+                MeatSelectionUI.options.Add(new TMP_Dropdown.OptionData("Chicken Left Back"));
+                MeatSelectionUI.options.Add(new TMP_Dropdown.OptionData("Chicken Right Back"));
+
+                MeatSelectionUI.options.Add(new TMP_Dropdown.OptionData("Chicken Left Breast"));
+                MeatSelectionUI.options.Add(new TMP_Dropdown.OptionData("Chicken Right Breast"));
+
+                MeatSelectionUI.options.Add(new TMP_Dropdown.OptionData("Chicken Left Thigh"));
+                MeatSelectionUI.options.Add(new TMP_Dropdown.OptionData("Chicken Right Thigh"));
                 break;
-            case 2:
-                selection = 1;
+            case "fish":
+                meatType = TYPE_OF_MEAT.FISH;
+                ParentOfSlicedObjects.GetComponentInChildren<SpriteRenderer>().sprite = Resources.Load<Sprite>("MeatFabrication/Fish/1_Full Fish");
+
+                MeatSelectionUI.options.Add(new TMP_Dropdown.OptionData("Fish Left Side"));
+                MeatSelectionUI.options.Add(new TMP_Dropdown.OptionData("Fish Left Side"));
+                MeatSelectionUI.options.Add(new TMP_Dropdown.OptionData("Debone Fish"));
                 break;
-            case 3:
-                selection = 2;
+            case "crab":
+                meatType = TYPE_OF_MEAT.CRAB;
+                ParentOfSlicedObjects.GetComponentInChildren<SpriteRenderer>().sprite = Resources.Load<Sprite>("MeatFabrication/Crab/1_Full Crab");
+
+                MeatSelectionUI.options.Add(new TMP_Dropdown.OptionData("Kill Crab"));
+                MeatSelectionUI.options.Add(new TMP_Dropdown.OptionData("Remove shell"));
+                MeatSelectionUI.options.Add(new TMP_Dropdown.OptionData("Cut Crab into 2"));
+                MeatSelectionUI.options.Add(new TMP_Dropdown.OptionData("Cut Left Pincer"));
+                MeatSelectionUI.options.Add(new TMP_Dropdown.OptionData("Cut Right Pincer"));
+                MeatSelectionUI.options.Add(new TMP_Dropdown.OptionData("Remove Gills"));
                 break;
-            case 4:
-                selection = 3;
-                break;
+
         }
-        CheckIfCutIsCorrect();
+
+       // CheckIfCutIsCorrect();
     }
+
 
     public void CheckIfCutIsCorrect()
     {
-        switch (database.FabList[selection].FabName)
+        if (meatType == TYPE_OF_MEAT.CHICKEN)
         {
-            //beef
-            case "Beef":
-                ParentOfSlicedObjects.GetComponentInChildren<SpriteRenderer>().sprite = Resources.Load<Sprite>("MeatFabrication/MEAT");
-                break;
-            //chicken
-            case "Chicken":
-                ParentOfSlicedObjects.GetComponentInChildren<SpriteRenderer>().sprite = Resources.Load<Sprite>("MeatFabrication/Chicken/1_Full Chicken Edited");
-                break;
-            //fish
-            case "Fish":
-                ParentOfSlicedObjects.GetComponentInChildren<SpriteRenderer>().sprite = Resources.Load<Sprite>("MeatFabrication/Fish/1_Full Fish");
-                break;
-            //crab
-            case "Crab":
-                ParentOfSlicedObjects.GetComponentInChildren<SpriteRenderer>().sprite = Resources.Load<Sprite>("MeatFabrication/Crab/1_Full Crab");
-                break;
+            switch (selection)
+            {
+                //head
+                case 0:
+                    ParentOfSlicedObjects.GetComponentInChildren<SpriteRenderer>().sprite = Resources.Load<Sprite>("MeatFabrication/Chicken/1_Full Chicken");
+                    break;
+                //left foot
+                case 1:
+                    ParentOfSlicedObjects.GetComponentInChildren<SpriteRenderer>().sprite = Resources.Load<Sprite>("MeatFabrication/Chicken/2_Headless Chicken");
+                    break;
+                //right foot
+                case 2:
+                    ParentOfSlicedObjects.GetComponentInChildren<SpriteRenderer>().sprite = Resources.Load<Sprite>("MeatFabrication/Chicken/2_Headless Chicken");
+                    break;
+                //left back
+                case 3:
+                    ParentOfSlicedObjects.GetComponentInChildren<SpriteRenderer>().sprite = Resources.Load<Sprite>("MeatFabrication/Chicken/3_Legless Chicken");
+                    break;
+                //right back
+                case 4:
+                    ParentOfSlicedObjects.GetComponentInChildren<SpriteRenderer>().sprite = Resources.Load<Sprite>("MeatFabrication/Chicken/4_Back Cut 1 Chicken");
+                    break;
+                //left breast
+                case 5:
+                    ParentOfSlicedObjects.GetComponentInChildren<SpriteRenderer>().sprite = Resources.Load<Sprite>("MeatFabrication/Chicken/6_Chicken Chest");
+                    break;
+                //right break
+                case 6:
+                    ParentOfSlicedObjects.GetComponentInChildren<SpriteRenderer>().sprite = Resources.Load<Sprite>("MeatFabrication/Chicken/7_Chicken Chest Cut 1");
+                    break;
+            }
         }
+        //switch (database.FabList[selection].FabName)
+        //{
+        //    //beef
+        //    case "Beef":
+        //        ParentOfSlicedObjects.GetComponentInChildren<SpriteRenderer>().sprite = Resources.Load<Sprite>("MeatFabrication/MEAT");
+        //        break;
+        //    //chicken
+        //    case "Chicken":
+        //        ParentOfSlicedObjects.GetComponentInChildren<SpriteRenderer>().sprite = Resources.Load<Sprite>("MeatFabrication/Chicken/1_Full Chicken Edited");
+        //        break;
+        //    //fish
+        //    case "Fish":
+        //        ParentOfSlicedObjects.GetComponentInChildren<SpriteRenderer>().sprite = Resources.Load<Sprite>("MeatFabrication/Fish/1_Full Fish");
+        //        break;
+        //    //crab
+        //    case "Crab":
+        //        ParentOfSlicedObjects.GetComponentInChildren<SpriteRenderer>().sprite = Resources.Load<Sprite>("MeatFabrication/Crab/1_Full Crab");
+        //        break;
+        //}
 
         //startBaseValue_X = database.FabList[selection].startCutPointX;
         //startBaseValue_Y = database.FabList[selection].startCutPointY;
@@ -197,11 +263,11 @@ public class MeatFabManager : MonoBehaviour {
         //endBaseValue_Y = database.FabList[selection].endCutPointY;
         //numOfCuts = database.FabList[selection].FabNumOfCuts;
 
-        //To reset collider whenever sprite is changed
+        //reset collider on sprite change
         Destroy(ParentOfSlicedObjects.GetComponentInChildren<PolygonCollider2D>());
-        //sliceableObject.AddComponent<PolygonCollider2D>();
         ParentOfSlicedObjects.GetChild(0).gameObject.AddComponent<PolygonCollider2D>();
     }
+
 
     public void ResetSliceableObjects()
     {
