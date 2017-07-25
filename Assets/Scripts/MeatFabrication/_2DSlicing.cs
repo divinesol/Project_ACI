@@ -10,7 +10,7 @@ public class _2DSlicing : MonoBehaviour
     Vector2 mouseStart;
     void Update()
     {
-        if(MeatFabManager.Instance.numOfCuts > 0)
+        if(MeatFabManager.Instance.database.FabList[MeatFabManager.Instance.selection].FabNumOfCuts > 0)
         {
             if (Input.GetMouseButtonDown(0))
             {
@@ -21,11 +21,15 @@ public class _2DSlicing : MonoBehaviour
 
             if (Input.GetMouseButtonUp(0))
             {
-                if (MeatFabManager.Instance.endSuccess == true && MeatFabManager.Instance.startSuccess == true)
+                if (MeatFabManager.Instance.startSuccess == true && MeatFabManager.Instance.endSuccess == true)
                 {
                     LinecastCut(mouseStart, mouseEnd, layerMask.value);
                     MeatFabManager.Instance.startSuccess = false;
                     MeatFabManager.Instance.endSuccess = false;
+                }
+                else
+                {
+                    Debug.Log("FAILED");
                 }
             }
         }

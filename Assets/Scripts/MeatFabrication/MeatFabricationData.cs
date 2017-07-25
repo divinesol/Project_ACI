@@ -22,3 +22,18 @@ public class MeatFabricationData {
 
     }
 }
+
+public class ChickenCuts
+{
+    public string ChickenName;
+    public float startCutPointX, endCutPointX, startCutPointY, endCutPointY;
+
+    public ChickenCuts(string name, float startPosX, float endPosX, float startPosY, float endPosY)
+    {
+        ChickenName = name;
+        startCutPointX = startPosX;
+        endCutPointX = endPosX;
+        startCutPointY = startPosY;
+        endCutPointY = endPosY;
+    }
+}
