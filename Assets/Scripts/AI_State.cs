@@ -100,25 +100,44 @@ public class AI_State : MonoBehaviour {
 
         //SittingPosition OFFSET
         //Corner Table
-        if (AvailableChair.position.z < 1f && AvailableChair.position.x > 2.1f)
-            transform.position = new Vector3(AvailableChair.position.x - 0.15f, transform.position.y, AvailableChair.position.z);
-        else if (AvailableChair.position.z < 1f && AvailableChair.position.x > 1.3f && AvailableChair.position.x < 2.05f)
-            transform.position = new Vector3(AvailableChair.position.x + 0.15f, transform.position.y, AvailableChair.position.z);
-        //Bottom Right
-        else if (AvailableChair.position.z < 1f && AvailableChair.position.x > 1f && AvailableChair.position.x < 1.3f)
-            transform.position = new Vector3(AvailableChair.position.x - 0.15f, transform.position.y, AvailableChair.position.z);
-        else if (AvailableChair.position.z < 1f && AvailableChair.position.x > 0.3f && AvailableChair.position.x < 1f)
-            transform.position = new Vector3(AvailableChair.position.x + 0.15f, transform.position.y, AvailableChair.position.z);
-        //Bottom Left
-        else if (AvailableChair.position.z < 1f && AvailableChair.position.x > -0.8f && AvailableChair.position.x < 0f)
-            transform.position = new Vector3(AvailableChair.position.x - 0.15f, transform.position.y, AvailableChair.position.z);
-        else if (AvailableChair.position.z < 1f && AvailableChair.position.x < -0.8f)
-            transform.position = new Vector3(AvailableChair.position.x + 0.15f, transform.position.y, AvailableChair.position.z);
-        //Top Tables
-        else if (AvailableChair.position.z > 2f && AvailableChair.position.z < 2.3f)
-            transform.position = new Vector3(AvailableChair.position.x, transform.position.y, AvailableChair.position.z+0.15f);
-        else if (AvailableChair.position.z > 2.3f)
-            transform.position = new Vector3(AvailableChair.position.x, transform.position.y, AvailableChair.position.z - 0.15f);
+
+        if (AvailableChair.tag == "LeftChairGroup") // Chairs belonging to the tables on the left side of the screen
+        {
+            if (AvailableChair.position.z < -1.4f && AvailableChair.position.x < -3.9f)
+            {
+                transform.position = new Vector3(AvailableChair.position.x -0.1f, transform.position.y, AvailableChair.position.z);
+                if (AvailableChair.rotation.y > 0)
+                {
+                    transform.position = new Vector3(AvailableChair.position.x + 0.04f, transform.position.y, AvailableChair.position.z);
+                }
+            }
+        }
+        else if (AvailableChair.tag == "RightChairGroup") // Chairs belonging to the tables on the left side of the screen
+        {
+            //transform.position = new Vector3(AvailableChair.position.x, transform.position.y, AvailableChair.position.z - 0.1f);
+            transform.position = new Vector3(AvailableChair.position.x, transform.position.y, AvailableChair.position.z + 0.05f);
+
+            if (AvailableChair.localPosition.x < -3.9f)
+            {
+                transform.position = new Vector3(AvailableChair.position.x, transform.position.y, AvailableChair.position.z - 0.1f);
+            }
+            
+        }
+        ////Bottom Right
+        //else if (AvailableChair.position.z < 1f && AvailableChair.position.x > 1f && AvailableChair.position.x < 1.3f)
+        //    transform.position = new Vector3(AvailableChair.position.x - 0.15f, transform.position.y, AvailableChair.position.z);
+        //else if (AvailableChair.position.z < 1f && AvailableChair.position.x > 0.3f && AvailableChair.position.x < 1f)
+        //    transform.position = new Vector3(AvailableChair.position.x + 0.15f, transform.position.y, AvailableChair.position.z);
+        ////Bottom Left
+        //else if (AvailableChair.position.z < 1f && AvailableChair.position.x > -0.8f && AvailableChair.position.x < 0f)
+        //    transform.position = new Vector3(AvailableChair.position.x - 0.15f, transform.position.y, AvailableChair.position.z);
+        //else if (AvailableChair.position.z < 1f && AvailableChair.position.x < -0.8f)
+        //    transform.position = new Vector3(AvailableChair.position.x + 0.15f, transform.position.y, AvailableChair.position.z);
+        ////Top Tables
+        //else if (AvailableChair.position.z > 2f && AvailableChair.position.z < 2.3f)
+        //    transform.position = new Vector3(AvailableChair.position.x, transform.position.y, AvailableChair.position.z + 0.15f);
+        //else if (AvailableChair.position.z > 2.3f)
+        //    transform.position = new Vector3(AvailableChair.position.x, transform.position.y, AvailableChair.position.z - 0.15f);
     }
 
     public bool PathComplete()
@@ -127,7 +146,7 @@ public class AI_State : MonoBehaviour {
         //Walk.SetBool("CustomerWalk", false);
         if (!AINavMesh.pathPending)
         {
-            if (AINavMesh.remainingDistance <= AINavMesh.stoppingDistance+0.4f)
+            if (AINavMesh.remainingDistance <= AINavMesh.stoppingDistance)
             {
                 if (!AINavMesh.hasPath || AINavMesh.velocity.sqrMagnitude == 0f)
                 {
