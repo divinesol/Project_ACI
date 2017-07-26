@@ -5,6 +5,7 @@ using System.Collections.Generic;
 public class FabricationDatabase : MonoBehaviour{
 
     public List<MeatFabricationData> FabList = new List<MeatFabricationData>();
+    public List<ChickenCuts> ChickenParts = new List<ChickenCuts>();
 
     // Use this for initialization
     void Start() { 
@@ -13,6 +14,8 @@ public class FabricationDatabase : MonoBehaviour{
         FabList.Add(new MeatFabricationData("Chicken", 2.9f, 3.3f, 2.5f, 1.4f, 2));
         FabList.Add(new MeatFabricationData("Fish", 5.0f, 5.0f, 5.0f, 5.0f, 2));
         FabList.Add(new MeatFabricationData("Crab", 5.0f, 5.0f, 5.0f, 5.0f, 2));
+
+        ChickenParts.Add(new ChickenCuts("Chicken Head", 2.9f, 3.3f, 2.5f, 1.4f));
 
     }
 

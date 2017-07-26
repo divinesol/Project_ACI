@@ -61,6 +61,7 @@ public class AI_Group : MonoBehaviour {
         Debug.Log("CUSTOMERS LEFT");
         foreach (Transform child in transform)
         {
+            child.GetComponent<AI_State>().ChanceToGetPopPoints();
             child.GetComponent<AI_State>().Walk.SetBool("Sit", false);
             child.GetComponent<AI_State>().AINavMesh.enabled = true;
             if (child.GetComponent<AI_State>().Walk.GetCurrentAnimatorStateInfo(0).length > child.GetComponent<AI_State>().Walk.GetCurrentAnimatorStateInfo(0).normalizedTime)
@@ -81,7 +82,7 @@ public class AI_Group : MonoBehaviour {
 
         RestaurantSpawner.Instance.AI_Count--;
         GroupTable.GetComponent<Table>().UnoccupyTable();
-        Grim.GetComponent<GrimDirtManager>().enabled = true;
+       // Grim.GetComponent<GrimDirtManager>().enabled = true;
     }
 
 }

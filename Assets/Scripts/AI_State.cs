@@ -29,6 +29,7 @@ public class AI_State : MonoBehaviour {
         if (StocknPopularityManager.starRating >= 1)
         {
             WIN.SetActive(true);
+            Time.timeScale = 0; // Pauses the game
         }
 
         //if (Input.GetKey(KeyCode.D))
@@ -44,25 +45,26 @@ public class AI_State : MonoBehaviour {
         {
             if (RNGChance == 1)
             {
-                AddPopPoints();
+                //AddPopPoints();
+                StockManager.AddPopularityPoints(0.3f);
             }
-            RNGChance = 0;
         }
         else if (StocknPopularityManager.starRating > 0.4f)
         {
-            AddPopPoints();
+            //AddPopPoints();
+            StockManager.AddPopularityPoints(0.3f);
         }
     }
 
     public void AddPopPoints()
     {
-        Debug.Log("ADDED!!!!");
-        Debug.Log("SetPopPoints(BEFORE) = " + SetPopPoints);
-        Debug.Log(StockManager.popularityBar.fillAmount + "HEEE");
-        PopPoints = SetPopPoints * (StockManager.popularityBar.fillAmount / 1f);
-        Debug.Log("SetPopPoints = " + SetPopPoints);
-        Debug.Log("PopPoints = " + PopPoints);
-        StockManager.AddPopularityPoints(PopPoints);
+        //Debug.Log("ADDED!!!!");
+        //Debug.Log("SetPopPoints(BEFORE) = " + SetPopPoints);
+        //Debug.Log(StockManager.popularityBar.fillAmount + "HEEE");
+        //PopPoints = SetPopPoints * (StockManager.popularityBar.fillAmount / 1f);
+        //Debug.Log("SetPopPoints = " + SetPopPoints);
+        //Debug.Log("PopPoints = " + PopPoints);
+        //StockManager.AddPopularityPoints(PopPoints);
     }
 
     public IEnumerator WalkToTable(Transform TargetTable)
