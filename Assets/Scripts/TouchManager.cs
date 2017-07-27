@@ -103,6 +103,8 @@ public class TouchManager : MonoBehaviour
     private int decidefoodnumber;
 
     public GameObject cameraManager;
+    public Text selectedFoodName;
+    public Image selectedFoodQuality;
 
     // preventing raycast from going through the GUI
     private int fingerID = -1;
@@ -635,6 +637,8 @@ public class TouchManager : MonoBehaviour
                 selectedFood.transform.position = FinalPurchased_Target.transform.position;
                 moveforward = false;
                 UI_SelectConfirmation.SetActive(true);
+                selectedFoodName.text = selectedFood.GetComponent<StockInfo>().food.foodName;
+                selectedFoodQuality.fillAmount = (float)StockManager.StockInstance.CurrentStock.transform.GetComponent<StockInfo>().food.foodRarity * 0.2f;
             }
         }
     }

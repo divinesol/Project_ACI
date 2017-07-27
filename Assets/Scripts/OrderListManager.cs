@@ -97,10 +97,8 @@ public class OrderListManager : MonoBehaviour
             messageList.Add(orderClone);
             orderClone.transform.SetParent(orderParentPanel);
             orderClone.transform.SetSiblingIndex(orderParentPanel.childCount + 2);
-            Debug.Log("wtf");
             orderClone.GetComponentInChildren<Order>().food = touchManager.GetComponent<TouchManager>().selectedFood.GetComponent<StockInfo>().food;
             orderClone.GetComponentInChildren<Text>().text = orderClone.GetComponentInChildren<Order>().food.foodName;/*touchManager.GetComponent<TouchManager>().selectedFood.GetComponent<StockInfo>().food.foodName;*/
-            Debug.Log("kek");
             if (Random.Range(0, 11) < 5)
             {
                 Debug.Log("sent correct items");
