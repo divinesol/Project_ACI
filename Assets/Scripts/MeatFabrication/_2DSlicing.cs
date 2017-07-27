@@ -28,7 +28,7 @@ public class _2DSlicing : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log("FAILED");
+                    //Debug.Log("FAILED");
                 }
             }
         }
