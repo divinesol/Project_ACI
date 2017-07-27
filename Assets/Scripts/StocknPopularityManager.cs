@@ -39,7 +39,7 @@ public class StocknPopularityManager : MonoBehaviour {
 
         popularityBar.fillAmount = popValue;
         mainRatingBar.fillAmount = starRating;
-        //stockBar.fillAmount = stockValue;
+        stockBar.fillAmount = stockValue;
 
         #region DebugInputs
 
