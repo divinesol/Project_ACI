@@ -28,12 +28,17 @@ public class ChickenCuts
     public string ChickenName;
     public float startCutPointX, endCutPointX, startCutPointY, endCutPointY;
 
-    public ChickenCuts(string name, float startPosX, float endPosX, float startPosY, float endPosY)
+    public ChickenCuts(string name, float startPosX, float startPosY, float endPosX, float endPosY)
     {
         ChickenName = name;
         startCutPointX = startPosX;
-        endCutPointX = endPosX;
         startCutPointY = startPosY;
+        endCutPointX = endPosX;
         endCutPointY = endPosY;
+    }
+
+    public ChickenCuts()
+    {
+
     }
 }
