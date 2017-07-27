@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
 
 public class TouchManager : MonoBehaviour
 {
@@ -103,6 +104,14 @@ public class TouchManager : MonoBehaviour
 
     public GameObject cameraManager;
 
+    // preventing raycast from going through the GUI
+    private int fingerID = -1;
+    private void Awake()
+    {
+#if !UNITY_EDITOR
+        fingerID = 0;
+#endif
+    }
     // Use this for initialization
     void Start()
     {
@@ -138,9 +147,13 @@ public class TouchManager : MonoBehaviour
         //        CircleStorage.SetActive(false);
         //}
 
+        if (EventSystem.current.IsPointerOverGameObject(fingerID))    // is the touch on the GUI
+        {
+            return;
+        }
 
         //Check on touch
-        if (Input.GetMouseButton(0))
+        if (Input.GetMouseButtonUp(0))
         {
             Vector3 mousePosFar = new Vector3(Input.mousePosition.x,
                                                Input.mousePosition.y,
@@ -170,7 +183,7 @@ public class TouchManager : MonoBehaviour
                 switch (hit.collider.gameObject.tag)
                 {
 
-                    #region RaycastHitTags
+#region RaycastHitTags
 
                     case ("example"):
                         {
@@ -321,27 +334,27 @@ public class TouchManager : MonoBehaviour
 
                         break;
 
-                        #endregion
+#endregion
 
                 }
             }
         }
 
 
-        #region Animation for model display when selected
+#region Animation for model display when selected
 
         //SelectFoodAnim
         RunForwardSelectionAnimation();
 
         RunReturnSelectionAnimation();
 
-        #endregion
+#endregion
 
 
     }
 
 
-    #region OpenCloseUIStuff
+#region OpenCloseUIStuff
 
     public void OpenMainUI()
     {
@@ -449,7 +462,7 @@ public class TouchManager : MonoBehaviour
     }
 
 
-    #endregion
+#endregion
 
 
     //Check if Purchase amount has reached orderlist Limit
@@ -596,7 +609,7 @@ public class TouchManager : MonoBehaviour
 
 
     //Animation to control food movement during selection
-    #region AnimationDuringSelection
+#region AnimationDuringSelection
 
     /* Coded Animation of 3D Selection models movement to Center of Screen.
      
@@ -684,7 +697,7 @@ public class TouchManager : MonoBehaviour
         moveback = true;
     }
 
-    #endregion
+#endregion
 
 
 }

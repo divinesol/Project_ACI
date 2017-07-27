@@ -10,6 +10,7 @@ public class AI_State : MonoBehaviour {
     public GameObject Ai_Path_Ends;
     public StocknPopularityManager StockManager;
     public GameObject WIN;
+    public GameObject blackBackground;
     public float SetPopPoints = 0.1f;
     float PopPoints = 0f;
     int RNGChance = 0;
@@ -29,6 +30,7 @@ public class AI_State : MonoBehaviour {
         if (StocknPopularityManager.starRating >= 1)
         {
             WIN.SetActive(true);
+            blackBackground.SetActive(true);
             Time.timeScale = 0; // Pauses the game
         }
 

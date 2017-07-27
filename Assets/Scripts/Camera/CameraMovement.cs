@@ -35,7 +35,7 @@ public class CameraMovement : MonoBehaviour {
 
     SHOP_TYPE typeOfShop;
 
-    public GameObject LeftArrow, RightArrow, OverviewButton, MenuUIButtons;
+    public GameObject /*LeftArrow, RightArrow,*/ OverviewButton, MenuUIButtons;
 
     //----------------------------------------------------------------------------
     //Fade Transition
@@ -125,8 +125,8 @@ public class CameraMovement : MonoBehaviour {
     void Start () {
         typeOfShop = SHOP_TYPE.S_MAIN;
         OverviewButton.SetActive(false);
-        LeftArrow.SetActive(false);
-        RightArrow.SetActive(false);
+        //LeftArrow.SetActive(false);
+        //RightArrow.SetActive(false);
         MenuUIButtons.SetActive(true);
 
         //tempOverview.SetActive(false);
@@ -232,14 +232,14 @@ public class CameraMovement : MonoBehaviour {
                 {
                     Debug.Log("MOVING TO MAIN POS");
                     StartCoroutine(LerpToPosition(0.5f, MeatMainCam.transform));
-                    LeftArrow.GetComponent<Button>().interactable = true;
-                    RightArrow  .GetComponent<Button>().interactable = true;
+                   // LeftArrow.GetComponent<Button>().interactable = true;
+                    //RightArrow  .GetComponent<Button>().interactable = true;
                 }
                 if (MainCam.transform.position == MeatMainCam.transform.position)
                 {
                     Debug.Log("MOVING TO LEFT POS");
-                    StartCoroutine(LerpToPosition(0.5f, MeatLeftCam.transform));
-                    LeftArrow.GetComponent<Button>().interactable = false;
+                   // StartCoroutine(LerpToPosition(0.5f, MeatLeftCam.transform));
+                   // LeftArrow.GetComponent<Button>().interactable = false;
                 }
                 break;
             case SHOP_TYPE.S_CHEESE:
@@ -267,14 +267,14 @@ public class CameraMovement : MonoBehaviour {
                 {
                     Debug.Log("MOVING TO MAIN POS");
                     StartCoroutine(LerpToPosition(0.5f, MeatMainCam.transform));
-                    RightArrow.GetComponent<Button>().interactable = true;
-                    LeftArrow.GetComponent<Button>().interactable = true;
+                   // RightArrow.GetComponent<Button>().interactable = true;
+                    //LeftArrow.GetComponent<Button>().interactable = true;
                 }
                 if (MainCam.transform.position == MeatMainCam.transform.position)
                 {
                     Debug.Log("MOVING TO RIGHT POS");
-                    StartCoroutine(LerpToPosition(0.5f, MeatRightCam.transform));
-                    RightArrow.GetComponent<Button>().interactable = false;
+                    //StartCoroutine(LerpToPosition(0.5f, MeatRightCam.transform));
+                    //RightArrow.GetComponent<Button>().interactable = false;
                 }
                 break;
             case SHOP_TYPE.S_CHEESE:
@@ -295,8 +295,8 @@ public class CameraMovement : MonoBehaviour {
 
         StartCoroutine(MoveToPosition(DefaultCamera.transform));
         OverviewButton.SetActive(false);
-        LeftArrow.SetActive(false);
-        RightArrow.SetActive(false);
+       // LeftArrow.SetActive(false);
+       // RightArrow.SetActive(false);
         MenuUIButtons.SetActive(true);
     }
     

@@ -16,10 +16,7 @@ public class StocknPopularityManager : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        //starRating = 0.0f;
         stockBar.fillAmount = 0.0f;
-
-
         popularityBar.fillAmount = 0.0f;
         mainRatingBar.fillAmount = 0.0f;
     }
