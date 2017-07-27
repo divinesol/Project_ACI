@@ -13,16 +13,37 @@ public class Settings : MonoBehaviour {
     public GameObject Options;
     public GameObject blackBackground;
 
+    public Button setGamespeedA; // Game speed 1x
+    public Button setGamespeedB; // Game speed 1.5x
+    public Button setGamespeedC; // Game speed 2x
     bool UI_IsShown;
     GameObject CurrentLevelPanel;
-    float gameSpeed;
+    float gameSpeed=1;
 	// Use this for initialization
 	void Start () {
         Fastforwarded = false;
         DOTween.Init(false, false, LogBehaviour.Default);
         UI_IsShown = false;
-        gameSpeed = 1;
-	}
+
+        if (gameSpeed == 1)
+        {
+            SetTransparency255(setGamespeedA.GetComponent<Image>()); 
+            SetTransparency0(setGamespeedB.GetComponent<Image>());
+            SetTransparency0(setGamespeedC.GetComponent<Image>());
+        }
+        else if (gameSpeed == 1.5f)
+        {
+            SetTransparency0(setGamespeedA.GetComponent<Image>());
+            SetTransparency255(setGamespeedB.GetComponent<Image>());
+            SetTransparency0(setGamespeedC.GetComponent<Image>());
+        }
+        else if (gameSpeed == 2)
+        {
+            SetTransparency0(setGamespeedA.GetComponent<Image>());
+            SetTransparency0(setGamespeedB.GetComponent<Image>());
+            SetTransparency255(setGamespeedC.GetComponent<Image>());
+        }
+    }
 
     //void FixedUpdate()
     //{
@@ -176,7 +197,7 @@ public class Settings : MonoBehaviour {
     {
         if (!UI_IsShown)
         {
-            UI_Buttons.transform.DOMoveY(280, 0.4f);
+            UI_Buttons.transform.DOMoveY(show, 0.4f);
             UI_IsShown = true;
         }
         else
@@ -202,5 +223,44 @@ public class Settings : MonoBehaviour {
     public void changeGameSpeed(float newGameSpeed)
     {
         gameSpeed = newGameSpeed;
+
+        if (newGameSpeed == 1)
+        {
+            SetTransparency255(setGamespeedA.GetComponent<Image>());
+            SetTransparency0(setGamespeedB.GetComponent<Image>());
+            SetTransparency0(setGamespeedC.GetComponent<Image>());
+        }
+        else if (newGameSpeed == 1.5f)
+        {
+            SetTransparency0(setGamespeedA.GetComponent<Image>());
+            SetTransparency255(setGamespeedB.GetComponent<Image>());
+            SetTransparency0(setGamespeedC.GetComponent<Image>());
+        }
+        else if (newGameSpeed == 2)
+        {
+            SetTransparency0(setGamespeedA.GetComponent<Image>());
+            SetTransparency0(setGamespeedB.GetComponent<Image>());
+            SetTransparency255(setGamespeedC.GetComponent<Image>());
+        }
+    }
+
+    void SetTransparency255(Image p_image)
+    {
+        if (p_image != null)
+        {
+            Color __alpha = p_image.color;
+            __alpha.a = 255;
+            p_image.color = __alpha;
+        }
+    }
+
+    void SetTransparency0(Image p_image)
+    {
+        if (p_image != null)
+        {
+            Color __alpha = p_image.color;
+            __alpha.a = 0;
+            p_image.color = __alpha;
+        }
     }
 }
