@@ -21,7 +21,7 @@ public class MeatFabManager : MonoBehaviour {
 
     public GameObject correctResultTab, wrongResultTab;
     public TextMeshProUGUI correctResultText, wrongResultText;
- 
+    public Image correctResultImage;
 
     public enum TYPE_OF_MEAT
     {
@@ -127,7 +127,7 @@ public class MeatFabManager : MonoBehaviour {
 
         if(startSuccess && endSuccess)
         {
-            correctResultTab.SetActive(true);
+            ShowCorrectResults();
         }
 
         else if(cutFail)
@@ -318,4 +318,49 @@ public class MeatFabManager : MonoBehaviour {
         CheckIfCutIsCorrect();
     }
   
+    public void ShowCorrectResults()
+    {
+        correctResultTab.SetActive(true);
+        if(meatType == TYPE_OF_MEAT.CHICKEN)
+        {
+            switch (selection)
+            {
+                //finish cutting head
+                case 0:
+                    correctResultImage.sprite = Resources.Load<Sprite>("MeatFabrication/Chicken/2_Headless Chicken");
+                    correctResultText.text = "You have successfully fabricated the chicken by removing the head";
+                    break;
+                //finish cutting both foot
+                case 1:
+                    correctResultImage.sprite = Resources.Load<Sprite>("MeatFabrication/Chicken/3_Legless Chicken");
+                    correctResultText.text = "You have successfully fabricated the chicken by removing both of the feet";
+                    break;
+                //finish cutting left back
+                case 2:
+                    correctResultImage.sprite = Resources.Load<Sprite>("MeatFabrication/Chicken/4_Back Cut 1 Chicken");
+                    correctResultText.text = "You have successfully fabricated the chicken by cutting the left side of the back";
+                    break;
+                //finish cutting right back
+                case 3:
+                    correctResultImage.sprite = Resources.Load<Sprite>("MeatFabrication/Chicken/5_Back Cut 2 Chicken");
+                    correctResultText.text = "You have successfully fabricated the chicken by cutting the right side of the back";
+                    break;
+                //finish cutting left breast
+                case 4:
+                    correctResultImage.sprite = Resources.Load<Sprite>("MeatFabrication/Chicken/7_Chicken Chest Cut 1");
+                    correctResultText.text = "You have successfully fabricated the chicken by cutting the left side of the breast";
+                    break;
+                //finish cutting right breast
+                case 5:
+                    correctResultImage.sprite = Resources.Load<Sprite>("MeatFabrication/Chicken/8_Chicken Chest Cut 2");
+                    correctResultText.text = "You have successfully fabricated the chicken by cutting the right side of the breast";
+                    break;
+                case 6:
+                    correctResultImage.sprite = Resources.Load<Sprite>("MeatFabrication/Chicken/9_Half Chicken");
+                    break;
+            }
+        }
+        
+    }
+
 }
