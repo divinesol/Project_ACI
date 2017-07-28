@@ -11,7 +11,9 @@ public class MeatFabManager : MonoBehaviour {
     TYPE_OF_MEAT meatType;
 
     public GameObject popup;
-    public bool startSuccess, endSuccess, cutFail;
+    public bool startSuccess, endSuccess;
+    private bool cutFail;
+    public bool startFail, endFail;
     public float startBaseValue_X, startBaseValue_Y, endBaseValue_X, endBaseValue_Y, range;
 
     public TMP_Dropdown MeatSelectionUI;
@@ -33,6 +35,9 @@ public class MeatFabManager : MonoBehaviour {
 
     public FabricationDatabase database;
     public int selection = 0;
+
+    public bool UIActive, touchDown;
+
     void Awake()
     {
         if (Instance == null)
@@ -51,7 +56,11 @@ public class MeatFabManager : MonoBehaviour {
 
         range = 0.5f;
         selection = 0;
-
+        UIActive = false;
+        touchDown = false;
+        startFail = false;
+        endFail = false;
+        
         startBaseValue_X = 0;
         endBaseValue_X = 0;
         startBaseValue_Y = 0;
@@ -72,6 +81,8 @@ public class MeatFabManager : MonoBehaviour {
 
         //slicedObject = ParentOfSlicedObjects.GetChild(0).gameObject;
 
+        endFail = false;
+
         //UpdateSelection();
         if (selection != MeatSelectionUI.value)
         {
@@ -79,63 +90,89 @@ public class MeatFabManager : MonoBehaviour {
             CheckIfCutIsCorrect();
         }   
 
+        if(correctResultTab.activeSelf || wrongResultTab.activeSelf)
+        {
+            UIActive = true;
+        }
+        else
+        {
+            UIActive = false;
+        }
+
         RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
         //Debug.Log("Target Position: " + hit.point);
+        //mouse down
         if (Input.GetMouseButtonDown(0))
         {
-            if (hit.collider != null)
+            touchDown = true;
+            //hits collider + not in UI
+            if (hit.collider != null && !UIActive)
             {
-                Debug.Log("Target Position: " + hit.point);
+                //Debug.Log("Target Position: " + hit.point);
+                //if hit start x range
                 if (hit.point.x < startBaseValue_X + range && hit.point.x > startBaseValue_X - range)
                 {
+                    //if hit start y range
                     if (hit.point.y < startBaseValue_Y + range && hit.point.y > startBaseValue_Y - range)
                     {
-                        Debug.Log("startX: "+hit.point.x+"endX: "+hit.point.y);
-                        Debug.Log("Start Success!");
+                        //Debug.Log("startX: "+hit.point.x+"endX: "+hit.point.y);
                         startSuccess = true;
+                        startFail = false;
                     }
                     else
                     {
+                        startFail = true;
                         startSuccess = false;
                     }
+                }
+                //if doesnt hit
+                else
+                {
+                    startFail = true;
+                    startSuccess = false;
                 }
             }
         }
 
-        if (Input.GetMouseButtonUp(0))
+        if (Input.GetMouseButtonUp(0) && touchDown)
         {
-            if (hit.collider != null)
+            if (hit.collider != null && !UIActive)
             {
                 if (hit.point.x < endBaseValue_X + range && hit.point.x > endBaseValue_X - range)
                 {
-                    Debug.Log("Target Position: " + hit.point);
+                    //Debug.Log("Target Position: " + hit.point);
                     if (hit.point.y < endBaseValue_Y + range && hit.point.y > endBaseValue_Y - range)
                     {
-                        Debug.Log("startY: " + hit.point.x + "endY: " + hit.point.y);
-                        Debug.Log("End Success!");
+                        //Debug.Log("startY: " + hit.point.x + "endY: " + hit.point.y);
                         endSuccess = true;
-
+                        endFail = false;
                     }
                     else
                     {
+                        endFail = true;
                         endSuccess = false;
-                        cutFail = true;
                     }
                 }
+                else
+                {
+                    endFail = true;
+                    endSuccess = false;
+                }
             }
+            touchDown = false;
         }
 
         if(startSuccess && endSuccess)
         {
             ShowCorrectResults();
         }
-
-        else if(cutFail)
+        
+        if((startFail && endFail) || (startSuccess && endFail) || (startFail && endSuccess)) 
         {
-            Debug.Log("CUT FAIL");
             wrongResultTab.SetActive(true);
-            cutFail = false;
         }
+
+
     }
 
     private void ValueChange(TMP_Dropdown g_dropdown)
@@ -153,15 +190,11 @@ public class MeatFabManager : MonoBehaviour {
                 ParentOfSlicedObjects.GetComponentInChildren<SpriteRenderer>().sprite = Resources.Load<Sprite>("MeatFabrication/Chicken/1_Full Chicken");
 
                 MeatSelectionUI.options.Add(new TMP_Dropdown.OptionData("Chicken Head"));
-
                 MeatSelectionUI.options.Add(new TMP_Dropdown.OptionData("Chicken Both Foot"));
-
                 MeatSelectionUI.options.Add(new TMP_Dropdown.OptionData("Chicken Left Back"));
                 MeatSelectionUI.options.Add(new TMP_Dropdown.OptionData("Chicken Right Back"));
-
                 MeatSelectionUI.options.Add(new TMP_Dropdown.OptionData("Chicken Left Breast"));
                 MeatSelectionUI.options.Add(new TMP_Dropdown.OptionData("Chicken Right Breast"));
-
                 MeatSelectionUI.options.Add(new TMP_Dropdown.OptionData("Chicken Thigh"));
                 break;
             case "fish":
@@ -361,6 +394,15 @@ public class MeatFabManager : MonoBehaviour {
             }
         }
         
+    }
+
+    public void ResetCutFail()
+    {
+        wrongResultTab.SetActive(false);
+        startFail = false;
+        endFail = false;
+        startSuccess = false;
+        endSuccess = false;
     }
 
 }
