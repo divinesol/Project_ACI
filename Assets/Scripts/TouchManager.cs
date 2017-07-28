@@ -198,7 +198,7 @@ public class TouchManager : MonoBehaviour
 
                             //To OPEN supplier screen
                             //Check if SelectionModels is off AND if Tutorial is done
-                            if (!UI_SelectionModels.activeSelf)
+                            if (!UI_SelectionModels.activeSelf && ObjectListParent.transform.childCount < 5)
                             {
                                 CloseMainUI();
 
