@@ -197,8 +197,9 @@ public class Settings : MonoBehaviour {
     {
         if (!UI_IsShown)
         {
-            UI_Buttons.transform.DOMoveY(show, 0.4f);
+           // UI_Buttons.transform.DOMoveY(show, 0.4f);
             UI_IsShown = true;
+            UI_Buttons.transform.DOLocalMoveY(show, 0.4f);
         }
         else
         {
