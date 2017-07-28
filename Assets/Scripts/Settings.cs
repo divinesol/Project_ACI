@@ -203,7 +203,7 @@ public class Settings : MonoBehaviour {
         }
         else
         {
-            UI_Buttons.transform.DOMoveY(850, 0.4f);
+            UI_Buttons.transform.DOLocalMoveY(1500, 0.4f);
             UI_IsShown = false;
         }
     }
