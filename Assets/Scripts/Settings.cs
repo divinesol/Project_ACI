@@ -23,7 +23,7 @@ public class Settings : MonoBehaviour {
 	void Start () {
         Fastforwarded = false;
         DOTween.Init(false, false, LogBehaviour.Default);
-        UI_IsShown = false;
+        UI_IsShown = true;
 
         if (gameSpeed == 1)
         {
