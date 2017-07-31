@@ -23,7 +23,7 @@ public class Settings : MonoBehaviour {
 	void Start () {
         Fastforwarded = false;
         DOTween.Init(false, false, LogBehaviour.Default);
-        UI_IsShown = false;
+        UI_IsShown = true;
 
         if (gameSpeed == 1)
         {
@@ -133,7 +133,7 @@ public class Settings : MonoBehaviour {
         else
         {
             Time.timeScale = gameSpeed;
-            LoadingScreenManager.LoadScene("StorageTest");
+            LoadingScreenManager.LoadScene("Virt_Storage");
         }
     }
 
@@ -197,12 +197,13 @@ public class Settings : MonoBehaviour {
     {
         if (!UI_IsShown)
         {
-            UI_Buttons.transform.DOMoveY(show, 0.4f);
+           // UI_Buttons.transform.DOMoveY(show, 0.4f);
             UI_IsShown = true;
+            UI_Buttons.transform.DOLocalMoveY(show, 0.4f);
         }
         else
         {
-            UI_Buttons.transform.DOMoveY(850, 0.4f);
+            UI_Buttons.transform.DOLocalMoveY(1500, 0.4f);
             UI_IsShown = false;
         }
     }

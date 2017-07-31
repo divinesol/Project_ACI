@@ -34,40 +34,6 @@ public class Truck : MonoBehaviour
         {
             food = TruckManager.foodList[index];
             foodObject.SetActive(true);
-            //foodObject.GetComponent<MeshFilter>().sharedMesh = truckManager.foodList[index].foodPrefab.GetComponent<MeshFilter>().sharedMesh;
-            //foodObject.GetComponent<MeshRenderer>().sharedMaterial = truckManager.foodList[index].foodPrefab.GetComponent<MeshRenderer>().sharedMaterial;
-
-            //if(foodObject.gameObject.GetComponent<MoveOnPath>().CurrentWayPointID >= 2)
-            //if (foodObject.gameObject.GetComponent<MoveOnPath>().waypointDone)
-            //{
-            //    if (foodObject.gameObject.GetComponent<MoveOnPath>().PathToFollow == GameObject.FindGameObjectWithTag("Reject").GetComponent<EditPathScript>())
-            //        readyToRespawn = true;
-
-            //    TruckManager.foodList[index] = new Food();
-            //    foodObject.gameObject.GetComponentInParent<Truck>().food = new Food();
-            //    foodObject.gameObject.GetComponent<MoveOnPath>().PathToFollow = null;
-            //    foodObject.gameObject.GetComponent<Transform>().localPosition = new Vector3(0, 0, 0);
-            //    foodObject.gameObject.GetComponent<Transform>().localRotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
-            //    foodObject.gameObject.GetComponent<MoveOnPath>().waypointDone = false;
-            //    foodObject.SetActive(false);
-
-            //    if (readyToRespawn)
-            //    {
-            //        //truckManager.AddFoodToTruck(orderListManager.transform.GetChild(index).GetComponent<Order>().food);
-            //        for(int i = 0; i < orderListManager.transform.childCount; i++)
-            //        {
-            //            for(int j = 0; j < truckManager.transform.childCount; j++)
-            //            {
-            //                if(orderListManager.transform.GetChild(i).GetComponentInChildren<Order>().food != truckManager.transform.GetChild(j).GetComponent<Truck>().food)
-            //                {
-            //                    temp = orderListManager.transform.GetChild(i).GetComponentInChildren<Order>().food;
-            //                }
-            //            }
-            //        }
-            //        truckManager.AddFoodToTruck(temp);
-            //        readyToRespawn = false;
-            //    }
-            //}
             if (readyToRespawn)
             {
                 for (int i = 0; i < orderListManager.transform.childCount; i++)
@@ -91,11 +57,6 @@ public class Truck : MonoBehaviour
                 TruckManager.foodList[index] = new Food();
                 foodObject.gameObject.GetComponentInParent<Truck>().food = new Food();
                 foodObject.SetActive(false);
-                //foodObject.gameObject.GetComponent<MoveOnPath>().PathToFollow = null;
-                //foodObject.gameObject.GetComponent<Transform>().localPosition = new Vector3(0, 0, 0);
-                //foodObject.gameObject.GetComponent<Transform>().localRotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
-                //foodObject.gameObject.GetComponent<MoveOnPath>().waypointDone = false;
-                
             }
             
         }

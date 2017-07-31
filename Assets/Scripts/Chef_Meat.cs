@@ -22,7 +22,7 @@ public class Chef_Meat : MonoBehaviour
         {
             if (PathComplete())
             { 
-                Debug.Log("Going to prepare food");
+                //Debug.Log("Going to prepare food");
                 KitStocks.ReduceStock();
                 PrepareFood();
                 CheckGetStocks = false;
@@ -33,7 +33,7 @@ public class Chef_Meat : MonoBehaviour
     {
         if (StocknPopularityManager.stockValue > 0)
         {
-            Debug.Log("I AM Getting Food");
+            //Debug.Log("I AM Getting Food");
             transform.rotation.Set(0, 180, 0,0);
             MeatNavMesh.updateRotation = false;
             //transform.rotation = Quaternion.Lerp(transform.rotation, Stocks.transform.rotation, Time.time * MeatNavMesh.speed);
@@ -43,7 +43,7 @@ public class Chef_Meat : MonoBehaviour
     }
     public void PrepareFood()
     {
-        Debug.Log("I AM PREPARING FOOD");
+       // Debug.Log("I AM PREPARING FOOD");
         MeatNavMesh.SetDestination(FoodPrep.transform.position);
         StartCoroutine(PrepTime(4));
         //Do Animation Here;
@@ -79,7 +79,7 @@ public class Chef_Meat : MonoBehaviour
             {
                 if (!MeatNavMesh.hasPath || MeatNavMesh.velocity.sqrMagnitude == 0f)
                 {
-                    Debug.Log("PathComplete");
+                    //Debug.Log("PathComplete");
                     MeatNavMesh.updateRotation = false;
                     return true;
                 }

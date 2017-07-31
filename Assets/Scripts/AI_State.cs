@@ -146,7 +146,7 @@ public class AI_State : MonoBehaviour {
 
     public bool PathComplete()
     {
-        Debug.Log("PATH COMPLETE");
+        //Debug.Log("PATH COMPLETE");
         //Walk.SetBool("CustomerWalk", false);
         if (!AINavMesh.pathPending)
         {

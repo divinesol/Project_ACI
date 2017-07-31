@@ -198,7 +198,7 @@ public class TouchManager : MonoBehaviour
 
                             //To OPEN supplier screen
                             //Check if SelectionModels is off AND if Tutorial is done
-                            if (!UI_SelectionModels.activeSelf)
+                            if (!UI_SelectionModels.activeSelf && ObjectListParent.transform.childCount < 5)
                             {
                                 CloseMainUI();
 
@@ -278,8 +278,7 @@ public class TouchManager : MonoBehaviour
                             if (UI_SelectConfirmation.activeSelf == false)  
                             {
                                 //check if already purchased screen is active
-                                if (UI_PurchaseUI.activeSelf == false) 
-                                {
+
                                     //set current selected stock to the current hit by raycast. StockInfo hold the data . current is a data holder
                                     StockManager.StockInstance.CurrentStock = hit.collider.GetComponent<StockInfo>();
 
@@ -288,7 +287,7 @@ public class TouchManager : MonoBehaviour
 
                                     //Enable/show and move animated model
                                     MoveSelectedFoodAnimation();
-                                }
+                                
                             }
 
                         }
@@ -595,8 +594,6 @@ public class TouchManager : MonoBehaviour
         {
             //Reset all Supplier's Food Quality
             SupplierSceneManager.SupplierInstance.RandomSupplierRating();
-
-            ClosePurchase();
 
             //Reset Selection Models positions
             StockManager.StockInstance.ReturnCurrentModelSize();

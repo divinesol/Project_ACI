@@ -128,7 +128,7 @@ public class OrderListManager : MonoBehaviour
             {
                 child.SetParent(null);
                 child.SetParent(GameCache.Instance.transform);
-                Debug.Log("SAVED");
+                //Debug.Log("SAVED");
             }
         }
     }
@@ -148,7 +148,7 @@ public class OrderListManager : MonoBehaviour
                 {
                     child.SetParent(null);
                     child.SetParent(transform);
-                    Debug.Log("LOADED");
+                    //Debug.Log("LOADED");
                 }
             }
         }

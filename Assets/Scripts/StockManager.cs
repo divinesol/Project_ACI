@@ -187,32 +187,19 @@ public class StockManager : MonoBehaviour
                     case 0: //Tomato
                         {
                             //for each child "i" randomize food quality within the food type range in the database
-                            SelectionModel.transform.GetChild(i).GetComponent<StockInfo>().food 
-                                = database.food[Random.Range(0, 5)];
-
-                            //Displays food type during selection scene. Using the food name, reduce the length by 2 to remove the "grade" (eg. A B C)
-                            FoodTitle.GetComponent<Text>().text 
-                                = database.food[tempFoodRand].foodName.Remove(database.food[tempFoodRand].foodName.Length - 2);
+                            SelectionModel.transform.GetChild(i).GetComponent<StockInfo>().food = database.food[Random.Range(0, 5)];
                         }
                         break;
                     case 1: //Canned Food
                         {
-                            SelectionModel.transform.GetChild(i).GetComponent<StockInfo>().food 
-                                = database.food[Random.Range(5, 10)];
-
-                            FoodTitle.GetComponent<Text>().text 
-                                = database.food[tempFoodRand].foodName.Remove(database.food[tempFoodRand].foodName.Length - 2);
+                            SelectionModel.transform.GetChild(i).GetComponent<StockInfo>().food = database.food[Random.Range(5, 10)];
                         }
                         break;
                     case 2: //Steak
                         {
                             if (SceneManager.GetActiveScene().name != "AR_Main")
                             {
-                                SelectionModel.transform.GetChild(i).GetComponent<StockInfo>().food
-                                = database.food[Random.Range(10, 15)];
-
-                                FoodTitle.GetComponent<Text>().text
-                                    = database.food[tempFoodRand].foodName.Remove(database.food[tempFoodRand].foodName.Length - 2);
+                                SelectionModel.transform.GetChild(i).GetComponent<StockInfo>().food = database.food[Random.Range(10, 15)];   
                             }
                             else
                             {
@@ -224,16 +211,11 @@ public class StockManager : MonoBehaviour
                             }
                         }
                         break;
-                    case 3: //Mushroom
-               
+                    case 3: //Mushroom            
                         {
                             if (SceneManager.GetActiveScene().name != "AR_Main")
                             {
-                                SelectionModel.transform.GetChild(i).GetComponent<StockInfo>().food
-                                = database.food[Random.Range(15, 20)];
-
-                                FoodTitle.GetComponent<Text>().text
-                                    = database.food[tempFoodRand].foodName.Remove(database.food[tempFoodRand].foodName.Length - 2);
+                                SelectionModel.transform.GetChild(i).GetComponent<StockInfo>().food = database.food[Random.Range(15, 20)];         
                             }
                             else
                             {
@@ -246,40 +228,13 @@ public class StockManager : MonoBehaviour
                         }
                         break;
                     case 4: //Chicken
-
-                        {
-
-                            //if (SceneManager.GetActiveScene().name != "AR_Main")
-                            //{
-                            //if (!SelectionModel.activeSelf)
-                            //{
-                                SelectionModel.transform.GetChild(i).GetComponent<StockInfo>().food
-                                    = database.food[Random.Range(20, 25)];
-                            //}
-                            //}
-
-                            FoodTitle.GetComponent<Text>().text 
-                                = database.food[tempFoodRand].foodName.Remove(database.food[tempFoodRand].foodName.Length - 2);
-
+                        {                 
+                                SelectionModel.transform.GetChild(i).GetComponent<StockInfo>().food = database.food[Random.Range(20, 25)];
                         }
                         break;
                     case 5: //Cheese
-
                         {
-                            //if (SceneManager.GetActiveScene().name != "AR_Main")
-                            //{
-                            //if (!SelectionModel.activeSelf)
-                            //{
-                            //if(SelectionModel.transform.GetChild(i).GetComponent<StockInfo>().food != null)
-                            //{ 
-                                SelectionModel.transform.GetChild(i).GetComponent<StockInfo>().food
-                                = database.food[Random.Range(25, 30)];
-                            //}
-                            //}
-                            //}
-
-                            FoodTitle.GetComponent<Text>().text = database.food[tempFoodRand].foodName.Remove(database.food[tempFoodRand].foodName.Length - 2);
-
+                            SelectionModel.transform.GetChild(i).GetComponent<StockInfo>().food = database.food[Random.Range(25, 30)];                      
                         }
                         break;
                 }
