@@ -158,7 +158,7 @@ public class OrderListManager : MonoBehaviour
     public void OpenOrderlist()
     {
        orderlistParent.transform.localPosition = new Vector3(0, 0, 0);
-        blackBackground.SetActive(true);
+       blackBackground.SetActive(true);
     }
     public void CloseOrderlist()
     {

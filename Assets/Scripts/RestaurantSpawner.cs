@@ -26,18 +26,21 @@ public class RestaurantSpawner : MonoBehaviour {
 
     void Update()
     {
-        //Time has passed, Time to spawn
-        if (TimeToSpawn > SpawnTime)
+        if (NewTutorials.tutDone)
         {
-            //Spawn here
-            if (AI_Count < MaximumSpawnCount)
-                SpawnObj();
+            //Time has passed, Time to spawn
+            if (TimeToSpawn > SpawnTime)
+            {
+                //Spawn here
+                if (AI_Count < MaximumSpawnCount)
+                    SpawnObj();
 
-            //Reset Spawn Timer
-            TimeToSpawn = 0f;
+                //Reset Spawn Timer
+                TimeToSpawn = 0f;
+            }
+            else
+                TimeToSpawn += Time.deltaTime;
         }
-        else
-            TimeToSpawn += Time.deltaTime;
     }
     public void SpawnObj()
     {

@@ -295,8 +295,8 @@ public class CameraMovement : MonoBehaviour {
 
         StartCoroutine(MoveToPosition(DefaultCamera.transform));
         OverviewButton.SetActive(false);
-       // LeftArrow.SetActive(false);
-       // RightArrow.SetActive(false);
+        // LeftArrow.SetActive(false);
+        // RightArrow.SetActive(false);
         MenuUIButtons.SetActive(true);
     }
     
