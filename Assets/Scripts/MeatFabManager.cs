@@ -8,9 +8,8 @@ public class MeatFabManager : MonoBehaviour {
 
     public static MeatFabManager Instance;
 
-    TYPE_OF_MEAT meatType;
+    public TYPE_OF_MEAT meatType;
 
-    public GameObject popup;
     public bool startSuccess, endSuccess;
     private bool cutFail;
     public bool startFail, endFail;
@@ -22,7 +21,7 @@ public class MeatFabManager : MonoBehaviour {
     public GameObject SlicePrefab;
 
     public GameObject correctResultTab, wrongResultTab;
-    public TextMeshProUGUI correctResultText, wrongResultText;
+    public TextMeshProUGUI correctResultText, wrongResultText, wrongResultHint;
     public Image correctResultImage;
 
     public enum TYPE_OF_MEAT
@@ -54,7 +53,7 @@ public class MeatFabManager : MonoBehaviour {
             ValueChange(MeatSelectionUI);
         });
 
-        range = 0.5f;
+        range = 0.9f;
         selection = 0;
         UIActive = false;
         touchDown = false;
@@ -102,50 +101,59 @@ public class MeatFabManager : MonoBehaviour {
         RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
         //Debug.Log("Target Position: " + hit.point);
         //mouse down
-        if (Input.GetMouseButtonDown(0))
+
+        if(meatType != TYPE_OF_MEAT.DEFAULT)
         {
-            touchDown = true;
-            //hits collider + not in UI
-            if (hit.collider != null && !UIActive)
+            if (Input.GetMouseButtonDown(0))
             {
-                //Debug.Log("Target Position: " + hit.point);
-                //if hit start x range
-                if (hit.point.x < startBaseValue_X + range && hit.point.x > startBaseValue_X - range)
+                touchDown = true;
+                //hits collider + not in UI
+                if (hit.collider != null && !UIActive)
                 {
-                    //if hit start y range
-                    if (hit.point.y < startBaseValue_Y + range && hit.point.y > startBaseValue_Y - range)
+                    //Debug.Log("Target Position: " + hit.point);
+                    //if hit start x range
+                    if (hit.point.x < startBaseValue_X + range && hit.point.x > startBaseValue_X - range)
                     {
-                        //Debug.Log("startX: "+hit.point.x+"endX: "+hit.point.y);
-                        startSuccess = true;
-                        startFail = false;
+                        //if hit start y range
+                        if (hit.point.y < startBaseValue_Y + range && hit.point.y > startBaseValue_Y - range)
+                        {
+                            //Debug.Log("startX: "+hit.point.x+"endX: "+hit.point.y);
+                            startSuccess = true;
+                            startFail = false;
+                        }
+                        else
+                        {
+                            startFail = true;
+                            startSuccess = false;
+                        }
                     }
+                    //if doesnt hit
                     else
                     {
                         startFail = true;
                         startSuccess = false;
                     }
                 }
-                //if doesnt hit
-                else
-                {
-                    startFail = true;
-                    startSuccess = false;
-                }
             }
-        }
 
-        if (Input.GetMouseButtonUp(0) && touchDown)
-        {
-            if (hit.collider != null && !UIActive)
+            if (Input.GetMouseButtonUp(0) && touchDown)
             {
-                if (hit.point.x < endBaseValue_X + range && hit.point.x > endBaseValue_X - range)
+                if (hit.collider != null && !UIActive)
                 {
-                    //Debug.Log("Target Position: " + hit.point);
-                    if (hit.point.y < endBaseValue_Y + range && hit.point.y > endBaseValue_Y - range)
+                    if (hit.point.x < endBaseValue_X + range && hit.point.x > endBaseValue_X - range)
                     {
-                        //Debug.Log("startY: " + hit.point.x + "endY: " + hit.point.y);
-                        endSuccess = true;
-                        endFail = false;
+                        //Debug.Log("Target Position: " + hit.point);
+                        if (hit.point.y < endBaseValue_Y + range && hit.point.y > endBaseValue_Y - range)
+                        {
+                            //Debug.Log("startY: " + hit.point.x + "endY: " + hit.point.y);
+                            endSuccess = true;
+                            endFail = false;
+                        }
+                        else
+                        {
+                            endFail = true;
+                            endSuccess = false;
+                        }
                     }
                     else
                     {
@@ -153,23 +161,19 @@ public class MeatFabManager : MonoBehaviour {
                         endSuccess = false;
                     }
                 }
-                else
-                {
-                    endFail = true;
-                    endSuccess = false;
-                }
+                touchDown = false;
             }
-            touchDown = false;
         }
-
+        
+        //if cut success
         if(startSuccess && endSuccess)
         {
             ShowCorrectResults();
         }
-        
+        //if cut fail
         if((startFail && endFail) || (startSuccess && endFail) || (startFail && endSuccess)) 
         {
-            wrongResultTab.SetActive(true);
+            ShowWrongResults();
         }
 
 
@@ -257,63 +261,16 @@ public class MeatFabManager : MonoBehaviour {
                     ParentOfSlicedObjects.GetComponentInChildren<SpriteRenderer>().sprite = Resources.Load<Sprite>("MeatFabrication/Chicken/9_Half Chicken");
                     break;
             }
-
-            //slicedObject.AddComponent<PolygonCollider2D>();
-
             startBaseValue_X = database.ChickenParts[selection].startCutPointX;
             endBaseValue_X = database.ChickenParts[selection].endCutPointX;
             startBaseValue_Y = database.ChickenParts[selection].startCutPointY;
-            endBaseValue_Y = database.ChickenParts[selection].endCutPointY;
-            
-            //Debug.Log("startX:"+database.ChickenParts[selection].startCutPointX+ "endX:" +database.ChickenParts[selection].endCutPointX+ "startY:" + database.ChickenParts[selection].startCutPointY + "endY:" + database.ChickenParts[selection].endCutPointY);
+            endBaseValue_Y = database.ChickenParts[selection].endCutPointY;           
         }
-        //switch (database.FabList[selection].FabName)
-        //{
-        //    //beef
-        //    case "Beef":
-        //        ParentOfSlicedObjects.GetComponentInChildren<SpriteRenderer>().sprite = Resources.Load<Sprite>("MeatFabrication/MEAT");
-        //        break;
-        //    //chicken
-        //    case "Chicken":
-        //        ParentOfSlicedObjects.GetComponentInChildren<SpriteRenderer>().sprite = Resources.Load<Sprite>("MeatFabrication/Chicken/1_Full Chicken Edited");
-        //        break;
-        //    //fish
-        //    case "Fish":
-        //        ParentOfSlicedObjects.GetComponentInChildren<SpriteRenderer>().sprite = Resources.Load<Sprite>("MeatFabrication/Fish/1_Full Fish");
-        //        break;
-        //    //crab
-        //    case "Crab":
-        //        ParentOfSlicedObjects.GetComponentInChildren<SpriteRenderer>().sprite = Resources.Load<Sprite>("MeatFabrication/Crab/1_Full Crab");
-        //        break;
-        //}
-
-        //startBaseValue_X = database.FabList[selection].startCutPointX;
-        //startBaseValue_Y = database.FabList[selection].startCutPointY;
-        //endBaseValue_X = database.FabList[selection].endCutPointX;
-        //endBaseValue_Y = database.FabList[selection].endCutPointY;
-        //numOfCuts = database.FabList[selection].FabNumOfCuts;
-
-        //reset collider on sprite change
-        //if (!slicedObject.GetComponent<PolygonCollider2D>())
-        //{
-        //    Debug.Log("DELETED POLYGON");
-        //    //Destroy(slicedObject.GetComponent<PolygonCollider2D>());
-        //    //slicedObject.GetComponent<PolygonCollider2D>() = new PolygonCollider2D();
-        //    //slicedObject.AddComponent<PolygonCollider2D>();
-        //    slicedObject.AddComponent<PolygonCollider2D>();
-        //}
-
-       
     }
 
     public void ResetSliceableObjects()
     {
         Debug.Log("RESET");
-        //foreach(Transform child in ParentOfSlicedObjects)
-        //{
-        //    Debug.Log("AIUSGFBIYSAFGIUAFGI");
-        //    Destroy(child.gameObject);
-        //}
 
         for(int i = ParentOfSlicedObjects.childCount; i > 0; i--)
         {
@@ -344,8 +301,6 @@ public class MeatFabManager : MonoBehaviour {
 
                 break;
         }
-        //if(!slicedObject.GetComponent<PolygonCollider2D>())
-            //slicedObject.AddComponent<PolygonCollider2D>();
 
         Debug.Log("Before check cut");
         CheckIfCutIsCorrect();
@@ -361,31 +316,37 @@ public class MeatFabManager : MonoBehaviour {
                 //finish cutting head
                 case 0:
                     correctResultImage.sprite = Resources.Load<Sprite>("MeatFabrication/Chicken/2_Headless Chicken");
+                    correctResultImage.SetNativeSize();
                     correctResultText.text = "You have successfully fabricated the chicken by removing the head";
                     break;
                 //finish cutting both foot
                 case 1:
                     correctResultImage.sprite = Resources.Load<Sprite>("MeatFabrication/Chicken/3_Legless Chicken");
+                    correctResultImage.SetNativeSize();
                     correctResultText.text = "You have successfully fabricated the chicken by removing both of the feet";
                     break;
                 //finish cutting left back
                 case 2:
                     correctResultImage.sprite = Resources.Load<Sprite>("MeatFabrication/Chicken/4_Back Cut 1 Chicken");
+                    correctResultImage.SetNativeSize();
                     correctResultText.text = "You have successfully fabricated the chicken by cutting the left side of the back";
                     break;
                 //finish cutting right back
                 case 3:
                     correctResultImage.sprite = Resources.Load<Sprite>("MeatFabrication/Chicken/5_Back Cut 2 Chicken");
+                    correctResultImage.SetNativeSize();
                     correctResultText.text = "You have successfully fabricated the chicken by cutting the right side of the back";
                     break;
                 //finish cutting left breast
                 case 4:
                     correctResultImage.sprite = Resources.Load<Sprite>("MeatFabrication/Chicken/7_Chicken Chest Cut 1");
+                    correctResultImage.SetNativeSize();
                     correctResultText.text = "You have successfully fabricated the chicken by cutting the left side of the breast";
                     break;
                 //finish cutting right breast
                 case 5:
                     correctResultImage.sprite = Resources.Load<Sprite>("MeatFabrication/Chicken/8_Chicken Chest Cut 2");
+                    correctResultImage.SetNativeSize();
                     correctResultText.text = "You have successfully fabricated the chicken by cutting the right side of the breast";
                     break;
                 case 6:
@@ -394,6 +355,44 @@ public class MeatFabManager : MonoBehaviour {
             }
         }
         
+    }
+
+    public void ShowWrongResults()
+    {
+        wrongResultTab.SetActive(true);
+        if (meatType == TYPE_OF_MEAT.CHICKEN)
+        {
+            wrongResultText.text = "You have failed to fabricate the chicken";
+            switch (selection)
+            {
+                //fail cutting head
+                case 0:
+                    wrongResultHint.text = "Hint : Start from the top of the chicken";
+                    break;
+                //fail cutting both foot
+                case 1:
+                    wrongResultHint.text = "Hint : Start from the bottom of the chicken";
+                    break;
+                //fail cutting left back
+                case 2:
+                    wrongResultHint.text = "Hint : IDK";
+                    break;
+                //fail cutting right back
+                case 3:
+                    wrongResultHint.text = "Hint : IDK";
+                    break;
+                //fail cutting left breast
+                case 4:
+                    wrongResultHint.text = "Hint : IDK";
+                    break;
+                //fail cutting right breast
+                case 5:
+                    wrongResultHint.text = "Hint : IDK";
+                    break;
+                case 6:
+                    break;
+            }
+        }
     }
 
     public void ResetCutFail()
