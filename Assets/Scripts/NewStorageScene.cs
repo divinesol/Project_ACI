@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class NewStorageScene : MonoBehaviour {
 
     float pointsToBeAddedToStock;
-
+    public Button orderListClose;
     [Header("Camera")]
     public Camera mainCam;
 
@@ -87,7 +87,8 @@ public class NewStorageScene : MonoBehaviour {
                             }
                             blackBackground.SetActive(true);
                             deliveryDetails.SetActive(true);
-
+                            orderList.GetComponent<OrderListManager>().orderlistParent.transform.localPosition = new Vector3(500, 0, 0);
+                            orderListClose.gameObject.SetActive(false);
                         }
                     }
                 }
@@ -135,6 +136,8 @@ public class NewStorageScene : MonoBehaviour {
         }
         blackBackground.SetActive(false);
         deliveryDetails.SetActive(false);
+        orderList.GetComponent<OrderListManager>().orderlistParent.transform.localPosition = new Vector3(-2000, 0, 0);
+        orderListClose.gameObject.SetActive(true);
     }
 
     public void rejectOrder()
@@ -143,6 +146,8 @@ public class NewStorageScene : MonoBehaviour {
         selectedBox = null;
         blackBackground.SetActive(false);
         deliveryDetails.SetActive(false);
+        orderList.GetComponent<OrderListManager>().orderlistParent.transform.localPosition = new Vector3(-2000, 0, 0);
+        orderListClose.gameObject.SetActive(true);
     }
 
     public void closeOrder()
@@ -151,6 +156,8 @@ public class NewStorageScene : MonoBehaviour {
         blackBackground.SetActive(false);
         deliveryDetails.SetActive(false);
         selectedBox = null;
+        orderList.GetComponent<OrderListManager>().orderlistParent.transform.localPosition = new Vector3(-2000, 0, 0);
+        orderListClose.gameObject.SetActive(true);
     }
 
     public void removeFromOrderList()

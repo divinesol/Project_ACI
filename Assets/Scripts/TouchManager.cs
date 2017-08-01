@@ -92,6 +92,7 @@ public class TouchManager : MonoBehaviour
     bool mainCanvas_open;
     bool SelConfm_open;
     private bool isDragging;    //Check for Drag so suppliers or other elements cant be selected while drag
+    public GameObject inShopInstructions; // Tutorial usage
 
     //bool for selection model animation
     bool moveforward;
@@ -105,6 +106,8 @@ public class TouchManager : MonoBehaviour
     public GameObject cameraManager;
     public Text selectedFoodName;
     public Image selectedFoodQuality;
+
+    public static bool inShop;
 
     // preventing raycast from going through the GUI
     private int fingerID = -1;
@@ -237,6 +240,7 @@ public class TouchManager : MonoBehaviour
                                     CheckWhichSupplierToSendTruck = 4;
                                     decidefoodnumber = 3;
                                     cameraManager.GetComponent<CameraMovement>().EnterShop("CheeseShop");
+                                    inShop = true;
                                 }
                                 if (hit.collider.gameObject.name == "Canned_Shop")
                                 {
@@ -244,6 +248,7 @@ public class TouchManager : MonoBehaviour
                                     CheckWhichSupplierToSendTruck = 3;
                                     decidefoodnumber = 1;
                                     cameraManager.GetComponent<CameraMovement>().EnterShop("CannedShop");
+                                    inShop = true;
                                 }
                                 if (hit.collider.gameObject.name == "Veggie_Shop")
                                 {
@@ -251,6 +256,7 @@ public class TouchManager : MonoBehaviour
                                     CheckWhichSupplierToSendTruck = 2;
                                     decidefoodnumber = 0;
                                     cameraManager.GetComponent<CameraMovement>().EnterShop("VeggieShop");
+                                    inShop = true;
                                 }
                                 if (hit.collider.gameObject.name == "Meat_Shop")
                                 {
@@ -258,6 +264,7 @@ public class TouchManager : MonoBehaviour
                                     CheckWhichSupplierToSendTruck = 1;
                                     decidefoodnumber = 2;
                                     cameraManager.GetComponent<CameraMovement>().EnterShop("MeatShop");
+                                    inShop = true;
                                 }
                                 //Setting temp model to model of clicked supplier
                                 //UI_SupplierModel.transform.GetChild(0).gameObject.GetComponent<MeshFilter>().mesh = hit.collider.gameObject.GetComponent<MeshFilter>().mesh;
@@ -405,6 +412,11 @@ public class TouchManager : MonoBehaviour
     public void CloseSelectionConfirmation()
     {
         UI_SelectConfirmation.SetActive(false);
+        if (!NewTutorials.tutDone)
+        {
+            inShopInstructions.GetComponentInChildren<Text>().text = "Choose the one that seems\nthe freshest.";
+            NewTutorials.currentStep -= 1;
+        }
     }
 
     //"You have Bought xxx!" UI.
@@ -590,6 +602,10 @@ public class TouchManager : MonoBehaviour
 
         OpenMainUI();
 
+        if (!finalCheck && !NewTutorials.tutDone)
+        {   
+            inShopInstructions.GetComponentInChildren<Text>().text = "Choose the one that seems\nthe freshest."; 
+        }
         if (finalCheck)
         {
             //Reset all Supplier's Food Quality
@@ -601,7 +617,7 @@ public class TouchManager : MonoBehaviour
             StockManager.StockInstance.SetStockRatings();
 
             BuyStock();
-
+            inShop = false;
         }
         ReturnSelectedFoodAnimation();
     }
