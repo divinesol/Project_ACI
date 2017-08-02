@@ -23,7 +23,7 @@ public class _MouseInputRepresentationBehaviour : MonoBehaviour
         {
             if (hit.collider.tag == "MeatFabrication")
             {
-                if(MeatFabManager.Instance.meatType != MeatFabManager.TYPE_OF_MEAT.DEFAULT)
+                if(MeatFabManager.Instance.meatType != MeatFabManager.TYPE_OF_MEAT.DEFAULT && MeatFabManager.Instance.fabricationType != MeatFabManager.TYPE_OF_FABRICATION.BREAK_MODE)
                 {
                     if (Input.GetMouseButtonDown(0))
                     {

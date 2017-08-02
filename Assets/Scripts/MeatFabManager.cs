@@ -13,18 +13,24 @@ public class MeatFabManager : MonoBehaviour {
     public TYPE_OF_MEAT meatType;
     public TYPE_OF_FABRICATION fabricationType;
 
-    public TextMeshProUGUI fabType;
+    public TextMeshProUGUI fabTypeText;
 
     //Dropdown Menu for selecting steps
-    public TMP_Dropdown MeatSelectionUI;
+    public TMP_Dropdown MeatSelectionDropdownUI;
+
     //Parent of the sliceableObject - Used for resetting the sliceable object
     public Transform ParentOfSlicedObjects;
 
     public GameObject SlicePrefab;
 
+    //Result tab (Correct + Incorrect) | Result text (Correct + Incorrect) + Hint for Incorrect | Correct Result Image
     public GameObject correctResultTab, wrongResultTab;
     public TextMeshProUGUI correctResultText, wrongResultText, wrongResultHint;
     public Image correctResultImage;
+
+    //After fully fabricating a meat
+    public GameObject finishedFabricationTab;
+    public TextMeshProUGUI finishedFabricationText;
 
     //Booleans to check for Start, End Success and Start, End Failures
     public bool startSuccess, endSuccess;
@@ -43,6 +49,7 @@ public class MeatFabManager : MonoBehaviour {
 
     public enum TYPE_OF_FABRICATION
     {
+        DEFAULT,
         CUT_MODE,
         REMOVE_MODE,
         BREAK_MODE
@@ -62,9 +69,9 @@ public class MeatFabManager : MonoBehaviour {
     // Use this for initialization
     void Start ()
     {
-        MeatSelectionUI.onValueChanged.AddListener(delegate
+        MeatSelectionDropdownUI.onValueChanged.AddListener(delegate
         {
-            ValueChange(MeatSelectionUI);
+            ValueChange(MeatSelectionDropdownUI);
         });
 
         range = 0.9f;
@@ -82,6 +89,7 @@ public class MeatFabManager : MonoBehaviour {
         startSuccess = false;
         endSuccess = false;
 
+        fabricationType = TYPE_OF_FABRICATION.DEFAULT;
         meatType = TYPE_OF_MEAT.DEFAULT;
     }
 
@@ -92,14 +100,14 @@ public class MeatFabManager : MonoBehaviour {
         endFail = false;
 
         //UpdateSelection();
-        if (selection != MeatSelectionUI.value)
+        if (selection != MeatSelectionDropdownUI.value)
         {
-            selection = MeatSelectionUI.value;
+            selection = MeatSelectionDropdownUI.value;
             UpdateSliceableBeforeCut();
         }   
 
         //Check if UI is active - if UIActive, raycast for meat fabrication would be off
-        if(correctResultTab.activeSelf || wrongResultTab.activeSelf)
+        if(correctResultTab.activeSelf || wrongResultTab.activeSelf || MeatSelectionDropdownUI.transform.childCount > 3)
         {
             UIActive = true;
         }
@@ -120,27 +128,63 @@ public class MeatFabManager : MonoBehaviour {
                 //hits collider + not in UI
                 if (hit.collider != null && !UIActive)
                 {
-                    //Debug.Log("Target Position: " + hit.point);
-                    //if hit start x range
-                    if (hit.point.x < startBaseValue_X + range && hit.point.x > startBaseValue_X - range)
+                    Debug.Log("Target Position: " + hit.point);
+
+                    //fabricationType == REMOVE / CUT
+                    if (fabricationType != TYPE_OF_FABRICATION.BREAK_MODE)
                     {
-                        //if hit start y range
-                        if (hit.point.y < startBaseValue_Y + range && hit.point.y > startBaseValue_Y - range)
+                        //if hit start x range
+                        if (hit.point.x < startBaseValue_X + range && hit.point.x > startBaseValue_X - range)
                         {
-                            startSuccess = true;
-                            startFail = false;
+                            //if hit start y range
+                            if (hit.point.y < startBaseValue_Y + range && hit.point.y > startBaseValue_Y - range)
+                            {
+                                startSuccess = true;
+                                startFail = false;
+                            }
+                            else
+                            {
+                                startFail = true;
+                                startSuccess = false;
+                            }
                         }
+                        //if doesnt hit
                         else
                         {
                             startFail = true;
                             startSuccess = false;
                         }
                     }
-                    //if doesnt hit
-                    else
+                    //fabricationType == BREAK
+                    else if (fabricationType == TYPE_OF_FABRICATION.BREAK_MODE)
                     {
-                        startFail = true;
-                        startSuccess = false;
+                        //if hit start x range
+                        if (hit.point.x < startBaseValue_X + range && hit.point.x > startBaseValue_X - range)
+                        {
+                            //if hit start y range
+                            if (hit.point.y < startBaseValue_Y + range && hit.point.y > startBaseValue_Y - range)
+                            {
+                                startSuccess = true;
+                                endSuccess = true;
+                                startFail = false;
+                                endFail = false;
+                            }
+                            else
+                            {
+                                startFail = true;
+                                endFail = true;
+                                startSuccess = false;
+                                endSuccess = false;
+                            }
+                        }
+                        //if doesnt hit
+                        else
+                        {
+                            startFail = true;
+                            endFail = true;
+                            startSuccess = false;
+                            endSuccess = false;
+                        }
                     }
                 }
             }
@@ -149,25 +193,28 @@ public class MeatFabManager : MonoBehaviour {
             {
                 if (hit.collider != null && !UIActive)
                 {
-                    if (hit.point.x < endBaseValue_X + range && hit.point.x > endBaseValue_X - range)
+                    if (fabricationType != TYPE_OF_FABRICATION.BREAK_MODE)
                     {
-                        //Debug.Log("Target Position: " + hit.point);
-                        if (hit.point.y < endBaseValue_Y + range && hit.point.y > endBaseValue_Y - range)
+                        if (hit.point.x < endBaseValue_X + range && hit.point.x > endBaseValue_X - range)
                         {
-                            //Debug.Log("startY: " + hit.point.x + "endY: " + hit.point.y);
-                            endSuccess = true;
-                            endFail = false;
+                            //Debug.Log("Target Position: " + hit.point);
+                            if (hit.point.y < endBaseValue_Y + range && hit.point.y > endBaseValue_Y - range)
+                            {
+                                //Debug.Log("startY: " + hit.point.x + "endY: " + hit.point.y);
+                                endSuccess = true;
+                                endFail = false;
+                            }
+                            else
+                            {
+                                endFail = true;
+                                endSuccess = false;
+                            }
                         }
                         else
                         {
                             endFail = true;
                             endSuccess = false;
                         }
-                    }
-                    else
-                    {
-                        endFail = true;
-                        endSuccess = false;
                     }
                 }
                 touchDown = false;
@@ -195,47 +242,47 @@ public class MeatFabManager : MonoBehaviour {
 
     public void SetTypeOfMeat(string type)
     {
-        MeatSelectionUI.options.Clear();
+        MeatSelectionDropdownUI.options.Clear();
         switch (type)
         {
             case "chicken":
                 meatType = TYPE_OF_MEAT.CHICKEN;
                 ParentOfSlicedObjects.GetComponentInChildren<SpriteRenderer>().sprite = Resources.Load<Sprite>("MeatFabrication/Chicken/1_Full Chicken");
 
-                MeatSelectionUI.options.Add(new TMP_Dropdown.OptionData("Chicken Head"));
-                MeatSelectionUI.options.Add(new TMP_Dropdown.OptionData("Chicken Both Foot"));
-                MeatSelectionUI.options.Add(new TMP_Dropdown.OptionData("Chicken Left Back"));
-                MeatSelectionUI.options.Add(new TMP_Dropdown.OptionData("Chicken Right Back"));
-                MeatSelectionUI.options.Add(new TMP_Dropdown.OptionData("Chicken Left Breast"));
-                MeatSelectionUI.options.Add(new TMP_Dropdown.OptionData("Chicken Right Breast"));
-                MeatSelectionUI.options.Add(new TMP_Dropdown.OptionData("Chicken Thigh"));
+                MeatSelectionDropdownUI.options.Add(new TMP_Dropdown.OptionData("Chicken Head"));
+                MeatSelectionDropdownUI.options.Add(new TMP_Dropdown.OptionData("Chicken Both Foot"));
+                MeatSelectionDropdownUI.options.Add(new TMP_Dropdown.OptionData("Chicken Left Back"));
+                MeatSelectionDropdownUI.options.Add(new TMP_Dropdown.OptionData("Chicken Right Back"));
+                MeatSelectionDropdownUI.options.Add(new TMP_Dropdown.OptionData("Chicken Left Breast"));
+                MeatSelectionDropdownUI.options.Add(new TMP_Dropdown.OptionData("Chicken Right Breast"));
                 break;
             case "fish":
                 meatType = TYPE_OF_MEAT.FISH;
                 ParentOfSlicedObjects.GetComponentInChildren<SpriteRenderer>().sprite = Resources.Load<Sprite>("MeatFabrication/Fish/1_Full Fish");
 
-                MeatSelectionUI.options.Add(new TMP_Dropdown.OptionData("Fish Left Side"));
-                MeatSelectionUI.options.Add(new TMP_Dropdown.OptionData("Debone Fish"));
+                MeatSelectionDropdownUI.options.Add(new TMP_Dropdown.OptionData("Fish Left Side"));
+                MeatSelectionDropdownUI.options.Add(new TMP_Dropdown.OptionData("Debone Fish"));
                 break;
             case "shellfish":
                 meatType = TYPE_OF_MEAT.SHELLFISH;
                 ParentOfSlicedObjects.GetComponentInChildren<SpriteRenderer>().sprite = Resources.Load<Sprite>("MeatFabrication/Crab/1_Full Crab");
 
-                MeatSelectionUI.options.Add(new TMP_Dropdown.OptionData("Kill Crab"));
-                MeatSelectionUI.options.Add(new TMP_Dropdown.OptionData("Remove shell"));
-                MeatSelectionUI.options.Add(new TMP_Dropdown.OptionData("Cut Crab into 2"));
-                MeatSelectionUI.options.Add(new TMP_Dropdown.OptionData("Cut Left Pincer"));
+                MeatSelectionDropdownUI.options.Add(new TMP_Dropdown.OptionData("Kill Crab"));
+                MeatSelectionDropdownUI.options.Add(new TMP_Dropdown.OptionData("Remove shell"));
+                MeatSelectionDropdownUI.options.Add(new TMP_Dropdown.OptionData("Cut Crab into 2"));
+                MeatSelectionDropdownUI.options.Add(new TMP_Dropdown.OptionData("Cut Left Pincer"));
                 break;
 
         }
-        MeatSelectionUI.value = 0;
-        MeatSelectionUI.RefreshShownValue();
+        MeatSelectionDropdownUI.value = 0;
+        MeatSelectionDropdownUI.RefreshShownValue();
         UpdateSliceableBeforeCut();
     }
 
     //Check and update sprites accordingly before cut
     public void UpdateSliceableBeforeCut()
     {
+        Debug.Log("UpdateSliceableBeforeCut");
         if (meatType == TYPE_OF_MEAT.CHICKEN)
         {
             switch (selection)
@@ -243,61 +290,78 @@ public class MeatFabManager : MonoBehaviour {
                 //head
                 case 0:
                     ParentOfSlicedObjects.GetComponentInChildren<SpriteRenderer>().sprite = Resources.Load<Sprite>("MeatFabrication/Chicken/1_Full Chicken");
+                    fabricationType = TYPE_OF_FABRICATION.CUT_MODE;
                     break;
                 //both foot
                 case 1:
                     ParentOfSlicedObjects.GetComponentInChildren<SpriteRenderer>().sprite = Resources.Load<Sprite>("MeatFabrication/Chicken/2_Headless Chicken");
+                    fabricationType = TYPE_OF_FABRICATION.CUT_MODE;
                     break;
                 //left back
                 case 2:
                     ParentOfSlicedObjects.GetComponentInChildren<SpriteRenderer>().sprite = Resources.Load<Sprite>("MeatFabrication/Chicken/3_Legless Chicken");
+                    fabricationType = TYPE_OF_FABRICATION.CUT_MODE;
                     break;
                 //right back
                 case 3:
                     ParentOfSlicedObjects.GetComponentInChildren<SpriteRenderer>().sprite = Resources.Load<Sprite>("MeatFabrication/Chicken/4_Back Cut 1 Chicken");
+                    fabricationType = TYPE_OF_FABRICATION.CUT_MODE;
                     break;
                 //left breast
                 case 4:
                     ParentOfSlicedObjects.GetComponentInChildren<SpriteRenderer>().sprite = Resources.Load<Sprite>("MeatFabrication/Chicken/6_Chicken Chest");
+                    fabricationType = TYPE_OF_FABRICATION.CUT_MODE;
                     break;
                 //right breast
                 case 5:
                     ParentOfSlicedObjects.GetComponentInChildren<SpriteRenderer>().sprite = Resources.Load<Sprite>("MeatFabrication/Chicken/7_Chicken Chest Cut 1");
-                    break;
-                case 6:
-                    ParentOfSlicedObjects.GetComponentInChildren<SpriteRenderer>().sprite = Resources.Load<Sprite>("MeatFabrication/Chicken/9_Half Chicken");
+                    fabricationType = TYPE_OF_FABRICATION.CUT_MODE;
                     break;
             }
-            startBaseValue_X = database.ChickenParts[selection].startCutPointX;
-            endBaseValue_X = database.ChickenParts[selection].endCutPointX;
-            startBaseValue_Y = database.ChickenParts[selection].startCutPointY;
-            endBaseValue_Y = database.ChickenParts[selection].endCutPointY;           
+
+            if(selection < database.ChickenParts.Count)
+            {
+                startBaseValue_X = database.ChickenParts[selection].startCutPointX;
+                endBaseValue_X = database.ChickenParts[selection].endCutPointX;
+                startBaseValue_Y = database.ChickenParts[selection].startCutPointY;
+                endBaseValue_Y = database.ChickenParts[selection].endCutPointY;
+            }
+            
         }
-        else if(meatType == TYPE_OF_MEAT.SHELLFISH)
+        else if (meatType == TYPE_OF_MEAT.SHELLFISH)
         {
             switch (selection)
             {
                 //kill crab
                 case 0:
                     ParentOfSlicedObjects.GetComponentInChildren<SpriteRenderer>().sprite = Resources.Load<Sprite>("MeatFabrication/Shellfish/1_Full Crab");
+                    fabricationType = TYPE_OF_FABRICATION.CUT_MODE;
                     break;
                 //remove shell
                 case 1:
                     ParentOfSlicedObjects.GetComponentInChildren<SpriteRenderer>().sprite = Resources.Load<Sprite>("MeatFabrication/Shellfish/2.1_Full Crab Top");
+                    fabricationType = TYPE_OF_FABRICATION.CUT_MODE;
                     break;
                 //chop body in half
                 case 2:
-                    ParentOfSlicedObjects.GetComponentInChildren<SpriteRenderer>().sprite = Resources.Load<Sprite>("MeatFabrication/Shellfish/3_Legless Chicken");
+                    ParentOfSlicedObjects.GetComponentInChildren<SpriteRenderer>().sprite = Resources.Load<Sprite>("MeatFabrication/Shellfish/2.1_Full Crab Top");
+                    fabricationType = TYPE_OF_FABRICATION.CUT_MODE;
                     break;
                 //break claw
                 case 3:
                     ParentOfSlicedObjects.GetComponentInChildren<SpriteRenderer>().sprite = Resources.Load<Sprite>("MeatFabrication/Shellfish/11_Crab Claw");
+                    fabricationType = TYPE_OF_FABRICATION.BREAK_MODE;
                     break;
             }
-            startBaseValue_X = database.ShellfishParts[selection].startCutPointX;
-            endBaseValue_X = database.ShellfishParts[selection].endCutPointX;
-            startBaseValue_Y = database.ShellfishParts[selection].startCutPointY;
-            endBaseValue_Y = database.ShellfishParts[selection].endCutPointY;
+
+            if(selection < database.ShellfishParts.Count)
+            {
+                startBaseValue_X = database.ShellfishParts[selection].startCutPointX;
+                endBaseValue_X = database.ShellfishParts[selection].endCutPointX;
+                startBaseValue_Y = database.ShellfishParts[selection].startCutPointY;
+                endBaseValue_Y = database.ShellfishParts[selection].endCutPointY;
+            }
+
         }
         else if (meatType == TYPE_OF_MEAT.FISH)
         {
@@ -306,58 +370,105 @@ public class MeatFabManager : MonoBehaviour {
                 //Stomach
                 case 0:
                     ParentOfSlicedObjects.GetComponentInChildren<SpriteRenderer>().sprite = Resources.Load<Sprite>("MeatFabrication/Fish/1_Full Fish");
+                    fabricationType = TYPE_OF_FABRICATION.CUT_MODE;
                     break;
                 //Remove bone
                 case 1:
                     ParentOfSlicedObjects.GetComponentInChildren<SpriteRenderer>().sprite = Resources.Load<Sprite>("MeatFabrication/Fish/2_Side Cutted Fish");
+                    fabricationType = TYPE_OF_FABRICATION.REMOVE_MODE;
                     break;
             }
-            startBaseValue_X = database.FishParts[selection].startCutPointX;
-            endBaseValue_X = database.FishParts[selection].endCutPointX;
-            startBaseValue_Y = database.FishParts[selection].startCutPointY;
-            endBaseValue_Y = database.FishParts[selection].endCutPointY;
+
+            if(selection < database.FishParts.Count)
+            {
+                startBaseValue_X = database.FishParts[selection].startCutPointX;
+                endBaseValue_X = database.FishParts[selection].endCutPointX;
+                startBaseValue_Y = database.FishParts[selection].startCutPointY;
+                endBaseValue_Y = database.FishParts[selection].endCutPointY;
+            }
+            
         }
+
+        UpdateFabricationTypeText();
     }
 
     public void ResetSliceableObjects()
     {
-        Debug.Log("RESET");
+        Debug.Log("ResetSliceableObjects");
 
         for(int i = ParentOfSlicedObjects.childCount; i > 0; i--)
         {
-            Debug.Log("AIUSGFBIYSAFGIUAFGI");
             Destroy(ParentOfSlicedObjects.GetChild(i-1).gameObject);
         }
 
         GameObject go = Instantiate(SlicePrefab);
         go.transform.SetParent(ParentOfSlicedObjects);
-        
     }
 
     public void ProceedToNextStep()
-    { 
+    {
+        Debug.Log("ProceedToNextStep");
         ResetSliceableObjects();
         switch(meatType)
         {
             case TYPE_OF_MEAT.CHICKEN:
-                if (selection < database.ChickenParts.Count)
+                //If there is still steps - proceed
+                if (selection < database.ChickenParts.Count - 1)
                 {
                     selection++;
-                    MeatSelectionUI.value = selection;
+                    MeatSelectionDropdownUI.value = selection;
+                }
+                //If there isn't any steps - proceed to congratulatory popup + reset gameobjects
+                else
+                {
+                    finishedFabricationTab.SetActive(true);
+                    finishedFabricationText.text = "Congratulations! You have successfully fabricated a chicken";
+
+                    meatType = TYPE_OF_MEAT.DEFAULT;
+                    fabricationType = TYPE_OF_FABRICATION.DEFAULT;
+                    selection = 0;
+                    MeatSelectionDropdownUI.ClearOptions();
+                    MeatSelectionDropdownUI.RefreshShownValue();
                 }
                 break;
             case TYPE_OF_MEAT.SHELLFISH:
-                if (selection < database.ShellfishParts.Count)
+                //If there is still steps - proceed
+                if (selection < database.ShellfishParts.Count - 1)
                 {
                     selection++;
-                    MeatSelectionUI.value = selection;
+                    MeatSelectionDropdownUI.value = selection;
+                }
+                //If there isn't any steps - proceed to congratulatory popup + reset gameobjects
+                else
+                {
+                    finishedFabricationTab.SetActive(true);
+                    finishedFabricationText.text = "Congratulations! You have successfully fabricated a crab";
+
+                    meatType = TYPE_OF_MEAT.DEFAULT;
+                    fabricationType = TYPE_OF_FABRICATION.DEFAULT;
+                    selection = 0;
+                    MeatSelectionDropdownUI.ClearOptions();
+                    MeatSelectionDropdownUI.RefreshShownValue();
                 }
                 break;
             case TYPE_OF_MEAT.FISH:
-                if (selection < database.FishParts.Count)
+                //If there is still steps - proceed
+                if (selection < database.FishParts.Count - 1)
                 {
                     selection++;
-                    MeatSelectionUI.value = selection;
+                    MeatSelectionDropdownUI.value = selection;
+                }
+                //If there isn't any steps - proceed to congratulatory popup + reset gameobjects
+                else
+                {
+                    finishedFabricationTab.SetActive(true);
+                    finishedFabricationText.text = "Congratulations! You have successfully fabricated a fish";
+
+                    meatType = TYPE_OF_MEAT.DEFAULT;
+                    fabricationType = TYPE_OF_FABRICATION.DEFAULT;
+                    selection = 0;
+                    MeatSelectionDropdownUI.ClearOptions();
+                    MeatSelectionDropdownUI.RefreshShownValue();
                 }
                 break;
         }
@@ -548,6 +659,26 @@ public class MeatFabManager : MonoBehaviour {
         endFail = false;
         startSuccess = false;
         endSuccess = false;
+    }
+
+    public void UpdateFabricationTypeText()
+    {
+        Debug.Log("UpdateFabricationTypeText");
+        switch(fabricationType)
+        {
+            case TYPE_OF_FABRICATION.DEFAULT:
+                fabTypeText.text = " ";
+                break;
+            case TYPE_OF_FABRICATION.CUT_MODE:
+                fabTypeText.text = "Cutting Mode";
+                break;
+            case TYPE_OF_FABRICATION.REMOVE_MODE:
+                fabTypeText.text = "Removing Mode";
+                break;
+            case TYPE_OF_FABRICATION.BREAK_MODE:
+                fabTypeText.text = "Breaking Mode";
+                break;
+        }
     }
 
 }
