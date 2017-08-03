@@ -14,8 +14,6 @@ public class MeatFabManager : MonoBehaviour {
     //Type of meat - Chicken / Shellfish (Crab) / Fish
     public TYPE_OF_MEAT meatType;
 
-    public TextMeshProUGUI fabTypeText;
-
     //Dropdown Menu for selecting steps
     public TMP_Dropdown MeatSelectionDropdownUI;
 
@@ -132,7 +130,7 @@ public class MeatFabManager : MonoBehaviour {
                 //hits collider + not in UI
                 if (hit.collider != null && !UIActive && meatType != TYPE_OF_MEAT.DEFAULT)
                 {
-                    Debug.Log("Target Position: " + hit.point);
+                    //Debug.Log("Target Position: " + hit.point);
                     //if hit start x range
                     if (hit.point.x < startBaseValue_X + range && hit.point.x > startBaseValue_X - range)
                     {
@@ -161,7 +159,7 @@ public class MeatFabManager : MonoBehaviour {
             {
                 if (hit.collider != null && !UIActive)
                 {
-                    Debug.Log("Target Position: " + hit.point);
+                    //Debug.Log("Target Position: " + hit.point);
                     if (hit.point.x < endBaseValue_X + range && hit.point.x > endBaseValue_X - range)
                     {
                         if (hit.point.y < endBaseValue_Y + range && hit.point.y > endBaseValue_Y - range)
@@ -243,7 +241,7 @@ public class MeatFabManager : MonoBehaviour {
     //Check and update sprites accordingly before cut
     public void UpdateSliceableBeforeCut()
     {
-        Debug.Log("UpdateSliceableBeforeCut");
+        //Debug.Log("UpdateSliceableBeforeCut");
        
         if (meatType == TYPE_OF_MEAT.CHICKEN)
         {
@@ -356,7 +354,7 @@ public class MeatFabManager : MonoBehaviour {
 
     public void ProceedToNextStep()
     {
-        Debug.Log("ProceedToNextStep");
+        //Debug.Log("ProceedToNextStep");
         ResetSliceableObjects();
         switch(meatType)
         {
@@ -440,7 +438,7 @@ public class MeatFabManager : MonoBehaviour {
                 break;
         }
         
-        Debug.Log("proceed selection:" + selection);
+        //Debug.Log("proceed selection:" + selection);
         UpdateSliceableBeforeCut();
     }
   
