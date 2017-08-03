@@ -20,15 +20,12 @@ public class _2DSlicing : MonoBehaviour
 
             if (Input.GetMouseButtonUp(0))
             {
+                //If cut = success, proceed to cut
                 if (MeatFabManager.Instance.startSuccess == true && MeatFabManager.Instance.endSuccess == true)
                 {
                     LinecastCut(mouseStart, mouseEnd, layerMask.value);
                     MeatFabManager.Instance.startSuccess = false;
                     MeatFabManager.Instance.endSuccess = false;
-                }
-                else
-                {
-                    //Debug.Log("FAILED");
                 }
             }
         }
