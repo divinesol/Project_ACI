@@ -8,10 +8,11 @@ public class MeatFabManager : MonoBehaviour {
 
     public static MeatFabManager Instance;
 
+    //Calls list of fabricated items from FabricationDatabase
     public FabricationDatabase database;
 
+    //Type of meat - Chicken / Shellfish (Crab) / Fish
     public TYPE_OF_MEAT meatType;
-    public TYPE_OF_FABRICATION fabricationType;
 
     public TextMeshProUGUI fabTypeText;
 
@@ -21,6 +22,7 @@ public class MeatFabManager : MonoBehaviour {
     //Parent of the sliceableObject - Used for resetting the sliceable object
     public Transform ParentOfSlicedObjects;
 
+    //Sliceable Object Prefab to instantiate when resetting scene
     public GameObject SlicePrefab;
 
     //Result tab (Correct + Incorrect) | Result text (Correct + Incorrect) + Hint for Incorrect | Correct Result Image
@@ -39,6 +41,7 @@ public class MeatFabManager : MonoBehaviour {
     //Start Position, End Position and Range of Position
     public float startBaseValue_X, startBaseValue_Y, endBaseValue_X, endBaseValue_Y, range;
 
+    //Enum of Meat Types
     public enum TYPE_OF_MEAT
     {
         DEFAULT,
@@ -47,15 +50,9 @@ public class MeatFabManager : MonoBehaviour {
         SHELLFISH
     };
 
-    public enum TYPE_OF_FABRICATION
-    {
-        DEFAULT,
-        CUT_MODE,
-        REMOVE_MODE,
-        BREAK_MODE
-    };
-
+    //Steps for the fabrication
     public int selection = 0;
+    //Bool for UIActive / Touchdown
     public bool UIActive, touchDown;
 
     void Awake()
@@ -89,15 +86,20 @@ public class MeatFabManager : MonoBehaviour {
         startSuccess = false;
         endSuccess = false;
 
-        fabricationType = TYPE_OF_FABRICATION.DEFAULT;
         meatType = TYPE_OF_MEAT.DEFAULT;
     }
 
     // Update is called once per frame
     void Update ()
     {
-        //Constantly resets bool unless cut fails
+        //Constantly resets bool unless cut fails / succeeds
         endFail = false;
+        endSuccess = false;
+
+        //Debug.Log("start success: "+startSuccess);
+        //Debug.Log("start fail: " + startFail);
+        //Debug.Log("end success: " + endSuccess);
+        //Debug.Log("end fail: " + endFail);
 
         //UpdateSelection();
         if (selection != MeatSelectionDropdownUI.value)
@@ -117,7 +119,6 @@ public class MeatFabManager : MonoBehaviour {
         }
 
         RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
-        //Debug.Log("Target Position: " + hit.point);
 
         //mouse down
         if(meatType != TYPE_OF_MEAT.DEFAULT)
@@ -129,62 +130,26 @@ public class MeatFabManager : MonoBehaviour {
                 if (hit.collider != null && !UIActive)
                 {
                     Debug.Log("Target Position: " + hit.point);
-
-                    //fabricationType == REMOVE / CUT
-                    if (fabricationType != TYPE_OF_FABRICATION.BREAK_MODE)
+                    //if hit start x range
+                    if (hit.point.x < startBaseValue_X + range && hit.point.x > startBaseValue_X - range)
                     {
-                        //if hit start x range
-                        if (hit.point.x < startBaseValue_X + range && hit.point.x > startBaseValue_X - range)
+                        //if hit start y range
+                        if (hit.point.y < startBaseValue_Y + range && hit.point.y > startBaseValue_Y - range)
                         {
-                            //if hit start y range
-                            if (hit.point.y < startBaseValue_Y + range && hit.point.y > startBaseValue_Y - range)
-                            {
-                                startSuccess = true;
-                                startFail = false;
-                            }
-                            else
-                            {
-                                startFail = true;
-                                startSuccess = false;
-                            }
+                            startSuccess = true;
+                            startFail = false;
                         }
-                        //if doesnt hit
                         else
                         {
                             startFail = true;
                             startSuccess = false;
                         }
                     }
-                    //fabricationType == BREAK
-                    else if (fabricationType == TYPE_OF_FABRICATION.BREAK_MODE)
+                    //if doesnt hit
+                    else
                     {
-                        //if hit start x range
-                        if (hit.point.x < startBaseValue_X + range && hit.point.x > startBaseValue_X - range)
-                        {
-                            //if hit start y range
-                            if (hit.point.y < startBaseValue_Y + range && hit.point.y > startBaseValue_Y - range)
-                            {
-                                startSuccess = true;
-                                endSuccess = true;
-                                startFail = false;
-                                endFail = false;
-                            }
-                            else
-                            {
-                                startFail = true;
-                                endFail = true;
-                                startSuccess = false;
-                                endSuccess = false;
-                            }
-                        }
-                        //if doesnt hit
-                        else
-                        {
-                            startFail = true;
-                            endFail = true;
-                            startSuccess = false;
-                            endSuccess = false;
-                        }
+                        startFail = true;
+                        startSuccess = false;
                     }
                 }
             }
@@ -193,28 +158,24 @@ public class MeatFabManager : MonoBehaviour {
             {
                 if (hit.collider != null && !UIActive)
                 {
-                    if (fabricationType != TYPE_OF_FABRICATION.BREAK_MODE)
+                    Debug.Log("Target Position: " + hit.point);
+                    if (hit.point.x < endBaseValue_X + range && hit.point.x > endBaseValue_X - range)
                     {
-                        if (hit.point.x < endBaseValue_X + range && hit.point.x > endBaseValue_X - range)
+                        if (hit.point.y < endBaseValue_Y + range && hit.point.y > endBaseValue_Y - range)
                         {
-                            //Debug.Log("Target Position: " + hit.point);
-                            if (hit.point.y < endBaseValue_Y + range && hit.point.y > endBaseValue_Y - range)
-                            {
-                                //Debug.Log("startY: " + hit.point.x + "endY: " + hit.point.y);
-                                endSuccess = true;
-                                endFail = false;
-                            }
-                            else
-                            {
-                                endFail = true;
-                                endSuccess = false;
-                            }
+                            endSuccess = true;
+                            endFail = false;
                         }
                         else
                         {
                             endFail = true;
                             endSuccess = false;
                         }
+                    }
+                    else
+                    {
+                        endFail = true;
+                        endSuccess = false;
                     }
                 }
                 touchDown = false;
@@ -247,7 +208,6 @@ public class MeatFabManager : MonoBehaviour {
         {
             case "chicken":
                 meatType = TYPE_OF_MEAT.CHICKEN;
-                ParentOfSlicedObjects.GetComponentInChildren<SpriteRenderer>().sprite = Resources.Load<Sprite>("MeatFabrication/Chicken/1_Full Chicken");
 
                 MeatSelectionDropdownUI.options.Add(new TMP_Dropdown.OptionData("Chicken Head"));
                 MeatSelectionDropdownUI.options.Add(new TMP_Dropdown.OptionData("Chicken Both Foot"));
@@ -258,14 +218,12 @@ public class MeatFabManager : MonoBehaviour {
                 break;
             case "fish":
                 meatType = TYPE_OF_MEAT.FISH;
-                ParentOfSlicedObjects.GetComponentInChildren<SpriteRenderer>().sprite = Resources.Load<Sprite>("MeatFabrication/Fish/1_Full Fish");
 
                 MeatSelectionDropdownUI.options.Add(new TMP_Dropdown.OptionData("Fish Left Side"));
                 MeatSelectionDropdownUI.options.Add(new TMP_Dropdown.OptionData("Debone Fish"));
                 break;
             case "shellfish":
                 meatType = TYPE_OF_MEAT.SHELLFISH;
-                ParentOfSlicedObjects.GetComponentInChildren<SpriteRenderer>().sprite = Resources.Load<Sprite>("MeatFabrication/Crab/1_Full Crab");
 
                 MeatSelectionDropdownUI.options.Add(new TMP_Dropdown.OptionData("Kill Crab"));
                 MeatSelectionDropdownUI.options.Add(new TMP_Dropdown.OptionData("Remove shell"));
@@ -283,6 +241,7 @@ public class MeatFabManager : MonoBehaviour {
     public void UpdateSliceableBeforeCut()
     {
         Debug.Log("UpdateSliceableBeforeCut");
+       
         if (meatType == TYPE_OF_MEAT.CHICKEN)
         {
             switch (selection)
@@ -290,32 +249,26 @@ public class MeatFabManager : MonoBehaviour {
                 //head
                 case 0:
                     ParentOfSlicedObjects.GetComponentInChildren<SpriteRenderer>().sprite = Resources.Load<Sprite>("MeatFabrication/Chicken/1_Full Chicken");
-                    fabricationType = TYPE_OF_FABRICATION.CUT_MODE;
                     break;
                 //both foot
                 case 1:
                     ParentOfSlicedObjects.GetComponentInChildren<SpriteRenderer>().sprite = Resources.Load<Sprite>("MeatFabrication/Chicken/2_Headless Chicken");
-                    fabricationType = TYPE_OF_FABRICATION.CUT_MODE;
                     break;
                 //left back
                 case 2:
                     ParentOfSlicedObjects.GetComponentInChildren<SpriteRenderer>().sprite = Resources.Load<Sprite>("MeatFabrication/Chicken/3_Legless Chicken");
-                    fabricationType = TYPE_OF_FABRICATION.CUT_MODE;
                     break;
                 //right back
                 case 3:
                     ParentOfSlicedObjects.GetComponentInChildren<SpriteRenderer>().sprite = Resources.Load<Sprite>("MeatFabrication/Chicken/4_Back Cut 1 Chicken");
-                    fabricationType = TYPE_OF_FABRICATION.CUT_MODE;
                     break;
                 //left breast
                 case 4:
                     ParentOfSlicedObjects.GetComponentInChildren<SpriteRenderer>().sprite = Resources.Load<Sprite>("MeatFabrication/Chicken/6_Chicken Chest");
-                    fabricationType = TYPE_OF_FABRICATION.CUT_MODE;
                     break;
                 //right breast
                 case 5:
                     ParentOfSlicedObjects.GetComponentInChildren<SpriteRenderer>().sprite = Resources.Load<Sprite>("MeatFabrication/Chicken/7_Chicken Chest Cut 1");
-                    fabricationType = TYPE_OF_FABRICATION.CUT_MODE;
                     break;
             }
 
@@ -335,22 +288,18 @@ public class MeatFabManager : MonoBehaviour {
                 //kill crab
                 case 0:
                     ParentOfSlicedObjects.GetComponentInChildren<SpriteRenderer>().sprite = Resources.Load<Sprite>("MeatFabrication/Shellfish/1_Full Crab");
-                    fabricationType = TYPE_OF_FABRICATION.CUT_MODE;
                     break;
                 //remove shell
                 case 1:
                     ParentOfSlicedObjects.GetComponentInChildren<SpriteRenderer>().sprite = Resources.Load<Sprite>("MeatFabrication/Shellfish/2.1_Full Crab Top");
-                    fabricationType = TYPE_OF_FABRICATION.CUT_MODE;
                     break;
                 //chop body in half
                 case 2:
-                    ParentOfSlicedObjects.GetComponentInChildren<SpriteRenderer>().sprite = Resources.Load<Sprite>("MeatFabrication/Shellfish/2.1_Full Crab Top");
-                    fabricationType = TYPE_OF_FABRICATION.CUT_MODE;
+                    ParentOfSlicedObjects.GetComponentInChildren<SpriteRenderer>().sprite = Resources.Load<Sprite>("MeatFabrication/Shellfish/2.2_Full Crab Top Removed");
                     break;
                 //break claw
                 case 3:
                     ParentOfSlicedObjects.GetComponentInChildren<SpriteRenderer>().sprite = Resources.Load<Sprite>("MeatFabrication/Shellfish/11_Crab Claw");
-                    fabricationType = TYPE_OF_FABRICATION.BREAK_MODE;
                     break;
             }
 
@@ -370,12 +319,10 @@ public class MeatFabManager : MonoBehaviour {
                 //Stomach
                 case 0:
                     ParentOfSlicedObjects.GetComponentInChildren<SpriteRenderer>().sprite = Resources.Load<Sprite>("MeatFabrication/Fish/1_Full Fish");
-                    fabricationType = TYPE_OF_FABRICATION.CUT_MODE;
                     break;
                 //Remove bone
                 case 1:
                     ParentOfSlicedObjects.GetComponentInChildren<SpriteRenderer>().sprite = Resources.Load<Sprite>("MeatFabrication/Fish/2_Side Cutted Fish");
-                    fabricationType = TYPE_OF_FABRICATION.REMOVE_MODE;
                     break;
             }
 
@@ -386,10 +333,7 @@ public class MeatFabManager : MonoBehaviour {
                 startBaseValue_Y = database.FishParts[selection].startCutPointY;
                 endBaseValue_Y = database.FishParts[selection].endCutPointY;
             }
-            
         }
-
-        UpdateFabricationTypeText();
     }
 
     public void ResetSliceableObjects()
@@ -425,7 +369,6 @@ public class MeatFabManager : MonoBehaviour {
                     finishedFabricationText.text = "Congratulations! You have successfully fabricated a chicken";
 
                     meatType = TYPE_OF_MEAT.DEFAULT;
-                    fabricationType = TYPE_OF_FABRICATION.DEFAULT;
                     selection = 0;
                     MeatSelectionDropdownUI.ClearOptions();
                     MeatSelectionDropdownUI.RefreshShownValue();
@@ -435,6 +378,7 @@ public class MeatFabManager : MonoBehaviour {
                 //If there is still steps - proceed
                 if (selection < database.ShellfishParts.Count - 1)
                 {
+                    Debug.Log("selection++");
                     selection++;
                     MeatSelectionDropdownUI.value = selection;
                 }
@@ -445,7 +389,6 @@ public class MeatFabManager : MonoBehaviour {
                     finishedFabricationText.text = "Congratulations! You have successfully fabricated a crab";
 
                     meatType = TYPE_OF_MEAT.DEFAULT;
-                    fabricationType = TYPE_OF_FABRICATION.DEFAULT;
                     selection = 0;
                     MeatSelectionDropdownUI.ClearOptions();
                     MeatSelectionDropdownUI.RefreshShownValue();
@@ -465,7 +408,6 @@ public class MeatFabManager : MonoBehaviour {
                     finishedFabricationText.text = "Congratulations! You have successfully fabricated a fish";
 
                     meatType = TYPE_OF_MEAT.DEFAULT;
-                    fabricationType = TYPE_OF_FABRICATION.DEFAULT;
                     selection = 0;
                     MeatSelectionDropdownUI.ClearOptions();
                     MeatSelectionDropdownUI.RefreshShownValue();
@@ -473,6 +415,7 @@ public class MeatFabManager : MonoBehaviour {
                 break;
         }
         
+        Debug.Log("proceed selection:" + selection);
         UpdateSliceableBeforeCut();
     }
   
@@ -532,30 +475,30 @@ public class MeatFabManager : MonoBehaviour {
                 case 0:
                     correctResultImage.sprite = Resources.Load<Sprite>("MeatFabrication/Shellfish/2_Dead Crab");
                     correctResultImage.SetNativeSize();
-                    correctResultText.text = "You have successfully fabricated the chicken by removing the head";
+                    correctResultText.text = "You have successfully fabricated the crab by killing it";
                     break;
                 //finish removing crab shell
                 case 1:
-                    correctResultImage.sprite = Resources.Load<Sprite>("MeatFabrication/Shellfish/3_Clawless Crab");
+                    correctResultImage.sprite = Resources.Load<Sprite>("MeatFabrication/Shellfish/2.2_Full Crab Top Removed");
                     correctResultImage.SetNativeSize();
-                    correctResultText.text = "You have successfully fabricated the chicken by removing both of the feet";
+                    correctResultText.text = "You have successfully fabricated the crab by removing its shell";
                     break;
                 //finish cutting in half
                 case 2:
                     correctResultImage.sprite = Resources.Load<Sprite>("MeatFabrication/Shellfish/4_Crab Legs and Claw");
                     correctResultImage.SetNativeSize();
-                    correctResultText.text = "You have successfully fabricated the chicken by cutting the left side of the back";
+                    correctResultText.text = "You have successfully fabricated the crab by cutting it in half";
                     break;
                 //finish break claw
                 case 3:
                     correctResultImage.sprite = Resources.Load<Sprite>("MeatFabrication/Shellfish/12_Crab Claw Cracked");
                     correctResultImage.SetNativeSize();
-                    correctResultText.text = "You have successfully fabricated the chicken by cutting the right side of the back";
+                    correctResultText.text = "You have successfully fabricated the crab by breaking its claw";
                     break;
                 
             }
         }
-        else if (meatType == TYPE_OF_MEAT.SHELLFISH)
+        else if (meatType == TYPE_OF_MEAT.FISH)
         {
             switch (selection)
             {
@@ -563,13 +506,13 @@ public class MeatFabManager : MonoBehaviour {
                 case 0:
                     correctResultImage.sprite = Resources.Load<Sprite>("MeatFabrication/Fish/2_Side Cutted Fish");
                     correctResultImage.SetNativeSize();
-                    correctResultText.text = "You have successfully fabricated the chicken by removing the head";
+                    correctResultText.text = "You have successfully fabricated the fish by cutting its stomach";
                     break;
                 //finish debone 
                 case 1:
                     correctResultImage.sprite = Resources.Load<Sprite>("MeatFabrication/Fish/3_Debone Fish");
                     correctResultImage.SetNativeSize();
-                    correctResultText.text = "You have successfully fabricated the chicken by removing both of the feet";
+                    correctResultText.text = "You have successfully fabricated the fish by removing its bone";
                     break;
             }
         }
@@ -585,27 +528,27 @@ public class MeatFabManager : MonoBehaviour {
             {
                 //fail cutting head
                 case 0:
-                    wrongResultHint.text = "Hint : Start from the top of the chicken";
+                    wrongResultHint.text = "Hint : Start from the head of the chicken [Cut from top to down]";
                     break;
                 //fail cutting both foot
                 case 1:
-                    wrongResultHint.text = "Hint : Start from the bottom of the chicken";
+                    wrongResultHint.text = "Hint : Start from the legs of the chicken [Cut from top to down]";
                     break;
                 //fail cutting left back
                 case 2:
-                    wrongResultHint.text = "Hint : IDK";
+                    wrongResultHint.text = "Hint : Start from leftside of the back [Cut from left to right]";
                     break;
                 //fail cutting right back
                 case 3:
-                    wrongResultHint.text = "Hint : IDK";
+                    wrongResultHint.text = "Hint : Start from rightside of the back [Cut from left to right]";
                     break;
                 //fail cutting left breast
                 case 4:
-                    wrongResultHint.text = "Hint : IDK";
+                    wrongResultHint.text = "Hint : Start from leftside of the breast [Cut from left to right]";
                     break;
                 //fail cutting right breast
                 case 5:
-                    wrongResultHint.text = "Hint : IDK";
+                    wrongResultHint.text = "Hint : Start from rightside of the breast [Cut from left to right]";
                     break;
                 case 6:
                     break;
@@ -613,24 +556,24 @@ public class MeatFabManager : MonoBehaviour {
         }
         else if (meatType == TYPE_OF_MEAT.SHELLFISH)
         {
-            wrongResultText.text = "You have failed to fabricate the chicken";
+            wrongResultText.text = "You have failed to fabricate the crab";
             switch (selection)
             {
                 //fail killing crab
                 case 0:
-                    wrongResultHint.text = "Hint : Start from the top of the chicken";
+                    wrongResultHint.text = "Hint : Look for an inverted V on the crab [Cut from top to down]";
                     break;
                 //fail removing crab shell
                 case 1:
-                    wrongResultHint.text = "Hint : Start from the bottom of the chicken";
+                    wrongResultHint.text = "Hint : Start from the top of the shell";
                     break;
                 //fail cutting in half
                 case 2:
-                    wrongResultHint.text = "Hint : IDK";
+                    wrongResultHint.text = "Hint : Somewhat in the middle cut";
                     break;
                 //fail breaking claw
                 case 3:
-                    wrongResultHint.text = "Hint : IDK";
+                    wrongResultHint.text = "Hint : Tap on the claw";
                     break;
                 
             }
@@ -642,11 +585,11 @@ public class MeatFabManager : MonoBehaviour {
             {
                 //fail stomach cut
                 case 0:
-                    wrongResultHint.text = "Hint : Start from the top of the chicken";
+                    wrongResultHint.text = "Hint : Start from the bottom of the fish [Cut from left to right]";
                     break;
                 //fail debone
                 case 1:
-                    wrongResultHint.text = "Hint : Start from the bottom of the chicken";
+                    wrongResultHint.text = "Hint : Start from right end bone [Cut from right to left]";
                     break;
             }
         }
@@ -659,26 +602,6 @@ public class MeatFabManager : MonoBehaviour {
         endFail = false;
         startSuccess = false;
         endSuccess = false;
-    }
-
-    public void UpdateFabricationTypeText()
-    {
-        Debug.Log("UpdateFabricationTypeText");
-        switch(fabricationType)
-        {
-            case TYPE_OF_FABRICATION.DEFAULT:
-                fabTypeText.text = " ";
-                break;
-            case TYPE_OF_FABRICATION.CUT_MODE:
-                fabTypeText.text = "Cutting Mode";
-                break;
-            case TYPE_OF_FABRICATION.REMOVE_MODE:
-                fabTypeText.text = "Removing Mode";
-                break;
-            case TYPE_OF_FABRICATION.BREAK_MODE:
-                fabTypeText.text = "Breaking Mode";
-                break;
-        }
     }
 
 }
