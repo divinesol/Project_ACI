@@ -20,15 +20,22 @@ public class _2DSlicing : MonoBehaviour
 
             if (Input.GetMouseButtonUp(0))
             {
-                if (MeatFabManager.Instance.startSuccess == true && MeatFabManager.Instance.endSuccess == true)
+                if(MeatFabManager.Instance.fabricationType == MeatFabManager.TYPE_OF_FABRICATION.CUT_MODE)
                 {
-                    LinecastCut(mouseStart, mouseEnd, layerMask.value);
-                    MeatFabManager.Instance.startSuccess = false;
-                    MeatFabManager.Instance.endSuccess = false;
+                    if (MeatFabManager.Instance.startSuccess == true && MeatFabManager.Instance.endSuccess == true)
+                    {
+                        LinecastCut(mouseStart, mouseEnd, layerMask.value);
+                        MeatFabManager.Instance.startSuccess = false;
+                        MeatFabManager.Instance.endSuccess = false;
+                    }
                 }
-                else
+                else if(MeatFabManager.Instance.fabricationType == MeatFabManager.TYPE_OF_FABRICATION.REMOVE_MODE)
                 {
-                    //Debug.Log("FAILED");
+                    if (MeatFabManager.Instance.startSuccess == true && MeatFabManager.Instance.endSuccess == true)
+                    {
+                        MeatFabManager.Instance.startSuccess = false;
+                        MeatFabManager.Instance.endSuccess = false;
+                    }
                 }
             }
         }
