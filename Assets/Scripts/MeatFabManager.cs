@@ -14,8 +14,6 @@ public class MeatFabManager : MonoBehaviour {
     //Type of meat - Chicken / Shellfish (Crab) / Fish
     public TYPE_OF_MEAT meatType;
 
-    public TextMeshProUGUI fabTypeText;
-
     //Dropdown Menu for selecting steps
     public TMP_Dropdown MeatSelectionDropdownUI;
 
@@ -55,6 +53,8 @@ public class MeatFabManager : MonoBehaviour {
     //Bool for UIActive / Touchdown
     public bool UIActive, touchDown;
 
+    public bool resetLinerenderer;
+
     void Awake()
     {
         if (Instance == null)
@@ -85,6 +85,7 @@ public class MeatFabManager : MonoBehaviour {
 
         startSuccess = false;
         endSuccess = false;
+        resetLinerenderer = false;
 
         meatType = TYPE_OF_MEAT.DEFAULT;
     }
@@ -96,7 +97,7 @@ public class MeatFabManager : MonoBehaviour {
         endFail = false;
         endSuccess = false;
 
-        //Debug.Log("start success: "+startSuccess);
+        //Debug.Log("start success: " + startSuccess);
         //Debug.Log("start fail: " + startFail);
         //Debug.Log("end success: " + endSuccess);
         //Debug.Log("end fail: " + endFail);
@@ -109,7 +110,7 @@ public class MeatFabManager : MonoBehaviour {
         }   
 
         //Check if UI is active - if UIActive, raycast for meat fabrication would be off
-        if(correctResultTab.activeSelf || wrongResultTab.activeSelf || MeatSelectionDropdownUI.transform.childCount > 3)
+        if(correctResultTab.activeSelf || wrongResultTab.activeSelf || MeatSelectionDropdownUI.transform.childCount > 3 || finishedFabricationTab.activeSelf)
         {
             UIActive = true;
         }
@@ -121,15 +122,15 @@ public class MeatFabManager : MonoBehaviour {
         RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
 
         //mouse down
-        if(meatType != TYPE_OF_MEAT.DEFAULT)
+        //if(meatType != TYPE_OF_MEAT.DEFAULT)
         {
             if (Input.GetMouseButtonDown(0))
             {
                 touchDown = true;
                 //hits collider + not in UI
-                if (hit.collider != null && !UIActive)
+                if (hit.collider != null && !UIActive && meatType != TYPE_OF_MEAT.DEFAULT)
                 {
-                    Debug.Log("Target Position: " + hit.point);
+                    //Debug.Log("Target Position: " + hit.point);
                     //if hit start x range
                     if (hit.point.x < startBaseValue_X + range && hit.point.x > startBaseValue_X - range)
                     {
@@ -158,7 +159,7 @@ public class MeatFabManager : MonoBehaviour {
             {
                 if (hit.collider != null && !UIActive)
                 {
-                    Debug.Log("Target Position: " + hit.point);
+                    //Debug.Log("Target Position: " + hit.point);
                     if (hit.point.x < endBaseValue_X + range && hit.point.x > endBaseValue_X - range)
                     {
                         if (hit.point.y < endBaseValue_Y + range && hit.point.y > endBaseValue_Y - range)
@@ -240,7 +241,7 @@ public class MeatFabManager : MonoBehaviour {
     //Check and update sprites accordingly before cut
     public void UpdateSliceableBeforeCut()
     {
-        Debug.Log("UpdateSliceableBeforeCut");
+        //Debug.Log("UpdateSliceableBeforeCut");
        
         if (meatType == TYPE_OF_MEAT.CHICKEN)
         {
@@ -334,6 +335,8 @@ public class MeatFabManager : MonoBehaviour {
                 endBaseValue_Y = database.FishParts[selection].endCutPointY;
             }
         }
+
+        resetLinerenderer = false;
     }
 
     public void ResetSliceableObjects()
@@ -351,7 +354,7 @@ public class MeatFabManager : MonoBehaviour {
 
     public void ProceedToNextStep()
     {
-        Debug.Log("ProceedToNextStep");
+        //Debug.Log("ProceedToNextStep");
         ResetSliceableObjects();
         switch(meatType)
         {
@@ -367,6 +370,13 @@ public class MeatFabManager : MonoBehaviour {
                 {
                     finishedFabricationTab.SetActive(true);
                     finishedFabricationText.text = "Congratulations! You have successfully fabricated a chicken";
+
+                    resetLinerenderer = true;
+
+                    startFail = false;
+                    endFail = false;
+                    startSuccess = false;
+                    endSuccess = false;
 
                     meatType = TYPE_OF_MEAT.DEFAULT;
                     selection = 0;
@@ -388,6 +398,13 @@ public class MeatFabManager : MonoBehaviour {
                     finishedFabricationTab.SetActive(true);
                     finishedFabricationText.text = "Congratulations! You have successfully fabricated a crab";
 
+                    resetLinerenderer = true;
+
+                    startFail = false;
+                    endFail = false;
+                    startSuccess = false;
+                    endSuccess = false;
+
                     meatType = TYPE_OF_MEAT.DEFAULT;
                     selection = 0;
                     MeatSelectionDropdownUI.ClearOptions();
@@ -407,6 +424,12 @@ public class MeatFabManager : MonoBehaviour {
                     finishedFabricationTab.SetActive(true);
                     finishedFabricationText.text = "Congratulations! You have successfully fabricated a fish";
 
+                    resetLinerenderer = true;
+                    startFail = false;
+                    endFail = false;
+                    startSuccess = false;
+                    endSuccess = false;
+
                     meatType = TYPE_OF_MEAT.DEFAULT;
                     selection = 0;
                     MeatSelectionDropdownUI.ClearOptions();
@@ -415,7 +438,7 @@ public class MeatFabManager : MonoBehaviour {
                 break;
         }
         
-        Debug.Log("proceed selection:" + selection);
+        //Debug.Log("proceed selection:" + selection);
         UpdateSliceableBeforeCut();
     }
   

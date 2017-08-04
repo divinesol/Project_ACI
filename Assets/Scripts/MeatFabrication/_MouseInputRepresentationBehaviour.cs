@@ -10,6 +10,7 @@ public class _MouseInputRepresentationBehaviour : MonoBehaviour
     void Start()
     {
         lineRenderer = GetComponent<LineRenderer>();
+        lineRenderer.sortingOrder = 2;
         lineRenderer.sortingLayerName = "Foreground";
     }
 
@@ -47,7 +48,9 @@ public class _MouseInputRepresentationBehaviour : MonoBehaviour
             } 
         }
 
-        
+        if(MeatFabManager.Instance.resetLinerenderer)
+            lineRenderer.enabled = false;
+
     }
 
 }
