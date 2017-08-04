@@ -80,6 +80,7 @@ public class LoadingScreenManager : MonoBehaviour
             {
                 progressBar.fillAmount = operation.progress;
                 lastProgress = operation.progress;
+                Debug.Log("fill");
             }
         }
 
@@ -126,17 +127,17 @@ public class LoadingScreenManager : MonoBehaviour
 
     void ShowLoadingVisuals()
     {
-        loadingIcon.gameObject.SetActive(true);
-        loadingDoneIcon.gameObject.SetActive(false);
+        //loadingIcon.gameObject.SetActive(true);
+        //loadingDoneIcon.gameObject.SetActive(false);
 
         progressBar.fillAmount = 0f;
-        loadingText.text = "LOADING...";
+       // loadingText.text = "LOADING...";
     }
 
     void ShowCompletionVisuals()
     {
-        loadingIcon.gameObject.SetActive(false);
-        loadingDoneIcon.gameObject.SetActive(true);
+        //loadingIcon.gameObject.SetActive(false);
+      //  loadingDoneIcon.gameObject.SetActive(true);
 
         progressBar.fillAmount = 1f;
         loadingText.text = "LOADING DONE";
