@@ -86,7 +86,7 @@ public class NewTutorials : MonoBehaviour {
         {
             switch (currentStep)
             {
-                // Step 0: Ask user if he wants to skip the tutorial
+                // Step 0: Ask user if they want to skip the tutorial
                 case 0:
                    
                     break;
