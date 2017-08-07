@@ -23,6 +23,8 @@ public class Win : MonoBehaviour {
         gameObject.SetActive(false);
         Time.timeScale = 1;
         LoadingScreenManager.LoadScene("Virt_Restuarant");
+        NewTutorials.currentStep = 0;
+        NewTutorials.tutDone = false;
     }
     public void Exit()
     {
@@ -35,5 +37,7 @@ public class Win : MonoBehaviour {
         gameObject.SetActive(false);
         Time.timeScale = 1;
         LoadingScreenManager.LoadScene("MainMenu");
+        NewTutorials.currentStep = 0;
+        NewTutorials.tutDone = false;
     }
 }
