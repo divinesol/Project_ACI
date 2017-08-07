@@ -481,8 +481,8 @@ public class TouchManager : MonoBehaviour
     //Check if Purchase amount has reached orderlist Limit
     public void BasicCheckBeforeBuying()
     {
-        if (!tutorial.tutDone)
-            tutorial.NextBtn();
+        //if (!tutorial.tutDone)
+        //    tutorial.NextBtn();
 
         //Max 5 limit of Purchases
         if (ObjectListParent.transform.childCount >= 5)
