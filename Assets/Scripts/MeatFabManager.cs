@@ -71,7 +71,7 @@ public class MeatFabManager : MonoBehaviour {
             ValueChange(MeatSelectionDropdownUI);
         });
 
-        range = 0.9f;
+        range = 1.2f;
         selection = 0;
         UIActive = false;
         touchDown = false;
@@ -603,7 +603,7 @@ public class MeatFabManager : MonoBehaviour {
         }
         else if (meatType == TYPE_OF_MEAT.FISH)
         {
-            wrongResultText.text = "You have failed to fabricate the chicken";
+            wrongResultText.text = "You have failed to fabricate the fish";
             switch (selection)
             {
                 //fail stomach cut
