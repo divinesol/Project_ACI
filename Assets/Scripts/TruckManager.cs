@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class TruckManager : MonoBehaviour
 {
 
-    public List<GameObject> truckList = new List<GameObject>();
+    public static List<GameObject> truckList = new List<GameObject>();
     public static List<Food> foodList = new List<Food>();
     public GameObject truckPrefab;
     float x = -2.5f;
@@ -24,7 +24,7 @@ public class TruckManager : MonoBehaviour
             //spawn truck prefab and give then a ID
             GameObject truck = Instantiate(truckPrefab);
             truck.GetComponent<Truck>().index = truckAmount;
-
+            truck.AddComponent<CheckForStorageDoor>();
             //add them to list
             truckList.Add(truck);
             foodList.Add(new Food());

@@ -33,6 +33,7 @@ public class NewStorageScene : MonoBehaviour {
     [SerializeField]
     private GameObject stockAndPopularityManager;
 
+    private Vector3 originalBoxLocation;
     // Use this for initialization
     void Start() {
         orderList.GetComponent<OrderListManager>().GetOrderList();
@@ -89,14 +90,17 @@ public class NewStorageScene : MonoBehaviour {
                             deliveryDetails.SetActive(true);
                             orderList.GetComponent<OrderListManager>().orderlistParent.transform.localPosition = new Vector3(500, 0, 0);
                             orderListClose.gameObject.SetActive(false);
+                            originalBoxLocation = selectedBox.transform.position;
                         }
                     }
                 }
                 else if (selectStorage.activeSelf || acceptedWrongOrderFeedback.gameObject.activeSelf)
                 {
+                    if (!selectedBox.GetComponent<DragObjOnly>())
+                        selectedBox.AddComponent<DragObjOnly>();
                     if (hit.collider.gameObject.name == ("dryDoor"))
                     {
-                        checkForCorrectDoor(0); // Dry food         
+                        checkForCorrectDoor(0); // Dry food
                     }
                     else if (hit.collider.gameObject.name == ("wetDoor"))
                     {
@@ -138,6 +142,7 @@ public class NewStorageScene : MonoBehaviour {
         deliveryDetails.SetActive(false);
         orderList.GetComponent<OrderListManager>().orderlistParent.transform.localPosition = new Vector3(-2000, 0, 0);
         orderListClose.gameObject.SetActive(true);
+        selectedBox.AddComponent<DragObjOnly>();
     }
 
     public void rejectOrder()
@@ -148,6 +153,7 @@ public class NewStorageScene : MonoBehaviour {
         deliveryDetails.SetActive(false);
         orderList.GetComponent<OrderListManager>().orderlistParent.transform.localPosition = new Vector3(-2000, 0, 0);
         orderListClose.gameObject.SetActive(true);
+        originalBoxLocation.Set(0, 0, 0);
     }
 
     public void closeOrder()
@@ -158,6 +164,7 @@ public class NewStorageScene : MonoBehaviour {
         selectedBox = null;
         orderList.GetComponent<OrderListManager>().orderlistParent.transform.localPosition = new Vector3(-2000, 0, 0);
         orderListClose.gameObject.SetActive(true);
+        originalBoxLocation.Set(0, 0, 0);
     }
 
     public void removeFromOrderList()
@@ -185,6 +192,7 @@ public class NewStorageScene : MonoBehaviour {
 
         //delete them from orderlist
         Destroy(orderList.transform.GetChild(num).gameObject);
+
     }
 
     public bool checkForCorrectItems()
@@ -218,6 +226,8 @@ public class NewStorageScene : MonoBehaviour {
             mainCam.transform.rotation = Quaternion.Euler(15, 0, 0);
             placementTop.gameObject.SetActive(true);
             placementBottom.gameObject.SetActive(true);
+            Destroy(selectedBox.GetComponent<DragObjOnly>());
+            selectedBox.transform.position = originalBoxLocation;
         }
         else
         {

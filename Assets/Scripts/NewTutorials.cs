@@ -38,7 +38,7 @@ public class NewTutorials : MonoBehaviour {
     // Storage Scene use
     public GameObject MainUIButtons;
 
-    public static bool tutDone;
+    public static bool tutDone = true; // set to true during debug
     public static int currentStep = 0; // which part of the tutorial
 
     /*
@@ -88,7 +88,6 @@ public class NewTutorials : MonoBehaviour {
             {
                 // Step 0: Ask user if they want to skip the tutorial
                 case 0:
-                   
                     break;
                 // Step 1: Tap anywhere to continue, text changes to "need to buy food"
                 case 1:
