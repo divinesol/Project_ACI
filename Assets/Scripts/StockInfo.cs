@@ -31,11 +31,14 @@ public class StockInfo : MonoBehaviour
         {
             if (SceneManager.GetActiveScene().name != "AR_Main")
             {
-                //If virtual scene, change model's mesh and material based on fooddata
-                gameObject.GetComponent<MeshFilter>().mesh
-                    = gameObject.GetComponent<StockInfo>().food.foodPrefab.GetComponent<MeshFilter>().sharedMesh;
-                gameObject.GetComponent<MeshRenderer>().materials
-                    = gameObject.GetComponent<StockInfo>().food.foodPrefab.GetComponent<MeshRenderer>().sharedMaterials;
+                ////If virtual scene, change model's mesh and material based on fooddata
+                //gameObject.GetComponent<MeshFilter>().mesh
+                //    = gameObject.GetComponent<StockInfo>().food.foodPrefab.GetComponent<MeshFilter>().sharedMesh;
+                //gameObject.GetComponent<MeshRenderer>().materials
+                //    = gameObject.GetComponent<StockInfo>().food.foodPrefab.GetComponent<MeshRenderer>().sharedMaterials;
+
+                gameObject.GetComponent<MeshRenderer>().material
+                    = gameObject.GetComponent<StockInfo>().food.foodARImage;
             }
             else
             {
@@ -49,7 +52,10 @@ public class StockInfo : MonoBehaviour
         {
             //if selection model not in use and not in AR mode, Return to original position
             if(SceneManager.GetActiveScene().name != "AR_Main")
-                ReduceModel();
+            {
+
+            }
+                //ReduceModel();
             
         }
     }
