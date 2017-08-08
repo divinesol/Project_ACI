@@ -37,7 +37,7 @@ public class MeatFabManager : MonoBehaviour {
     public bool startFail, endFail;
 
     //Start Position, End Position and Range of Position
-    public float startBaseValue_X, startBaseValue_Y, endBaseValue_X, endBaseValue_Y, range;
+    public float startBaseValue_X, startBaseValue_Y, endBaseValue_X, endBaseValue_Y, rangeX, rangeY;
 
     //Enum of Meat Types
     public enum TYPE_OF_MEAT
@@ -71,7 +71,8 @@ public class MeatFabManager : MonoBehaviour {
             ValueChange(MeatSelectionDropdownUI);
         });
 
-        range = 1.2f;
+        rangeX = 1.8f;
+        rangeY = 0.9f;
         selection = 0;
         UIActive = false;
         touchDown = false;
@@ -123,55 +124,47 @@ public class MeatFabManager : MonoBehaviour {
 
         //mouse down
         //if(meatType != TYPE_OF_MEAT.DEFAULT)
+        if (Input.GetMouseButtonDown(0))
         {
-            if (Input.GetMouseButtonDown(0))
+            touchDown = true;
+            //hits collider + not in UI
+            if (hit.collider != null && !UIActive && meatType != TYPE_OF_MEAT.DEFAULT)
             {
-                touchDown = true;
-                //hits collider + not in UI
-                if (hit.collider != null && !UIActive && meatType != TYPE_OF_MEAT.DEFAULT)
+                //Debug.Log("Target Position: " + hit.point);
+                //if hit start x range
+                if (hit.point.x < startBaseValue_X + rangeX && hit.point.x > startBaseValue_X - rangeX)
                 {
-                    //Debug.Log("Target Position: " + hit.point);
-                    //if hit start x range
-                    if (hit.point.x < startBaseValue_X + range && hit.point.x > startBaseValue_X - range)
+                    //if hit start y range
+                    if (hit.point.y < startBaseValue_Y + rangeY && hit.point.y > startBaseValue_Y - rangeY)
                     {
-                        //if hit start y range
-                        if (hit.point.y < startBaseValue_Y + range && hit.point.y > startBaseValue_Y - range)
-                        {
-                            startSuccess = true;
-                            startFail = false;
-                        }
-                        else
-                        {
-                            startFail = true;
-                            startSuccess = false;
-                        }
+                        startSuccess = true;
+                        startFail = false;
                     }
-                    //if doesnt hit
                     else
                     {
                         startFail = true;
                         startSuccess = false;
                     }
                 }
-            }
-
-            if (Input.GetMouseButtonUp(0) && touchDown)
-            {
-                if (hit.collider != null && !UIActive)
+                //if doesnt hit
+                else
                 {
-                    //Debug.Log("Target Position: " + hit.point);
-                    if (hit.point.x < endBaseValue_X + range && hit.point.x > endBaseValue_X - range)
+                    startFail = true;
+                    startSuccess = false;
+                }
+            }
+        }
+        if (Input.GetMouseButtonUp(0) && touchDown)
+        {
+            if (hit.collider != null && !UIActive)
+            {
+                //Debug.Log("Target Position: " + hit.point);
+                if (hit.point.x < endBaseValue_X + rangeX && hit.point.x > endBaseValue_X - rangeX)
+                {
+                    if (hit.point.y < endBaseValue_Y + rangeY && hit.point.y > endBaseValue_Y - rangeY)
                     {
-                        if (hit.point.y < endBaseValue_Y + range && hit.point.y > endBaseValue_Y - range)
-                        {
-                            endSuccess = true;
-                            endFail = false;
-                        }
-                        else
-                        {
-                            endFail = true;
-                            endSuccess = false;
-                        }
+                        endSuccess = true;
+                        endFail = false;
                     }
                     else
                     {
@@ -179,12 +172,17 @@ public class MeatFabManager : MonoBehaviour {
                         endSuccess = false;
                     }
                 }
-                touchDown = false;
+                else
+                {
+                    endFail = true;
+                    endSuccess = false;
+                }
             }
+            touchDown = false;
         }
-        
+
         //if cut success
-        if(startSuccess && endSuccess)
+        if (startSuccess && endSuccess)
         {
             ShowCorrectResults();
         }
