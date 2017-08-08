@@ -48,8 +48,7 @@ public class StockManager : MonoBehaviour
 
     // Use this for initialization
     void Start()
-    {
-        
+    {  
         for (int i = 0; i < 4; i++)
         {
             //Generate Stock/Food data for all Models During Selection Scene
@@ -229,7 +228,7 @@ public class StockManager : MonoBehaviour
                         break;
                     case 4: //Chicken
                         {                 
-                                SelectionModel.transform.GetChild(i).GetComponent<StockInfo>().food = database.food[Random.Range(20, 25)];
+                           SelectionModel.transform.GetChild(i).GetComponent<StockInfo>().food = database.food[Random.Range(20, 25)];
                         }
                         break;
                     case 5: //Cheese

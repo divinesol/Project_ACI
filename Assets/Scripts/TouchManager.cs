@@ -108,7 +108,8 @@ public class TouchManager : MonoBehaviour
     public Image selectedFoodQuality;
 
     public static bool inShop;
-
+    Vector3 rotationForImagesNonMeat = new Vector3(0, 0, 60);
+    Vector3 rotationForImagesMeat = new Vector3(300, 0, 0);
     // preventing raycast from going through the GUI
     private int fingerID = -1;
     private void Awake()
@@ -481,8 +482,8 @@ public class TouchManager : MonoBehaviour
     //Check if Purchase amount has reached orderlist Limit
     public void BasicCheckBeforeBuying()
     {
-        if (!tutorial.tutDone)
-            tutorial.NextBtn();
+        //if (!tutorial.tutDone)
+        //    tutorial.NextBtn();
 
         //Max 5 limit of Purchases
         if (ObjectListParent.transform.childCount >= 5)
@@ -638,12 +639,16 @@ public class TouchManager : MonoBehaviour
         if (moveforward)
         {
             //Check distance btwn animated model and display target
-            float dist;
-            dist = Vector3.Distance(FinalPurchased_Target.transform.position, selectedFood.transform.position);
-
+            float dist = Vector3.Distance(FinalPurchased_Target.transform.position, selectedFood.transform.position);
             //move animated model to target
             if (dist > 0.1)
+            {
                 selectedFood.transform.position += (FinalPurchased_Target.transform.position - selectedFood.transform.position).normalized * 2 * Time.deltaTime;
+                if (((selectedFood.GetComponent<StockInfo>().food.foodID >= 10 && selectedFood.GetComponent<StockInfo>().food.foodID <= 14)) || (selectedFood.GetComponent<StockInfo>().food.foodID >= 20 && selectedFood.GetComponent<StockInfo>().food.foodID <= 24))
+                    selectedFood.transform.Rotate(Vector3.left * 2.1f);
+                else
+                    selectedFood.transform.Rotate(Vector3.forward * 2.1f);
+            }
             else
             {
                 //when reached target, set position and stop bool to stop movement
@@ -663,11 +668,16 @@ public class TouchManager : MonoBehaviour
         {
             if (moveback)
             {
-                float dist;
-                dist = Vector3.Distance(FinalPurchased_ReturnPosition.transform.position, selectedFood.transform.position);
+                float dist = Vector3.Distance(FinalPurchased_ReturnPosition.transform.position, selectedFood.transform.position);
 
                 if (dist > 0.1)
+                {
                     selectedFood.transform.position += (FinalPurchased_ReturnPosition.transform.position - selectedFood.transform.position).normalized * 2 * Time.deltaTime;
+                    if (((selectedFood.GetComponent<StockInfo>().food.foodID >= 10 && selectedFood.GetComponent<StockInfo>().food.foodID <= 14)) || (selectedFood.GetComponent<StockInfo>().food.foodID >= 20 && selectedFood.GetComponent<StockInfo>().food.foodID <= 24) )
+                        selectedFood.transform.Rotate(Vector3.right * 2.1f);
+                    else
+                        selectedFood.transform.Rotate(Vector3.back * 2.1f);
+                }
                 else
                 {
                     selectedFood.transform.position = FinalPurchased_ReturnPosition.transform.position;
@@ -697,6 +707,7 @@ public class TouchManager : MonoBehaviour
             {
                 UI_SelectionModels.transform.GetChild(i).gameObject.GetComponent<MeshRenderer>().enabled = false;
                 UI_SelectionModels.transform.GetChild(i).gameObject.GetComponent<BoxCollider>().enabled = false;
+                
             }
             else
             {
