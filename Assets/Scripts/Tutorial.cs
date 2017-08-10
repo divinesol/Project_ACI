@@ -35,7 +35,6 @@ public class Tutorial : MonoBehaviour {
         tutorialNumber = 0;
         allButtons.SetActive(true);
 
-        int x = 0;
         for (int i = 1; i <= tutorialList.Length; i++)
         {
             GameObject page = Instantiate(pagePrefab);

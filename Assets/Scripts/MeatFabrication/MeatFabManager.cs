@@ -53,7 +53,12 @@ public class MeatFabManager : MonoBehaviour {
     //Bool for UIActive / Touchdown
     public bool UIActive, touchDown;
 
+    //Reset line renderer
     public bool resetLinerenderer;
+
+    //"Tutorial / Hint / Instructions" for first time users
+    public bool isFirstTime = true;
+    public GameObject instructionTab;
 
     void Awake()
     {
@@ -70,6 +75,8 @@ public class MeatFabManager : MonoBehaviour {
         {
             ValueChange(MeatSelectionDropdownUI);
         });
+
+        instructionTab.SetActive(true);
 
         rangeX = 1.8f;
         rangeY = 0.9f;
