@@ -38,7 +38,7 @@ public class NewTutorials : MonoBehaviour {
     // Storage Scene use
     public GameObject MainUIButtons;
 
-    public static bool tutDone = true; // set to true during debug
+    public static bool tutDone = false; // set to true during debug
     public static int currentStep = 0; // which part of the tutorial
 
     /*
