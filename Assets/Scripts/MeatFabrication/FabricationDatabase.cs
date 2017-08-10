@@ -4,11 +4,12 @@ using System.Collections.Generic;
 
 public class FabricationDatabase : MonoBehaviour{
 
+    //Lists for different meat types 
     public List<ChickenCuts> ChickenParts = new List<ChickenCuts>();
     public List<ShellfishCuts> ShellfishParts = new List<ShellfishCuts>();
     public List<FishCuts> FishParts = new List<FishCuts>();
 
-    // Use this for initialization
+    // Use this for initialization / Initialising the parts of meat for each of the list declared above
     void Start() { 
         //Chicken
         ChickenParts.Add(new ChickenCuts("Cut Off Chicken Head", 3.2f, 1.7f, 3.5f, -1.0f));
