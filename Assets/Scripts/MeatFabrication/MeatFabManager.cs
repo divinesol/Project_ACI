@@ -6,6 +6,7 @@ using TMPro;
 
 public class MeatFabManager : MonoBehaviour {
 
+    //Singleton? Maybe
     public static MeatFabManager Instance;
 
     //Calls list of fabricated items from FabricationDatabase
@@ -37,7 +38,7 @@ public class MeatFabManager : MonoBehaviour {
     public bool startFail, endFail;
 
     //Start Position, End Position and Range of Position
-    public float startBaseValue_X, startBaseValue_Y, endBaseValue_X, endBaseValue_Y, range;
+    public float startBaseValue_X, startBaseValue_Y, endBaseValue_X, endBaseValue_Y, rangeX, rangeY;
 
     //Enum of Meat Types
     public enum TYPE_OF_MEAT
@@ -53,7 +54,11 @@ public class MeatFabManager : MonoBehaviour {
     //Bool for UIActive / Touchdown
     public bool UIActive, touchDown;
 
+    //Reset line renderer
     public bool resetLinerenderer;
+
+    //"Tutorial / Hint / Instructions" for first time users
+    public GameObject instructionTab;
 
     void Awake()
     {
@@ -71,7 +76,10 @@ public class MeatFabManager : MonoBehaviour {
             ValueChange(MeatSelectionDropdownUI);
         });
 
-        range = 0.9f;
+        instructionTab.SetActive(true);
+
+        rangeX = 1.8f;
+        rangeY = 0.9f;
         selection = 0;
         UIActive = false;
         touchDown = false;
@@ -123,55 +131,47 @@ public class MeatFabManager : MonoBehaviour {
 
         //mouse down
         //if(meatType != TYPE_OF_MEAT.DEFAULT)
+        if (Input.GetMouseButtonDown(0))
         {
-            if (Input.GetMouseButtonDown(0))
+            touchDown = true;
+            //hits collider + not in UI
+            if (hit.collider != null && !UIActive && meatType != TYPE_OF_MEAT.DEFAULT)
             {
-                touchDown = true;
-                //hits collider + not in UI
-                if (hit.collider != null && !UIActive && meatType != TYPE_OF_MEAT.DEFAULT)
+                //Debug.Log("Target Position: " + hit.point);
+                //if hit start x range
+                if (hit.point.x < startBaseValue_X + rangeX && hit.point.x > startBaseValue_X - rangeX)
                 {
-                    //Debug.Log("Target Position: " + hit.point);
-                    //if hit start x range
-                    if (hit.point.x < startBaseValue_X + range && hit.point.x > startBaseValue_X - range)
+                    //if hit start y range
+                    if (hit.point.y < startBaseValue_Y + rangeY && hit.point.y > startBaseValue_Y - rangeY)
                     {
-                        //if hit start y range
-                        if (hit.point.y < startBaseValue_Y + range && hit.point.y > startBaseValue_Y - range)
-                        {
-                            startSuccess = true;
-                            startFail = false;
-                        }
-                        else
-                        {
-                            startFail = true;
-                            startSuccess = false;
-                        }
+                        startSuccess = true;
+                        startFail = false;
                     }
-                    //if doesnt hit
                     else
                     {
                         startFail = true;
                         startSuccess = false;
                     }
                 }
-            }
-
-            if (Input.GetMouseButtonUp(0) && touchDown)
-            {
-                if (hit.collider != null && !UIActive)
+                //if doesnt hit
+                else
                 {
-                    //Debug.Log("Target Position: " + hit.point);
-                    if (hit.point.x < endBaseValue_X + range && hit.point.x > endBaseValue_X - range)
+                    startFail = true;
+                    startSuccess = false;
+                }
+            }
+        }
+        if (Input.GetMouseButtonUp(0) && touchDown)
+        {
+            if (hit.collider != null && !UIActive)
+            {
+                //Debug.Log("Target Position: " + hit.point);
+                if (hit.point.x < endBaseValue_X + rangeX && hit.point.x > endBaseValue_X - rangeX)
+                {
+                    if (hit.point.y < endBaseValue_Y + rangeY && hit.point.y > endBaseValue_Y - rangeY)
                     {
-                        if (hit.point.y < endBaseValue_Y + range && hit.point.y > endBaseValue_Y - range)
-                        {
-                            endSuccess = true;
-                            endFail = false;
-                        }
-                        else
-                        {
-                            endFail = true;
-                            endSuccess = false;
-                        }
+                        endSuccess = true;
+                        endFail = false;
                     }
                     else
                     {
@@ -179,12 +179,17 @@ public class MeatFabManager : MonoBehaviour {
                         endSuccess = false;
                     }
                 }
-                touchDown = false;
+                else
+                {
+                    endFail = true;
+                    endSuccess = false;
+                }
             }
+            touchDown = false;
         }
-        
+
         //if cut success
-        if(startSuccess && endSuccess)
+        if (startSuccess && endSuccess)
         {
             ShowCorrectResults();
         }
@@ -197,11 +202,13 @@ public class MeatFabManager : MonoBehaviour {
 
     }
 
+    //For dropdown UI - on value change
     private void ValueChange(TMP_Dropdown g_dropdown)
     {
         
     }
 
+    //When selecting meat type with button (Sets meat type + options[steps required])
     public void SetTypeOfMeat(string type)
     {
         MeatSelectionDropdownUI.options.Clear();
@@ -339,6 +346,7 @@ public class MeatFabManager : MonoBehaviour {
         resetLinerenderer = false;
     }
 
+    //Resets sliceable objects to next step or empty depending on what 
     public void ResetSliceableObjects()
     {
         Debug.Log("ResetSliceableObjects");
@@ -352,6 +360,7 @@ public class MeatFabManager : MonoBehaviour {
         go.transform.SetParent(ParentOfSlicedObjects);
     }
 
+    //After successful cut - Move on to next step + reset sprite / and show congratulatory text if finished
     public void ProceedToNextStep()
     {
         //Debug.Log("ProceedToNextStep");
@@ -442,6 +451,7 @@ public class MeatFabManager : MonoBehaviour {
         UpdateSliceableBeforeCut();
     }
   
+    //Show correct results
     public void ShowCorrectResults()
     {
         correctResultTab.SetActive(true);
@@ -541,6 +551,7 @@ public class MeatFabManager : MonoBehaviour {
         }
     }
 
+    //Show wrong results
     public void ShowWrongResults()
     {
         wrongResultTab.SetActive(true);
@@ -603,7 +614,7 @@ public class MeatFabManager : MonoBehaviour {
         }
         else if (meatType == TYPE_OF_MEAT.FISH)
         {
-            wrongResultText.text = "You have failed to fabricate the chicken";
+            wrongResultText.text = "You have failed to fabricate the fish";
             switch (selection)
             {
                 //fail stomach cut
@@ -618,6 +629,7 @@ public class MeatFabManager : MonoBehaviour {
         }
     }
 
+    //Reset when unsuccessful cut
     public void ResetCutFail()
     {
         wrongResultTab.SetActive(false);
