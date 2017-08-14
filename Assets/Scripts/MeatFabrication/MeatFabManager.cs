@@ -6,6 +6,7 @@ using TMPro;
 
 public class MeatFabManager : MonoBehaviour {
 
+    //Singleton? Maybe
     public static MeatFabManager Instance;
 
     //Calls list of fabricated items from FabricationDatabase
@@ -57,7 +58,6 @@ public class MeatFabManager : MonoBehaviour {
     public bool resetLinerenderer;
 
     //"Tutorial / Hint / Instructions" for first time users
-    public bool isFirstTime = true;
     public GameObject instructionTab;
 
     void Awake()
@@ -202,11 +202,13 @@ public class MeatFabManager : MonoBehaviour {
 
     }
 
+    //For dropdown UI - on value change
     private void ValueChange(TMP_Dropdown g_dropdown)
     {
         
     }
 
+    //When selecting meat type with button (Sets meat type + options[steps required])
     public void SetTypeOfMeat(string type)
     {
         MeatSelectionDropdownUI.options.Clear();
@@ -344,6 +346,7 @@ public class MeatFabManager : MonoBehaviour {
         resetLinerenderer = false;
     }
 
+    //Resets sliceable objects to next step or empty depending on what 
     public void ResetSliceableObjects()
     {
         Debug.Log("ResetSliceableObjects");
@@ -357,6 +360,7 @@ public class MeatFabManager : MonoBehaviour {
         go.transform.SetParent(ParentOfSlicedObjects);
     }
 
+    //After successful cut - Move on to next step + reset sprite / and show congratulatory text if finished
     public void ProceedToNextStep()
     {
         //Debug.Log("ProceedToNextStep");
@@ -447,6 +451,7 @@ public class MeatFabManager : MonoBehaviour {
         UpdateSliceableBeforeCut();
     }
   
+    //Show correct results
     public void ShowCorrectResults()
     {
         correctResultTab.SetActive(true);
@@ -546,6 +551,7 @@ public class MeatFabManager : MonoBehaviour {
         }
     }
 
+    //Show wrong results
     public void ShowWrongResults()
     {
         wrongResultTab.SetActive(true);
@@ -623,6 +629,7 @@ public class MeatFabManager : MonoBehaviour {
         }
     }
 
+    //Reset when unsuccessful cut
     public void ResetCutFail()
     {
         wrongResultTab.SetActive(false);
