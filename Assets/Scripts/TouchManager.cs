@@ -93,7 +93,7 @@ public class TouchManager : MonoBehaviour
     bool SelConfm_open;
     private bool isDragging;    //Check for Drag so suppliers or other elements cant be selected while drag
     public GameObject inShopInstructions; // Tutorial usage
-
+    bool preventTouch; // Remove in the future, just adding cuz last minute, used to prevent touch when the images are moving
     //bool for selection model animation
     bool moveforward;
     bool moveback;
@@ -152,9 +152,20 @@ public class TouchManager : MonoBehaviour
         //    else
         //        CircleStorage.SetActive(false);
         //}
+        #region Animation for model display when selected, must be before "preventTouch"
+
+        //SelectFoodAnim
+        RunForwardSelectionAnimation();
+
+        RunReturnSelectionAnimation();
+
+        #endregion
 
         if (EventSystem.current.IsPointerOverGameObject(fingerID))    // is the touch on the GUI
+            return;
+        if (preventTouch)
         {
+            Debug.Log("false");
             return;
         }
 
@@ -285,7 +296,7 @@ public class TouchManager : MonoBehaviour
                             //Check if first Confirmation(yes/no) is active
                             if (UI_SelectConfirmation.activeSelf == false)  
                             {
-                            //check if already purchased screen is active
+                                //check if already purchased screen is active
 
                                 //set current selected stock to the current hit by raycast. StockInfo hold the data . current is a data holder
                                 StockManager.StockInstance.CurrentStock = hit.collider.GetComponent<StockInfo>();
@@ -294,6 +305,7 @@ public class TouchManager : MonoBehaviour
                                 selectedFood = hit.collider.gameObject;
                                 //Enable/show and move animated model
                                 MoveSelectedFoodAnimation();
+                                preventTouch = true;
                                 
                             }
 
@@ -347,18 +359,6 @@ public class TouchManager : MonoBehaviour
                 }
             }
         }
-
-
-#region Animation for model display when selected
-
-        //SelectFoodAnim
-        RunForwardSelectionAnimation();
-
-        RunReturnSelectionAnimation();
-
-#endregion
-
-
     }
 
 
@@ -681,7 +681,7 @@ public class TouchManager : MonoBehaviour
                 {
                     selectedFood.transform.position = FinalPurchased_ReturnPosition.transform.position;
                     moveback = false;
-                    
+                    preventTouch = false;
                     //Set all models to show
                     for (int i = 0; i < 4; i++)
                     {
